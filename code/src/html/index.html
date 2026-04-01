@@ -4,359 +4,435 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EmpowerTrack — Gender Equality Programme Monitoring</title>
+  <!-- DM Serif Display for headings, DM Sans for body — both used on all 5 pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ============================================================
-       HEADER / NAV
-       Classes: nav, nav__logo, nav__logo-mark, nav__logo-name,
-                nav__links, nav__link, nav__link--active,
-                nav__actions, nav__sdg-badge
-  ============================================================ -->
-  <header>
-    <nav class="nav">
-      <div class="nav__logo">
-        <div class="nav__logo-mark">
-          <!-- Replace with SVG icon or img -->
-        </div>
-        <span class="nav__logo-name">EmpowerTrack</span>
-      </div>
+  <!-- HEADER — same markup on all 5 pages, only nav__link--active changes -->
+  <header class="site-header"> <!-- sticky top bar, dark background -->
+    <nav class="nav container"> <!-- flex row: logo | links | badge; container = shared max-width wrapper -->
 
-      <div class="nav__links">
-        <a href="index.html"           class="nav__link nav__link--active">Home</a>
-        <a href="student1.html"   class="nav__link">Student 1</a>
-        <a href="student2.html"      class="nav__link">Student 2</a>
-        <a href="student3.html"         class="nav__link">Student 3</a>
-        <a href="student4.html"         class="nav__link">Student 4</a>
+      <a href="index.html" class="nav__logo"> <!-- logo: icon + brand name side by side -->
+        <div class="nav__logo-mark"> <!-- small circle SVG icon -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5"/>
+            <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="nav__logo-name">EmpowerTrack</span> <!-- brand name text -->
+      </a>
+
+      <!-- hamburger button, visible on mobile only; JS toggles nav__links--open -->
+      <button class="nav__burger" id="navBurger" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- nav links: horizontal on desktop, dropdown on mobile -->
+      <div class="nav__links" id="navLinks">
+        <a href="index.html"         class="nav__link nav__link--active">Home</a> <!-- nav__link--active = current page -->
+        <a href="beneficiaries.html" class="nav__link">Beneficiaries</a>
+        <a href="programmes.html"    class="nav__link">Programmes</a>
+        <a href="staff.html"         class="nav__link">Staff</a>
+        <a href="enrolments.html"    class="nav__link">Enrolments</a>
       </div>
 
       <div class="nav__actions">
-        <span class="nav__sdg-badge">SDG 5</span>
+        <span class="badge badge--sdg">SDG 5</span> <!-- green pill badge, same on all pages -->
       </div>
+
     </nav>
   </header>
 
+
   <main>
 
-    <!-- ============================================================
-         HERO SECTION
-         Classes: hero, hero__eyebrow, hero__dot, hero__title,
-                  hero__subtitle, hero__cta, btn-primary, btn-outline
-    ============================================================ -->
+    <!-- HERO — homepage only; dark background continues from header -->
     <section class="hero">
-      <div class="hero__eyebrow">
-        <span class="hero__dot"></span>
-        Gender equality monitoring platform
-      </div>
-      <h1 class="hero__title">
-        Track programmes.<br>
-        Measure <em>impact</em>. Report with confidence.
-      </h1>
-      <p class="hero__subtitle">
-        EmpowerTrack helps NGOs, regional coordinators, and funding officers
-        manage gender equality programmes — from beneficiary enrolment to outcome
-        reporting — in one connected system.
-      </p>
-      <div class="hero__cta">
-        <a href="reports.html"       class="btn-primary">View reports</a>
-        <a href="beneficiaries.html" class="btn-outline">Manage beneficiaries</a>
-      </div>
-    </section>
+      <div class="container hero__inner"> <!-- two columns: content left, visual right -->
 
-    <!-- ============================================================
-         STATS BAR
-         Classes: stats, stats__item, stats__number, stats__label
-    ============================================================ -->
-    <div class="stats">
-      <div class="stats__item">
-        <div class="stats__number">12</div>
-        <div class="stats__label">Linked database tables</div>
-      </div>
-      <div class="stats__item">
-        <div class="stats__number">5</div>
-        <div class="stats__label">Programme focus areas</div>
-      </div>
-      <div class="stats__item">
-        <div class="stats__number">15+</div>
-        <div class="stats__label">SQL-driven reports</div>
-      </div>
-      <div class="stats__item">
-        <div class="stats__number">SDG 5</div>
-        <div class="stats__label">UN sustainability goal</div>
-      </div>
-    </div>
+        <div class="hero__content"> <!-- left column, ~55% width -->
 
-    <!-- ============================================================
-         ABOUT SECTION  (two-column: text | SDG card)
-         Classes: about, about__text, about__visual,
-                  section__label, about__title, about__body,
-                  about__list, sdg-card, sdg-card__num,
-                  sdg-card__name, sdg-card__body
-    ============================================================ -->
-    <section class="about">
-      <div class="about__text">
-        <p class="section__label">What it does</p>
-        <h2 class="about__title">One system for the full programme lifecycle</h2>
-        <p class="about__body">
-          Many organisations running gender equality programmes manage data across
-          spreadsheets, paper forms, and disconnected tools. EmpowerTrack brings
-          it all together — so coordinators spend less time on admin and more time
-          on impact.
-        </p>
-        <ul class="about__list">
-          <li>Register and track beneficiaries across regions and demographics</li>
-          <li>Enrol participants in courses and record session attendance</li>
-          <li>Monitor pre and post-assessment scores to measure learning</li>
-          <li>Link funding sources to programmes and track budget coverage</li>
-          <li>Generate reports that answer real organisational questions</li>
-        </ul>
-      </div>
-
-      <div class="about__visual">
-        <p class="section__label">SDG alignment</p>
-        <div class="sdg-card">
-          <div class="sdg-card__num">5</div>
-          <div class="sdg-card__name">Gender Equality</div>
-          <p class="sdg-card__body">
-            EmpowerTrack supports UN SDG 5 by enabling organisations to monitor
-            access to gender equality programmes, track outcomes across demographics,
-            and produce the evidence base needed for sustained funding and policy change.
+          <!-- small label line above the title: dot + short text -->
+          <p class="hero__eyebrow">
+            <span class="hero__eyebrow-dot"></span> <!-- tiny accent-coloured circle -->
+            Gender equality monitoring platform
           </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- ============================================================
-         FEATURES SECTION
-         Classes: features, features__grid, feature-card,
-                  feature-card__icon, feature-card__title,
-                  feature-card__body
-    ============================================================ -->
-    <section class="features">
-      <p class="section__label">Key features</p>
-      <div class="features__grid">
+          <!-- main H1; <em> on "impact" — italic + accent colour -->
+          <h1 class="hero__title">
+            Track programmes.<br>
+            Measure <em>impact</em>.<br>
+            Report with confidence.
+          </h1>
 
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
+          <p class="hero__subtitle">
+            EmpowerTrack helps NGOs, regional coordinators, and funding officers
+            manage gender equality programmes — from beneficiary enrolment to
+            outcome reporting — in one connected system.
+          </p>
+
+          <div class="hero__cta"> <!-- button row; btn--primary = filled, btn--outline = ghost -->
+            <a href="beneficiaries.html" class="btn btn--primary">Explore the system</a>
+            <a href="#about"             class="btn btn--outline">Learn more</a>
           </div>
-          <h3 class="feature-card__title">Beneficiary management</h3>
-          <p class="feature-card__body">
-            Record who is being served — age group, region, education level,
-            employment status — and track their full programme journey.
-          </p>
+
         </div>
 
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
+        <!-- right column: three decorative stat cards, aria-hidden as they're illustrative -->
+        <div class="hero__visual" aria-hidden="true">
+          <!-- hero__card--1/2/3 let you offset each card slightly so they overlap/stagger -->
+          <div class="hero__card hero__card--1">
+            <span class="hero__card-label">Completion rate</span>
+            <span class="hero__card-value">78%</span>
+            <span class="hero__card-sub">↑ 12% this quarter</span>
           </div>
-          <h3 class="feature-card__title">Programme tracking</h3>
-          <p class="feature-card__body">
-            Manage programmes across regions, assign staff teams, link funding,
-            and schedule sessions with attendance logging.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
+          <div class="hero__card hero__card--2">
+            <span class="hero__card-label">Active beneficiaries</span>
+            <span class="hero__card-value">1,204</span>
+            <span class="hero__card-sub">across 6 regions</span>
           </div>
-          <h3 class="feature-card__title">SQL reports &amp; charts</h3>
-          <p class="feature-card__body">
-            Parameterised reports using multi-table JOINs and aggregates.
-            Live Chart.js visualisations from real database data.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
+          <div class="hero__card hero__card--3">
+            <span class="hero__card-label">Avg. score gain</span>
+            <span class="hero__card-value">+24 pts</span>
+            <span class="hero__card-sub">pre to post assessment</span>
           </div>
-          <h3 class="feature-card__title">Staff coordination</h3>
-          <p class="feature-card__body">
-            Track coordinators, trainers, and volunteers by role,
-            specialisation, region, and certification status.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
-          </div>
-          <h3 class="feature-card__title">Funding monitoring</h3>
-          <p class="feature-card__body">
-            Link government, NGO, UN, and private funding to specific
-            programmes. Track active status and budget allocation.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-card__icon">
-            <!-- icon placeholder -->
-          </div>
-          <h3 class="feature-card__title">Assessment tracking</h3>
-          <p class="feature-card__body">
-            Compare pre and post-assessment scores to measure learning gain
-            per course, programme, and beneficiary group.
-          </p>
         </div>
 
       </div>
     </section>
 
-    <!-- ============================================================
-         WHO IT'S FOR
-         Classes: users, users__grid, user-card, user-card__avatar,
-                  user-card__role, user-card__desc
-                  Avatar colour modifiers: av-green, av-blue, av-purple
-    ============================================================ -->
-    <section class="users">
-      <p class="section__label">Who uses it</p>
-      <div class="users__grid">
 
-        <div class="user-card">
-          <div class="user-card__avatar av-green">RC</div>
-          <h3 class="user-card__role">Regional coordinator</h3>
-          <p class="user-card__desc">
-            Creates programme records, manages enrolments, logs session
-            attendance, and monitors completion across their area.
+    <!-- STATS BAR — four headline numbers between hero and about -->
+    <section class="stats">
+      <div class="container stats__grid"> <!-- flex row, 4 equal items; 2x2 grid on mobile -->
+        <div class="stats__item"> <!-- one number + label pair -->
+          <span class="stats__number">12</span>
+          <span class="stats__label">Database tables</span>
+        </div>
+        <div class="stats__item">
+          <span class="stats__number">12+</span>
+          <span class="stats__label">SQL-driven reports</span>
+        </div>
+        <div class="stats__item">
+          <span class="stats__number">5</span>
+          <span class="stats__label">Programme focus areas</span>
+        </div>
+        <div class="stats__item">
+          <span class="stats__number">4</span>
+          <span class="stats__label">Funding source types</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ABOUT — first light section; id links from the "Learn more" hero button -->
+    <section class="about section" id="about">
+      <div class="container about__inner"> <!-- two columns: text left, SDG card right -->
+
+        <div class="about__text"> <!-- left column, ~60% -->
+          <!-- section__label and section__title are shared across all sections below -->
+          <p class="section__label">What it does</p>
+          <h2 class="section__title">One system for the full programme lifecycle</h2>
+          <p class="about__body">
+            Many organisations running gender equality programmes manage data across
+            spreadsheets, paper forms, and disconnected tools. EmpowerTrack brings
+            it together — so coordinators spend less time on admin and more time on impact.
           </p>
+          <ul class="about__list"> <!-- custom bullets, e.g. green checkmark via ::before -->
+            <li>Register and track beneficiaries across regions and demographics</li>
+            <li>Enrol participants in courses and record session attendance</li>
+            <li>Monitor pre and post-assessment scores to measure learning gain</li>
+            <li>Link funding sources to programmes and track budget coverage</li>
+            <li>Generate parameterised reports that answer real organisational questions</li>
+          </ul>
         </div>
 
-        <div class="user-card">
-          <div class="user-card__avatar av-blue">DA</div>
-          <h3 class="user-card__role">Data analyst</h3>
-          <p class="user-card__desc">
-            Runs parameterised reports to identify underserved demographics,
-            track assessment improvement, and compare programmes.
-          </p>
-        </div>
-
-        <div class="user-card">
-          <div class="user-card__avatar av-purple">FO</div>
-          <h3 class="user-card__role">Funding officer</h3>
-          <p class="user-card__desc">
-            Reviews funding allocation reports, monitors budgets across
-            programmes, and verifies impact for donor reporting.
-          </p>
+        <div class="about__aside"> <!-- right column, ~35%; stacks below text on mobile -->
+          <p class="section__label">SDG alignment</p>
+          <div class="sdg-card"> <!-- dark card contrasting with the light section background -->
+            <div class="sdg-card__header"> <!-- flex row: big number + goal name -->
+              <span class="sdg-card__num">5</span> <!-- large, accent colour -->
+              <span class="sdg-card__name">Gender Equality</span>
+            </div>
+            <p class="sdg-card__body">
+              EmpowerTrack supports UN SDG 5 by enabling organisations to monitor
+              access to gender equality programmes, track outcomes across demographics,
+              and produce the evidence base needed for sustained funding and policy change.
+            </p>
+            <div class="sdg-card__targets"> <!-- row of small pill labels, wraps if needed -->
+              <span class="sdg-target">Target 5.1 — End discrimination</span>
+              <span class="sdg-target">Target 5.5 — Equal participation</span>
+              <span class="sdg-target">Target 5.b — Technology access</span>
+            </div>
+          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- ============================================================
-         SYSTEM PAGES OVERVIEW
-         Classes: pages, pages__grid, page-card, page-card__header,
-                  page-card__dot, page-card__body, page-card__name,
-                  page-card__desc
-    ============================================================ -->
-    <section class="pages">
-      <p class="section__label">System pages</p>
-      <div class="pages__grid">
 
-        <a href="beneficiaries.html" class="page-card">
-          <div class="page-card__header">
-            <div class="page-card__dot page-card__dot--green"></div>
-          </div>
-          <div class="page-card__body">
-            <div class="page-card__name">Beneficiaries</div>
-            <div class="page-card__desc">Add, edit, delete beneficiary records</div>
-          </div>
-        </a>
+    <!-- FEATURES — 6 cards in a 3x2 grid; section--alt = slightly off-white background -->
+    <section class="features section section--alt">
+      <div class="container">
 
-        <a href="programmes.html" class="page-card">
-          <div class="page-card__header">
-            <div class="page-card__dot page-card__dot--blue"></div>
-          </div>
-          <div class="page-card__body">
-            <div class="page-card__name">Programmes</div>
-            <div class="page-card__desc">Manage programmes, regions, teams</div>
-          </div>
-        </a>
+        <div class="section__header"> <!-- centred label + title block above the grid -->
+          <p class="section__label">Key features</p>
+          <h2 class="section__title">Everything a programme needs to operate</h2>
+        </div>
 
-        <a href="staff.html" class="page-card">
-          <div class="page-card__header">
-            <div class="page-card__dot page-card__dot--purple"></div>
-          </div>
-          <div class="page-card__body">
-            <div class="page-card__name">Staff</div>
-            <div class="page-card__desc">Coordinators, trainers, volunteers</div>
-          </div>
-        </a>
+        <div class="features__grid"> <!-- 3 cols desktop, 2 tablet, 1 mobile -->
 
-        <a href="reports.html" class="page-card">
-          <div class="page-card__header">
-            <div class="page-card__dot page-card__dot--amber"></div>
+          <!-- feature-card: white card with icon box, title, body text -->
+          <!-- feature-card__icon--green/blue/amber/purple = coloured icon background -->
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--green">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M3 15c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Beneficiary management</h3>
+            <p class="feature-card__body">Record who is being served — age group, region, education level, employment status — and track their full programme journey from registration to completion.</p>
           </div>
-          <div class="page-card__body">
-            <div class="page-card__name">Reports</div>
-            <div class="page-card__desc">Parameterised SQL reports &amp; charts</div>
-          </div>
-        </a>
 
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--blue">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M5 8h8M5 11.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Programme tracking</h3>
+            <p class="feature-card__body">Manage programmes across regions, assign staff teams, link funding sources, and schedule sessions with full attendance logging.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--amber">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M3 13L7 8l3 3.5L13 6l2 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">SQL reports &amp; charts</h3>
+            <p class="feature-card__body">Parameterised reports using multi-table JOINs and aggregate functions. Live Chart.js visualisations pulled directly from live database data.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--purple">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M9 3v2M9 13v2M3 9h2M13 9h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Staff coordination</h3>
+            <p class="feature-card__body">Track coordinators, trainers, and volunteers by role, specialisation, region, and certification status. Identify workload gaps at a glance.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--green">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <rect x="2.5" y="4.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M6 4.5V3M12 4.5V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M5 9h8M5 12h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Funding monitoring</h3>
+            <p class="feature-card__body">Link government, NGO, UN, and private funding to specific programmes. Track active status, amounts, and flag programmes at financial risk.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card__icon feature-card__icon--blue">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 14V9M7.5 14V6M11 14V10M14.5 14V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Assessment tracking</h3>
+            <p class="feature-card__body">Compare pre and post-assessment scores to measure learning gain per course, programme, focus area, and beneficiary demographic group.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- WHO IT'S FOR — 3 persona cards; white background after the grey features -->
+    <section class="users section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">Who uses it</p>
+          <h2 class="section__title">Built for everyone in the programme chain</h2>
+        </div>
+        <div class="users__grid"> <!-- 3 cols desktop, 1 col mobile -->
+
+          <!-- user-card: flat bordered card with avatar circle, role, desc, arrow link -->
+          <!-- av--green/blue/purple = avatar background colour variant -->
+          <div class="user-card">
+            <div class="user-card__avatar av--green">RC</div>
+            <h3 class="user-card__role">Regional coordinator</h3>
+            <p class="user-card__desc">Creates programme records, manages enrolments, logs session attendance, and monitors completion rates across their assigned area.</p>
+            <a href="beneficiaries.html" class="user-card__link">Go to beneficiaries &rarr;</a>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card__avatar av--blue">DA</div>
+            <h3 class="user-card__role">Data analyst</h3>
+            <p class="user-card__desc">Runs parameterised reports to identify underserved demographics, track assessment improvement, and compare programme outcomes across regions.</p>
+            <a href="enrolments.html" class="user-card__link">Go to enrolments &rarr;</a>
+          </div>
+
+          <div class="user-card">
+            <div class="user-card__avatar av--purple">FO</div>
+            <h3 class="user-card__role">Funding officer</h3>
+            <p class="user-card__desc">Reviews funding allocation reports, monitors budgets across programmes, and verifies impact data for donor reporting and grant renewal.</p>
+            <a href="enrolments.html" class="user-card__link">Go to funding &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SYSTEM PAGES — 4 module cards linking to each student's page -->
+    <section class="pages section section--alt">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">System pages</p>
+          <h2 class="section__title">Four modules, one connected database</h2>
+        </div>
+        <div class="pages__grid"> <!-- 2x2 grid desktop, 1 col mobile -->
+
+          <!-- page-card: entire <a> is clickable; coloured stripe at top via page-card__stripe -->
+          <!-- page-card__stripe--green/blue/purple/amber = top accent colour -->
+          <a href="beneficiaries.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--green"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 1</span> <!-- small muted label -->
+              <h3 class="page-card__name">Beneficiaries</h3>
+              <p class="page-card__desc">Add, edit, and delete beneficiary records. Filter by region, age group, and education level.</p>
+              <div class="page-card__reports"> <!-- small pill tags showing which reports are on this page -->
+                <span>Regional coverage</span>
+                <span>Demographic breakdown</span>
+                <span>Dropout analysis</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="programmes.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--blue"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 2</span>
+              <h3 class="page-card__name">Programmes &amp; Courses</h3>
+              <p class="page-card__desc">Manage programme records and course catalogue. Link courses to programmes, regions, and staff teams.</p>
+              <div class="page-card__reports">
+                <span>Active by focus area</span>
+                <span>Difficulty vs attendance</span>
+                <span>Empty programmes</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="staff.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--purple"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 3</span>
+              <h3 class="page-card__name">Staff &amp; Teams</h3>
+              <p class="page-card__desc">Register staff members and teams. Track roles, certification dates, and regional assignments.</p>
+              <div class="page-card__reports">
+                <span>Staff by region</span>
+                <span>Trainer workload</span>
+                <span>Uncertified staff</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="enrolments.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--amber"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 4</span>
+              <h3 class="page-card__name">Enrolments &amp; Funding</h3>
+              <p class="page-card__desc">Manage enrolment records and funding sources. Track attendance, completion, and budget coverage.</p>
+              <div class="page-card__reports">
+                <span>Score improvement</span>
+                <span>Completion rates</span>
+                <span>Funding risk</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ============================================================
-       FOOTER
-       Classes: footer, footer__main, footer__brand, footer__brand-name,
-                footer__brand-desc, footer__col, footer__col-title,
-                footer__links, footer__bottom, footer__copy,
-                footer__sdg
-  ============================================================ -->
-  <footer class="footer">
-    <div class="footer__main">
 
-      <div class="footer__brand">
-        <div class="footer__brand-name">EmpowerTrack</div>
-        <p class="footer__brand-desc">
-          A gender equality programme monitoring platform aligned to UN SDG 5.
-          Built for NGOs, coordinators, and funding bodies.
-        </p>
+  <!-- FOOTER — same markup on all 5 pages -->
+  <footer class="site-footer">
+    <div class="container footer__inner"> <!-- flex row: brand col + 3 link cols -->
+
+      <div class="footer__brand"> <!-- wider left column with logo + tagline -->
+        <a href="index.html" class="nav__logo"> <!-- reuses nav logo styles -->
+          <div class="nav__logo-mark">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5"/>
+              <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="nav__logo-name">EmpowerTrack</span>
+        </a>
+        <p class="footer__brand-desc">A gender equality programme monitoring platform aligned to UN SDG 5. Built for NGOs, coordinators, and funding bodies.</p>
       </div>
 
+      <!-- footer__col: one link column; footer__col-title = small uppercase heading -->
       <div class="footer__col">
-        <div class="footer__col-title">Manage</div>
-        <ul class="footer__links">
+        <p class="footer__col-title">Manage</p>
+        <ul class="footer__links"> <!-- plain list, no bullets -->
           <li><a href="beneficiaries.html">Beneficiaries</a></li>
           <li><a href="programmes.html">Programmes</a></li>
-          <li><a href="courses.html">Courses</a></li>
-          <li><a href="staff.html">Staff</a></li>
-          <li><a href="funding.html">Funding</a></li>
+          <li><a href="programmes.html">Courses</a></li>
+          <li><a href="staff.html">Staff &amp; teams</a></li>
+          <li><a href="enrolments.html">Enrolments</a></li>
+          <li><a href="enrolments.html">Funding sources</a></li>
         </ul>
       </div>
 
       <div class="footer__col">
-        <div class="footer__col-title">Reports</div>
+        <p class="footer__col-title">Reports</p>
         <ul class="footer__links">
-          <li><a href="reports.html">Enrolment by region</a></li>
-          <li><a href="reports.html">Completion rates</a></li>
-          <li><a href="reports.html">Assessment scores</a></li>
-          <li><a href="reports.html">Attendance</a></li>
-          <li><a href="reports.html">Funding coverage</a></li>
+          <li><a href="beneficiaries.html">Regional coverage</a></li>
+          <li><a href="beneficiaries.html">Dropout analysis</a></li>
+          <li><a href="programmes.html">Completion rates</a></li>
+          <li><a href="staff.html">Trainer workload</a></li>
+          <li><a href="enrolments.html">Funding risk</a></li>
         </ul>
       </div>
 
       <div class="footer__col">
-        <div class="footer__col-title">About</div>
+        <p class="footer__col-title">Project</p>
         <ul class="footer__links">
+          <li><a href="index.html">About EmpowerTrack</a></li>
           <li><a href="index.html">SDG 5 alignment</a></li>
-          <li><a href="index.html">Data sources</a></li>
-          <li><a href="index.html">CSC1034 Project</a></li>
+          <li><a href="index.html">CSC1034 Coursework</a></li>
         </ul>
       </div>
 
     </div>
 
+    <!-- footer__bottom: thin copyright strip; footer__bottom-inner = space-between row -->
     <div class="footer__bottom">
-      <span class="footer__copy">CSC1034 Group Coursework &middot; Queen's University Belfast</span>
-      <span class="footer__sdg">UN SDG 5 &mdash; Gender Equality</span>
+      <div class="container footer__bottom-inner">
+        <span class="footer__copy">CSC1034 Group Coursework &middot; Group 52 &middot; Queen's University Belfast &middot; 2025&ndash;26</span>
+        <span class="footer__sdg">UN SDG 5 &mdash; Gender Equality</span>
+      </div>
     </div>
+
   </footer>
+
+  <!-- main.js: burger menu toggle — adds nav__links--open on #navLinks when #navBurger is clicked -->
+  <script src="../js/main.js"></script>
 
 </body>
 </html>
