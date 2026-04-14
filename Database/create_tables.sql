@@ -14,6 +14,22 @@ DROP TABLE IF EXISTS tblProgramme;
 DROP TABLE IF EXISTS tblTeam;
 DROP TABLE IF EXISTS tblFundingSource;
 DROP TABLE IF EXISTS tblRegion;
+DROP TABLE IF EXISTS tblCountry;
+DROP TABLE IF EXISTS tblNames;
+DROP TABLE IF EXISTS tblSurnames;
+DROP TABLE IF EXISTS tblProbabilities;
+
+
+-- =============================================================
+--   tblCountry
+--   (written by Oliver Statham)
+-- =============================================================
+CREATE TABLE tblCountry (
+    countryID       INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    countryName     VARCHAR(100)     NOT NULL,
+    CONSTRAINT pk_country            PRIMARY KEY (countryID),
+    CONSTRAINT uq_country_name       UNIQUE (countryName)
+);
 
 
 -- =============================================================
@@ -23,14 +39,15 @@ DROP TABLE IF EXISTS tblRegion;
 CREATE TABLE tblRegion (
     regionID        INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     regionName      VARCHAR(100)    NOT NULL,
-    countryName     VARCHAR(100)    NOT NULL,
+    countryID       INT             UNSIGNED NOT NULL,
     areaType        ENUM('Urban','Rural','Suburban') NOT NULL,
     populationSize  INT             UNSIGNED,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_region            PRIMARY KEY (regionID),
-    CONSTRAINT uq_region_name       UNIQUE (regionName, countryName)
+    CONSTRAINT fk_region_country    FOREIGN KEY (countryID) REFERENCES tblCountry(countryID),
+    CONSTRAINT uq_region_name       UNIQUE (regionName, countryID)
 );
 
 
@@ -79,7 +96,7 @@ CREATE TABLE tblFundingSource (
     sourceName      VARCHAR(150)    NOT NULL,
     sourceType      ENUM('Government','NGO','Private','UN') NOT NULL,
     contactEmail    VARCHAR(255),
-    isActive        TINYINT(1)      NOT NULL DEFAULT 1,
+    isActive        BOOLEAN         NOT NULL DEFAULT 1,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -99,12 +116,11 @@ CREATE TABLE tblBeneficiary (
     lastName            VARCHAR(100)    NOT NULL,
     gender              ENUM('Female','Male','Non-binary') NOT NULL,
     ageGroup            ENUM('10-14','15-18','19-24','25-34','35-54','55+') NOT NULL,
-    areaType            ENUM('Urban','Rural','Suburban') NOT NULL,
     employmentStatus    ENUM('Employed','Unemployed','Student','Homemaker') NOT NULL,
     educationLevel      ENUM('None','Primary','Secondary','Higher') NOT NULL,
     maritalStatus       ENUM('Single','Married','Widowed','Divorced') NOT NULL,
     phone               VARCHAR(30),
-    consentGiven        TINYINT(1)      NOT NULL DEFAULT 0,
+    consentGiven        BOOLEAN         NOT NULL DEFAULT 0,
     regionID            INT             UNSIGNED NOT NULL,
     registrationDate    DATE            NOT NULL DEFAULT (CURRENT_DATE),
     createdAt           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -154,7 +170,7 @@ CREATE TABLE tblStaff (
     gender          ENUM('Female','Male','Non-binary','Prefer not to say') NOT NULL,
     role            ENUM('Coordinator','Trainer','Volunteer') NOT NULL,
     certifiedDate   DATE,
-    isActive        TINYINT(1)      NOT NULL DEFAULT 1,
+    isActive        BOOLEAN         NOT NULL DEFAULT 1,
     teamID          INT             UNSIGNED NOT NULL,
     regionID        INT             UNSIGNED NOT NULL,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -198,7 +214,7 @@ CREATE TABLE tblProgrammeFunding (
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    CONSTRAINT pk_prog_funding      PRIMARY KEY (programmeID, sourceID),
+    CONSTRAINT pk_prog_funding      PRIMARY KEY (programmeID, sourceID, startDate),
     CONSTRAINT fk_pf_programme      FOREIGN KEY (programmeID) REFERENCES tblProgramme(programmeID) ON DELETE CASCADE,
     CONSTRAINT fk_pf_source         FOREIGN KEY (sourceID)    REFERENCES tblFundingSource(sourceID),
     CONSTRAINT chk_pf_amount        CHECK (amount > 0),
@@ -239,7 +255,7 @@ CREATE TABLE tblEnrolment (
     dropReason          VARCHAR(255),
     preAssessmentScore  TINYINT         UNSIGNED,
     postAssessmentScore TINYINT         UNSIGNED,
-    certificateIssued   TINYINT(1)      NOT NULL DEFAULT 0,
+    certificateIssued   BOOLEAN         NOT NULL DEFAULT 0,
     createdAt           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -278,7 +294,7 @@ CREATE TABLE tblAttendance (
     attendanceID    INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     enrolmentID     INT             UNSIGNED NOT NULL,
     sessionID       INT             UNSIGNED NOT NULL,
-    attended        TINYINT(1)      NOT NULL DEFAULT 0,
+    attended        BOOLEAN         NOT NULL DEFAULT 0,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -286,6 +302,40 @@ CREATE TABLE tblAttendance (
     CONSTRAINT uq_attendance        UNIQUE (enrolmentID, sessionID),
     CONSTRAINT fk_att_enrolment     FOREIGN KEY (enrolmentID) REFERENCES tblEnrolment(enrolmentID) ON DELETE CASCADE,
     CONSTRAINT fk_att_session       FOREIGN KEY (sessionID)   REFERENCES tblSession(sessionID) ON DELETE CASCADE
+);
+
+
+-- =============================================================
+--   tblNames
+--   (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE tblNames (
+    nameID     INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    name       VARCHAR(100)     NOT NULL,
+    CONSTRAINT pk_name          PRIMARY KEY (nameID)
+);
+
+
+-- =============================================================
+--   tblSurnames
+--   (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE tblSurnames (
+    surnameID       INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    surname         VARCHAR(100)     NOT NULL,
+    CONSTRAINT pk_surname            PRIMARY KEY (surnameID)
+);
+
+
+-- =============================================================
+--   tblProbabilities
+--   (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE tblProbabilities (
+    probabilityID     INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    probabilityName   VARCHAR(50)      NOT NULL,
+    probabilityValue  DECIMAL(3,2)     NOT NULL,
+    CONSTRAINT pk_probability          PRIMARY KEY (probabilityID)
 );
 
 
@@ -297,48 +347,48 @@ CREATE TABLE tblAttendance (
 
 -- --------------------------
 -- Oliver Statham
--- tblBeneficiary: regionID often used in reports "beneficiaries in region X" etc.
+-- tblBeneficiary: filters often combine region + demographics
 -- --------------------------
-CREATE INDEX idx_ben_region ON tblBeneficiary (regionID);
-CREATE INDEX idx_ben_gender ON tblBeneficiary (gender);
-CREATE INDEX idx_ben_ageGroup ON tblBeneficiary (ageGroup);
-CREATE INDEX idx_ben_employmentStatus ON tblBeneficiary (employmentStatus);
+CREATE INDEX idx_ben_region  ON tblBeneficiary (regionID);
+CREATE INDEX idx_ben_filters ON tblBeneficiary (regionID, gender, ageGroup);
 
 
 -- --------------------------
 -- Patrick Beattie
--- tblProgramme: regionID + teamID are common filters "programmes in region X", "programmes by team Y"
--- tblProgrammeCourse: courseID are not in WHERE but used for JOIN "which programmes include course X"
+-- tblProgramme: filters region, team, status, focusArea
+-- tblProgrammeCourse: course -> programmes, programme -> courses
 -- --------------------------
-CREATE INDEX idx_prog_region ON tblProgramme (regionID);
-CREATE INDEX idx_prog_team ON tblProgramme (teamID);
-CREATE INDEX idx_pc_course ON tblProgrammeCourse (courseID);
+CREATE INDEX idx_prog_region       ON tblProgramme (regionID);
+CREATE INDEX idx_prog_team         ON tblProgramme (teamID);
 CREATE INDEX idx_prog_status_focus ON tblProgramme (status, focusArea);
+CREATE INDEX idx_pc_course         ON tblProgrammeCourse (courseID);
 
 
 -- --------------------------
 -- Stephen Brown
--- tblStaff: teamID і regionID filters "which staff are in team X", "which staff are in region Y"
--- tblSessionStaff: staffID opposite side of JOIN "which sessions does staff X work on"
+-- tblStaff: filters team, region
+-- tblSessionStaff: lookup staff -> sessions
 -- --------------------------
-CREATE INDEX idx_staff_team ON tblStaff (teamID);
+CREATE INDEX idx_staff_team   ON tblStaff (teamID);
 CREATE INDEX idx_staff_region ON tblStaff (regionID);
-CREATE INDEX idx_ss_staff ON tblSessionStaff (staffID);
+CREATE INDEX idx_ss_staff     ON tblSessionStaff (staffID);
 
 
 -- --------------------------
 -- Roman Kriuchkov
--- tblSession: pcID all sessions for a programme course
--- tblEnrolment: pcID opposite side of JOIN "which enrolments are for programme course X"
--- tblAttendance: sessionID all ssessions for an attendance record, but also UNIQUE (enrolmentID, sessionID) so no need to index enrolmentID separately
--- tblProgrammeFunding: sourceID for all funding records from a source
+-- tblSession: sessions per programme-course + by date
+-- tblEnrolment: per programme-course, per beneficiary, by status
+-- tblAttendance: index needed for session-based queries
+-- tblProgrammeFunding: by funding source + date ranges
 -- --------------------------
-CREATE INDEX idx_sess_pc ON tblSession (pcID);
-CREATE INDEX idx_enrol_pc ON tblEnrolment (pcID);
-CREATE INDEX idx_att_session ON tblAttendance (sessionID);
-CREATE INDEX idx_pf_source ON tblProgrammeFunding (sourceID);
-CREATE INDEX idx_enrol_ben ON tblEnrolment (beneficiaryID);
-
+CREATE INDEX idx_sess_pc      ON tblSession (pcID);
+CREATE INDEX idx_sess_date    ON tblSession (sessionDate);
+CREATE INDEX idx_enrol_pc     ON tblEnrolment (pcID);
+CREATE INDEX idx_enrol_ben    ON tblEnrolment (beneficiaryID);
+CREATE INDEX idx_enrol_status ON tblEnrolment (completionStatus);
+CREATE INDEX idx_att_session  ON tblAttendance (sessionID);
+CREATE INDEX idx_pf_source    ON tblProgrammeFunding (sourceID);
+CREATE INDEX idx_pf_dates     ON tblProgrammeFunding (startDate, endDate);
 
 
 
