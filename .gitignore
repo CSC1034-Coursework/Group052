@@ -1,2 +1,32 @@
-/.vs
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
 
+# Logs
+*.log
+logs/
+tmp/
+temp/
+
+# Environment / secrets
+.env
+.env.*
+config.php
+config/*.php
+
+# Build / cache
+cache/
+*.cache
+
+# Uploads / runtime files
+uploads/
+storage/
+sessions/
+
+phpConnector.php
+
+# Misc
+*.bak
+*.swp
