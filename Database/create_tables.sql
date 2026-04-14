@@ -16,7 +16,7 @@ FOREIGN KEY (sourceID) REFERENCES tblFundingSource(sourceID),
 FOREIGN KEY (teamID) REFERENCES tblTeam(teamID)
 );
 
-CREATE TABLE tblProgrammeCourse (
+CREATE TABLE IF NOT EXISTS tblProgrammeCourse (
 pcID INT AUTO_INCREMENT PRIMARY KEY,
 programmeID INT NOT NULL,
 courseID INT NOT NULL,
