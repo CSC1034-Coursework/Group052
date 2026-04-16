@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EmpowerTrack — Gender Equality Programme Monitoring</title>
-  <!-- DM Serif Display for headings, DM Sans for body — both used on all 5 pages -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
@@ -17,19 +17,21 @@
 
   <main>
 
-    <!-- HERO — homepage only; dark background continues from header -->
+    <!-- hero section -->
+
+    
     <section class="hero">
-      <div class="container hero__inner"> <!-- two columns: content left, visual right -->
+      <div class="container hero__inner"> 
 
-        <div class="hero__content"> <!-- left column, ~55% width -->
+        <div class="hero__content"> 
 
-          <!-- small label line above the title: dot + short text -->
+          
           <p class="hero__eyebrow">
-            <span class="hero__eyebrow-dot"></span> <!-- tiny accent-coloured circle -->
+            <span class="hero__eyebrow-dot"></span> 
             Data-driven gender equality platform
           </p>
 
-          <!-- main H1; <em> on "impact" — italic + accent colour -->
+          
           <h1 class="hero__title">
             Track programmes.<br>
             Measure real <em>impact</em>.<br>
@@ -40,15 +42,15 @@
             EmpowerTrack enables NGOs and funding bodies to transform programme data into actionable insights — tracking participation, measuring outcomes, and identifying inequality across regions and demographics.
           </p>
 
-          <div class="hero__cta"> <!-- button row; btn--primary = filled, btn--outline = ghost -->
+          <div class="hero__cta"> 
             <a href="beneficiaries.html" class="btn btn--primary">Explore the system</a>
             <a href="#about"             class="btn btn--outline">Learn more</a>
           </div>
 
         </div>
 
-        <!-- right column: three decorative stat cards, aria-hidden as they're illustrative -->
-        <div class="hero__visual" aria-hidden="true">
+        
+        <div class="hero__visual">
           <div class="hero__card hero__card--1">
             <span class="hero__card-label">Programme completion rate</span>
             <span class="hero__card-value">?</span>
@@ -70,10 +72,10 @@
     </section>
 
 
-    <!-- STATS BAR — four headline numbers between hero and about -->
+    
     <section class="stats">
-      <div class="container stats__grid"> <!-- flex row, 4 equal items; 2x2 grid on mobile -->
-        <div class="stats__item"> <!-- one number + label pair -->
+      <div class="container stats__grid"> 
+        <div class="stats__item"> 
           <span class="stats__number">22</span>
           <span class="stats__label">Structured data entities</span>
         </div>
@@ -93,12 +95,12 @@
     </section>
 
 
-    <!-- ABOUT — first light section; id links from the "Learn more" hero button -->
+    
     <section class="about section" id="about">
-      <div class="container about__inner"> <!-- two columns: text left, SDG card right -->
+      <div class="container about__inner"> 
 
-        <div class="about__text"> <!-- left column, ~60% -->
-          <!-- section__label and section__title are shared across all sections below -->
+        <div class="about__text"> 
+          
           <p class="section__label">What it does</p>
             <h2 class="section__title">From data collection to impact analysis</h2>
             <p class="about__body">
@@ -113,17 +115,17 @@
             </ul>
         </div>
 
-        <div class="about__aside"> <!-- right column, ~35%; stacks below text on mobile -->
+        <div class="about__aside"> 
           <p class="section__label">SDG alignment</p>
-          <div class="sdg-card"> <!-- dark card contrasting with the light section background -->
-            <div class="sdg-card__header"> <!-- flex row: big number + goal name -->
-              <span class="sdg-card__num">5</span> <!-- large, accent colour -->
+          <div class="sdg-card"> 
+            <div class="sdg-card__header"> 
+              <span class="sdg-card__num">5</span> 
               <span class="sdg-card__name">Gender Equality</span>
             </div>
             <p class="sdg-card__body">
               EmpowerTrack supports UN SDG 5 (Gender Equality) by enabling organisations to identify unequal access to programmes, measure outcome improvements, and prioritise interventions for underserved groups using data-driven insights.
             </p>
-            <div class="sdg-card__targets"> <!-- row of small pill labels, wraps if needed -->
+            <div class="sdg-card__targets"> 
               <span class="sdg-target">Target 5.1 — End discrimination</span>
               <span class="sdg-target">Target 5.5 — Equal participation</span>
               <span class="sdg-target">Target 5.b — Technology access</span>
@@ -135,11 +137,11 @@
     </section>
 
 
-    <!-- FEATURES — 6 cards in a 3x2 grid; section--alt = slightly off-white background -->
+    
     <section class="features section section--alt">
       <div class="container">
 
-        <div class="section__header"> <!-- centred label + title block above the grid -->
+        <div class="section__header"> 
           <p class="section__label">Key features</p>
           <h2 class="section__title">Core system capabilities</h2>
 
@@ -174,71 +176,42 @@
           </p>
         </div>
 
-        <div class="features__grid"> <!-- 3 cols desktop, 2 tablet, 1 mobile -->
+        <div class="features__grid"> 
 
-          <!-- feature-card: white card with icon box, title, body text -->
-          <!-- feature-card__icon--green/blue/amber/purple = coloured icon background -->
+          
+          
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--green">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M3 15c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--green">B</div>
             <h3 class="feature-card__title">Beneficiary management</h3>
             <p class="feature-card__body">Maintain structured beneficiary data and analyse participation patterns across demographic groups to detect inequality in access.</p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--blue">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M5 8h8M5 11.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--blue">P</div>
             <h3 class="feature-card__title">Programme tracking</h3>
             <p class="feature-card__body">Track programmes across regions and teams, linking delivery, participation, and outcomes for performance evaluation.</p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--amber">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <path d="M3 13L7 8l3 3.5L13 6l2 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--amber">R</div>
             <h3 class="feature-card__title">SQL reports &amp; charts</h3>
             <p class="feature-card__body">Generate analytical reports using joins, aggregations, and filters to answer real organisational questions and support decision making.</p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--purple">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M9 3v2M9 13v2M3 9h2M13 9h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--purple">S</div>
             <h3 class="feature-card__title">Staff coordination</h3>
             <p class="feature-card__body">Analyse staff allocation and workload to identify operational gaps and improve programme delivery efficiency.</p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--green">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <rect x="2.5" y="4.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M6 4.5V3M12 4.5V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                <path d="M5 9h8M5 12h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--green">F</div>
             <h3 class="feature-card__title">Funding monitoring</h3>
             <p class="feature-card__body">Track funding sources and allocations, enabling analysis of financial coverage and identification of at-risk programmes.</p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-card__icon feature-card__icon--blue">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <path d="M4 14V9M7.5 14V6M11 14V10M14.5 14V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <div class="feature-card__icon feature-card__icon--blue">A</div>
             <h3 class="feature-card__title">Assessment tracking</h3>
             <p class="feature-card__body">Measure learning impact by comparing pre- and post-assessment scores across programmes, regions, and participant groups.</p>
           </div>
@@ -248,8 +221,9 @@
     </section>
 
 
-    <!-- WHO IT'S FOR — 3 persona cards; white background after the grey features -->
+    
     <section class="users section">
+      <!-- team cards -->
       <div class="container">
         <div class="section__header">
           <h2 class="section__title">Designed for data-driven decision making</h2>
@@ -269,26 +243,34 @@
             Evaluates programme effectiveness and allocates resources based on data-driven evidence and impact metrics.
           </p>
         </div>
-        <div class="users__grid"> <!-- 3 cols desktop, 1 col mobile -->
+        <div class="users__grid"> 
 
-          <!-- user-card: flat bordered card with avatar circle, role, desc, arrow link -->
-          <!-- av--green/blue/purple = avatar background colour variant -->
+          
+          
           <div class="user-card">
-            <div class="user-card__avatar av--green">RC</div>
+            <div class="user-card__avatar">
+                <img src="../../images/UN.svg" alt="UN" class="user-card__avatar-img">
+            </div>
+
             <h3 class="user-card__role">Regional coordinator</h3>
             <p class="user-card__desc">Manages programme delivery and monitors participation, completion, and regional performance metrics.</p>
             <a href="beneficiaries.html" class="user-card__link">Go to beneficiaries &rarr;</a>
           </div>
 
           <div class="user-card">
-            <div class="user-card__avatar av--blue">DA</div>
+            <div class="user-card__avatar">
+                <img src="../../images/DA.webp" alt="Data Analyst" class="user-card__avatar-img">
+            </div>
+            
             <h3 class="user-card__role">Data analyst</h3>
             <p class="user-card__desc">Runs SQL-based reports to identify trends, measure impact, and detect underserved populations.</p>
             <a href="enrolments.html" class="user-card__link">Go to enrolments &rarr;</a>
           </div>
 
           <div class="user-card">
-            <div class="user-card__avatar av--purple">FO</div>
+            <div class="user-card__avatar">
+                <img src="../../images/FO.jpg" alt="Funding Officer" class="user-card__avatar-img">
+            </div>
             <h3 class="user-card__role">Funding officer</h3>
             <p class="user-card__desc">Evaluates programme effectiveness and allocates resources based on data-driven evidence and impact metrics.</p>
             <a href="enrolments.html" class="user-card__link">Go to funding &rarr;</a>
@@ -299,7 +281,7 @@
     </section>
 
 
-    <!-- SYSTEM PAGES — 4 module cards linking to each student's page -->
+    
     <section class="pages section section--alt">
       <div class="container">
         <div class="section__header">
@@ -342,17 +324,17 @@
             <span>Funding efficiency</span>
           </div>
         </div>
-        <div class="pages__grid"> <!-- 2x2 grid desktop, 1 col mobile -->
+        <div class="pages__grid"> 
 
-          <!-- page-card: entire <a> is clickable; coloured stripe at top via page-card__stripe -->
-          <!-- page-card__stripe--green/blue/purple/amber = top accent colour -->
+          
+          
           <a href="beneficiaries.html" class="page-card">
             <div class="page-card__stripe page-card__stripe--green"></div>
             <div class="page-card__body">
-              <span class="page-card__tag">Oliver Statham</span> <!-- small muted label -->
+              <span class="page-card__tag">Oliver Statham</span> 
               <h3 class="page-card__name">Beneficiaries</h3>
               <p class="page-card__desc">Manage beneficiary records and analyse demographic distribution, regional coverage, and dropout patterns.</p>
-              <div class="page-card__reports"> <!-- small pill tags showing which reports are on this page -->
+              <div class="page-card__reports"> 
                 <span>Regional coverage</span>
                 <span>Demographic breakdown</span>
                 <span>Dropout analysis</span>
@@ -412,8 +394,9 @@
   <div id="footer-placeholder"></div>
 
   <script src="../js/loadComponents.js"></script>
-  <!-- main.js: burger menu toggle — adds nav__links--open on #navLinks when #navBurger is clicked -->
+  
   <script src="../js/main.js"></script>
 
 </body>
 </html>
+
