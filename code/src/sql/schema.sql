@@ -1,6 +1,7 @@
 -- -------------------------------------------------------------
 -- DROP ALL TABLES (strictly in order to avoid FK issues)
 -- -------------------------------------------------------------
+DROP TABLE IF EXISTS tblOutcome;
 DROP TABLE IF EXISTS tblSessionStaff;
 DROP TABLE IF EXISTS tblAttendance;
 DROP TABLE IF EXISTS tblEnrolment;
@@ -15,9 +16,19 @@ DROP TABLE IF EXISTS tblTeam;
 DROP TABLE IF EXISTS tblFundingSource;
 DROP TABLE IF EXISTS tblRegion;
 DROP TABLE IF EXISTS tblCountry;
+DROP TABLE IF EXISTS tblProgrammeStatus;
+DROP TABLE IF EXISTS tblOutcomeType;
+DROP TABLE IF EXISTS tblMaritalStatus;
+DROP TABLE IF EXISTS tblEducationLevel;
+DROP TABLE IF EXISTS tblEmploymentStatus;
+DROP TABLE IF EXISTS tblAgeGroup;
+DROP TABLE IF EXISTS tblGender;
 DROP TABLE IF EXISTS tblNames;
 DROP TABLE IF EXISTS tblSurnames;
 DROP TABLE IF EXISTS tblProbabilities;
+DROP TABLE IF EXISTS tblSeedHistory;
+DROP TABLE IF EXISTS tblSeedConfig;
+DROP TABLE IF EXISTS tblNumbers;
 
 
 -- =============================================================
@@ -29,6 +40,90 @@ CREATE TABLE tblCountry (
     countryName     VARCHAR(100)     NOT NULL,
     CONSTRAINT pk_country            PRIMARY KEY (countryID),
     CONSTRAINT uq_country_name       UNIQUE (countryName)
+);
+
+
+-- =============================================================
+--   tblGender
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblGender (
+    genderID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    genderName      VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_gender             PRIMARY KEY (genderID),
+    CONSTRAINT uq_gender_name        UNIQUE (genderName)
+);
+
+
+-- =============================================================
+--   tblAgeGroup
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblAgeGroup (
+    ageGroupID      INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    label           VARCHAR(20)      NOT NULL,
+    CONSTRAINT pk_age_group          PRIMARY KEY (ageGroupID),
+    CONSTRAINT uq_age_group_label    UNIQUE (label)
+);
+
+
+-- =============================================================
+--   tblEmploymentStatus
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblEmploymentStatus (
+    statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    label           VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_employment_status  PRIMARY KEY (statusID),
+    CONSTRAINT uq_employment_label   UNIQUE (label)
+);
+
+
+-- =============================================================
+--   tblEducationLevel
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblEducationLevel (
+    levelID         INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    label           VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_education_level    PRIMARY KEY (levelID),
+    CONSTRAINT uq_education_label    UNIQUE (label)
+);
+
+
+-- =============================================================
+--   tblMaritalStatus
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblMaritalStatus (
+    statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    label           VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_marital_status     PRIMARY KEY (statusID),
+    CONSTRAINT uq_marital_label      UNIQUE (label)
+);
+
+
+-- =============================================================
+--   tblOutcomeType
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblOutcomeType (
+    typeID          INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    typeName        VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_outcome_type       PRIMARY KEY (typeID),
+    CONSTRAINT uq_outcome_type_name  UNIQUE (typeName)
+);
+
+
+-- =============================================================
+--   tblProgrammeStatus
+--   (normalization lookup)
+-- =============================================================
+CREATE TABLE tblProgrammeStatus (
+    statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
+    statusName      VARCHAR(50)      NOT NULL,
+    CONSTRAINT pk_programme_status   PRIMARY KEY (statusID),
+    CONSTRAINT uq_programme_status   UNIQUE (statusName)
 );
 
 
@@ -114,11 +209,11 @@ CREATE TABLE tblBeneficiary (
     beneficiaryID       INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     firstName           VARCHAR(100)    NOT NULL,
     lastName            VARCHAR(100)    NOT NULL,
-    gender              ENUM('Female','Male','Non-binary') NOT NULL,
-    ageGroup            ENUM('10-14','15-18','19-24','25-34','35-54','55+') NOT NULL,
-    employmentStatus    ENUM('Employed','Unemployed','Student','Homemaker') NOT NULL,
-    educationLevel      ENUM('None','Primary','Secondary','Higher') NOT NULL,
-    maritalStatus       ENUM('Single','Married','Widowed','Divorced') NOT NULL,
+    genderID            INT             UNSIGNED NOT NULL,
+    ageGroupID          INT             UNSIGNED NOT NULL,
+    employmentStatusID  INT             UNSIGNED NOT NULL,
+    educationLevelID    INT             UNSIGNED NOT NULL,
+    maritalStatusID     INT             UNSIGNED NOT NULL,
     phone               VARCHAR(30),
     consentGiven        BOOLEAN         NOT NULL DEFAULT 0,
     regionID            INT             UNSIGNED NOT NULL,
@@ -127,7 +222,12 @@ CREATE TABLE tblBeneficiary (
     updatedAt           DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     CONSTRAINT pk_beneficiary           PRIMARY KEY (beneficiaryID),
-    CONSTRAINT fk_ben_region            FOREIGN KEY (regionID) REFERENCES tblRegion(regionID)
+    CONSTRAINT fk_ben_region            FOREIGN KEY (regionID)             REFERENCES tblRegion(regionID),
+    CONSTRAINT fk_ben_gender            FOREIGN KEY (genderID)             REFERENCES tblGender(genderID),
+    CONSTRAINT fk_ben_age_group         FOREIGN KEY (ageGroupID)           REFERENCES tblAgeGroup(ageGroupID),
+    CONSTRAINT fk_ben_employment        FOREIGN KEY (employmentStatusID)   REFERENCES tblEmploymentStatus(statusID),
+    CONSTRAINT fk_ben_education         FOREIGN KEY (educationLevelID)     REFERENCES tblEducationLevel(levelID),
+    CONSTRAINT fk_ben_marital           FOREIGN KEY (maritalStatusID)      REFERENCES tblMaritalStatus(statusID)
 );
 
 
@@ -144,7 +244,7 @@ CREATE TABLE tblProgramme (
     endDate         DATE,
     budget          DECIMAL(15,2)   UNSIGNED,
     objectives      TEXT,
-    status          ENUM('Planned','Active','Completed','Cancelled') NOT NULL DEFAULT 'Planned',
+    statusID        INT             UNSIGNED NOT NULL,
     focusArea       ENUM('Child Marriage', 'FGM', 'Economic Empowerment', 'Political Participation', 'Anti-Violence') NOT NULL,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -152,6 +252,7 @@ CREATE TABLE tblProgramme (
     CONSTRAINT pk_programme         PRIMARY KEY (programmeID),
     CONSTRAINT fk_prog_region       FOREIGN KEY (regionID) REFERENCES tblRegion(regionID),
     CONSTRAINT fk_prog_team         FOREIGN KEY (teamID)   REFERENCES tblTeam(teamID),
+    CONSTRAINT fk_prog_status       FOREIGN KEY (statusID) REFERENCES tblProgrammeStatus(statusID),
     CONSTRAINT chk_prog_dates       CHECK (endDate IS NULL OR endDate >= startDate),
     CONSTRAINT chk_prog_budget      CHECK (budget IS NULL OR budget >= 0)
 );
@@ -291,19 +392,40 @@ CREATE TABLE tblSessionStaff (
 --   (written by Roman Kriuchkov)
 -- =============================================================
 CREATE TABLE tblAttendance (
-    attendanceID    INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     enrolmentID     INT             UNSIGNED NOT NULL,
     sessionID       INT             UNSIGNED NOT NULL,
     attended        BOOLEAN         NOT NULL DEFAULT 0,
     createdAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt       DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    CONSTRAINT pk_attendance        PRIMARY KEY (attendanceID),
-    CONSTRAINT uq_attendance        UNIQUE (enrolmentID, sessionID),
+    CONSTRAINT pk_attendance        PRIMARY KEY (enrolmentID, sessionID),
     CONSTRAINT fk_att_enrolment     FOREIGN KEY (enrolmentID) REFERENCES tblEnrolment(enrolmentID) ON DELETE CASCADE,
     CONSTRAINT fk_att_session       FOREIGN KEY (sessionID)   REFERENCES tblSession(sessionID) ON DELETE CASCADE
 );
 
+
+-- =============================================================
+--  tblOutcome
+--  (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE tblOutcome (
+    outcomeID          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    beneficiaryID      INT UNSIGNED NOT NULL,
+    pcID               INT UNSIGNED NOT NULL,
+    outcomeTypeID      INT UNSIGNED NOT NULL,
+    outcomeValue       VARCHAR(255),
+    outcomeScore       TINYINT UNSIGNED,
+    outcomeDate        DATE NOT NULL,
+    recordedAt         DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    verified           BOOLEAN NOT NULL DEFAULT 0,
+    verificationSource ENUM('SelfReported','NGO','Government','ThirdParty') DEFAULT 'SelfReported',
+    notes              TEXT,
+    CONSTRAINT pk_outcome PRIMARY KEY (outcomeID),
+    CONSTRAINT fk_out_beneficiary FOREIGN KEY (beneficiaryID) REFERENCES tblBeneficiary(beneficiaryID),
+    CONSTRAINT fk_out_pc FOREIGN KEY (pcID) REFERENCES tblProgrammeCourse(pcID),
+    CONSTRAINT fk_out_type FOREIGN KEY (outcomeTypeID) REFERENCES tblOutcomeType(typeID),
+    CONSTRAINT chk_out_score CHECK (outcomeScore IS NULL OR outcomeScore BETWEEN 0 AND 100)
+);
 
 -- =============================================================
 --   tblNames
@@ -338,3 +460,30 @@ CREATE TABLE tblProbabilities (
     CONSTRAINT pk_probability          PRIMARY KEY (probabilityID)
 );
 
+
+-- =============================================================
+--   tblSeedHistory
+--   (seed safety tracking)
+-- =============================================================
+CREATE TABLE IF NOT EXISTS tblSeedHistory (
+    seedName      VARCHAR(100) PRIMARY KEY,
+    executedAt    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- =============================================================
+--   tblSeedConfig
+--  (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE IF NOT EXISTS tblSeedConfig (
+	entityName VARCHAR(64) PRIMARY KEY,
+	rowCount INT UNSIGNED NOT NULL
+);
+
+-- =============================================================
+--   tblNumbers
+--   (written by Roman Kriuchkov)
+-- =============================================================
+CREATE TABLE IF NOT EXISTS tblNumbers (
+	n INT PRIMARY KEY
+);
