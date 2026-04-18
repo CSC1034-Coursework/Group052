@@ -27,8 +27,6 @@ DROP TABLE IF EXISTS tblTeamSpecialisation;
 DROP TABLE IF EXISTS tblCourseSkillCategory;
 DROP TABLE IF EXISTS tblNames;
 DROP TABLE IF EXISTS tblSurnames;
-DROP TABLE IF EXISTS tblSeedHistory;
-DROP TABLE IF EXISTS tblSeedConfig;
 DROP TABLE IF EXISTS tblNumbers;
 
 
@@ -198,18 +196,8 @@ CREATE TABLE IF NOT EXISTS tblSurnames (
 
 
 -- =============================================================
---   tblSeedConfig
---   (written by Roman Kriuchkov, seed lookup/support)
--- =============================================================
-CREATE TABLE IF NOT EXISTS tblSeedConfig (
-    entityName VARCHAR(64) PRIMARY KEY,
-    rowCount INT UNSIGNED NOT NULL
-);
-
-
--- =============================================================
 --   tblNumbers
---   (written by Roman Kriuchkov, seed lookup/support)
+--   (written by Roman Kriuchkov, seed support)
 -- =============================================================
 CREATE TABLE IF NOT EXISTS tblNumbers (
     n INT PRIMARY KEY

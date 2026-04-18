@@ -1,4 +1,21 @@
-﻿START TRANSACTION;
+﻿-- =============================================================
+-- Seed row-count configuration
+-- =============================================================
+SET @seed_region = 60;
+SET @seed_team = 40;
+SET @seed_course = 80;
+SET @seed_beneficiary = 1200;
+SET @seed_staff = 200;
+SET @seed_programme = 120;
+SET @seed_programmecourse = 260;
+SET @seed_programmefunding = 300;
+SET @seed_session = 2000;
+SET @seed_enrolment = 6000;
+SET @seed_attendance = 30000;
+SET @seed_outcome = 3500;
+SET @seed_sessionstaff = 2400;
+
+START TRANSACTION;
 INSERT INTO tblCountry (countryName) VALUES ('Afghanistan'),('Albania'),('Algeria'),('American Samoa'),('Andorra'),('Angola'),('Anguilla'),('Antarctica'),('Antigua and Barbuda'),('Argentina'),('Armenia'),('Aruba'),('Australia'),('Austria'),('Azerbaidjan'),('Bahamas'),('Bahrain'),('Bangladesh'),('Barbados'),('Belarus'),('Belgium'),('Belize'),('Benin'),('Bermuda'),('Bhutan'),('Bolivia'),('Bosnia-Herzegovina'),('Botswana'),('Bouvet Island'),('Brazil'),('British Indian Ocean Territory'),('Brunei Darussalam'),('Bulgaria'),('Burkina Faso'),('Burundi'),('Cambodia'),('Cameroon'),('Canada'),('Cape Verde'),('Cayman Islands'),('Central African Republic'),('Chad'),('Chile'),('China'),('Christmas Island'),('Cocos (Keeling) Islands'),('Colombia'),('Comoros'),('Congo'),('Cook Islands'),('Costa Rica'),('Croatia'),('Cuba'),('Cyprus'),('Czech Republic'),('Denmark'),('Djibouti'),('Dominica'),('Dominican Republic'),('East Timor'),('Ecuador'),('Egypt'),('El Salvador'),('Equatorial Guinea'),('Eritrea'),('Estonia'),('Ethiopia'),('Falkland Islands'),('Faroe Islands'),('Fiji'),('Finland'),('France'),('France (European Territory)'),('French Guyana'),('French Southern Territories'),('Gabon'),('Gambia'),('Georgia'),('Germany'),('Ghana'),('Gibraltar'),('Great Britain'),('Greece'),('Greenland'),('Grenada'),('Guadeloupe (French)'),('Guam (USA)'),('Guatemala'),('Guinea'),('Guinea Bissau'),('Guyana'),('Haiti'),('Heard and McDonald Islands'),('Honduras'),('Hong Kong'),('Hungary'),('Iceland'),('India'),('Indonesia'),('Iran'),('Iraq'),('Ireland'),('Israel'),('Italy'),('Ivory Coast (Cote D`Ivoire)'),('Jamaica'),('Japan'),('Jordan'),('Kazakhstan'),('Kenya'),('Kiribati'),('Kuwait'),('Kyrgyzstan'),('Laos'),('Latvia'),('Lebanon'),('Lesotho'),('Liberia'),('Libya'),('Liechtenstein'),('Lithuania'),('Luxembourg');
 INSERT INTO tblCountry (countryName) VALUES ('Macau'),('Macedonia'),('Madagascar'),('Malawi'),('Malaysia'),('Maldives'),('Mali'),('Malta'),('Marshall Islands'),('Martinique (French)'),('Mauritania'),('Mauritius'),('Mayotte'),('Mexico'),('Micronesia'),('Moldavia'),('Monaco'),('Mongolia'),('Montserrat'),('Morocco'),('Mozambique'),('Myanmar'),('Namibia'),('Nauru'),('Nepal'),('Netherlands'),('Netherlands Antilles'),('Neutral Zone'),('New Caledonia (French)'),('New Zealand'),('Nicaragua'),('Niger'),('Nigeria'),('Niue'),('Norfolk Island'),('North Korea'),('Northern Mariana Islands'),('Norway'),('Oman'),('Pakistan'),('Palau'),('Panama'),('Papua New Guinea'),('Paraguay'),('Peru'),('Philippines'),('Pitcairn Island'),('Poland'),('Polynesia (French)'),('Portugal'),('Puerto Rico'),('Qatar'),('Reunion (French)'),('Romania'),('Russian Federation'),('Rwanda'),('S. Georgia & S. Sandwich Isls.'),('Saint Helena'),('Saint Kitts & Nevis Anguilla'),('Saint Lucia'),('Saint Pierre and Miquelon'),('Saint Tome and Principe'),('Saint Vincent & Grenadines'),('Samoa'),('San Marino'),('Saudi Arabia'),('Senegal'),('Seychelles'),('Sierra Leone'),('Singapore'),('Slovak Republic'),('Slovenia'),('Solomon Islands'),('Somalia'),('South Africa'),('South Korea'),('Spain'),('Sri Lanka'),('Sudan'),('Suriname'),('Svalbard and Jan Mayen Islands'),('Swaziland'),('Sweden'),('Switzerland'),('Syria'),('Tadjikistan'),('Taiwan'),('Tanzania'),('Thailand'),('Togo'),('Tokelau'),('Tonga'),('Trinidad and Tobago'),('Tunisia'),('Turkey'),('Turkmenistan'),('Turks and Caicos Islands'),('Tuvalu'),('Uganda'),('Ukraine'),('United Arab Emirates'),('United Kingdom'),('United States'),('USA Minor Outlying Islands'),('Uruguay'),('Uzbekistan'),('Vanuatu'),('Vatican City State'),('Venezuela'),('Vietnam'),('Virgin Islands (British)');
 INSERT INTO tblCountry (countryName) VALUES ('Virgin Islands (USA)'),('Wallis and Futuna Islands'),('Western Sahara'),('Yemen'),('Zaire'),('Zambia'),('Zimbabwe');
@@ -13,10 +30,380 @@ INSERT INTO tblSurnames (surname) VALUES ('Smith'),('Johnson'),('Williams'),('Br
 INSERT INTO tblSurnames (surname) VALUES ('Hunter'),('Gordon'),('Mendez'),('Silva'),('Shaw'),('Snyder'),('Mason'),('Dixon'),('Munoz'),('Hunt'),('Hicks'),('Holmes'),('Palmer'),('Wagner'),('Black'),('Robertson'),('Boyd'),('Rose'),('Stone'),('Salazar'),('Fox'),('Warren'),('Mills'),('Meyer'),('Rice'),('Schmidt'),('Garza'),('Daniels'),('Ferguson'),('Nichols'),('Stephens'),('Soto'),('Weaver'),('Ryan'),('Gardner'),('Payne'),('Grant'),('Dunn'),('Kelley'),('Spencer'),('Hawkins'),('Arnold'),('Pierce'),('Vazquez'),('Hansen'),('Peters'),('Santos'),('Hart'),('Bradley'),('Knight'),('Elliott'),('Cunningham'),('Duncan'),('Armstrong'),('Hudson'),('Carroll'),('Lane'),('Riley'),('Andrews'),('Alvarado'),('Ray'),('Delgado'),('Berry'),('Perkins'),('Hoffman'),('Johnston'),('Matthews'),('Pena'),('Richards'),('Contreras'),('Willis'),('Carpenter'),('Lawrence'),('Sandoval'),('Guerrero'),('George'),('Chapman'),('Rios'),('Estrada'),('Ortega'),('Watkins'),('Greene'),('Nunez'),('Wheeler'),('Valdez'),('Harper'),('Burke'),('Larson'),('Santiago'),('Maldonado'),('Morrison'),('Franklin'),('Carlson'),('Austin'),('Dominguez'),('Carr'),('Lawson'),('Jacobs'),('Obrien'),('Lynch'),('Singh'),('Vega'),('Bishop'),('Montgomery'),('Oliver'),('Jensen'),('Harvey'),('Williamson'),('Gilbert'),('Dean'),('Sims'),('Espinoza'),('Howell'),('Li'),('Wong'),('Reid'),('Hanson'),('Le'),('Mccoy'),('Garrett'),('Burton'),('Fuller'),('Wang'),('Weber'),('Welch'),('Rojas'),('Lucas'),('Marquez'),('Fields'),('Park'),('Yang'),('Little'),('Banks'),('Padilla'),('Day'),('Walsh'),('Bowman'),('Schultz'),('Luna'),('Fowler'),('Mejia'),('Davidson'),('Acosta'),('Brewer'),('May'),('Holland'),('Juarez'),('Newman'),('Pearson'),('Curtis'),('Cortez'),('Douglas'),('Schneider'),('Joseph'),('Barrett'),('Navarro'),('Figueroa'),('Keller'),('Avila'),('Wade');
 INSERT INTO tblSurnames (surname) VALUES ('Molina'),('Stanley'),('Hopkins'),('Campos'),('Barnett'),('Bates'),('Chambers'),('Caldwell'),('Beck'),('Lambert'),('Miranda'),('Byrd'),('Craig'),('Ayala'),('Lowe'),('Frazier'),('Powers'),('Neal'),('Leonard'),('Gregory'),('Carrillo'),('Sutton'),('Fleming'),('Rhodes'),('Shelton'),('Schwartz'),('Norris'),('Jennings'),('Watts'),('Duran'),('Walters'),('Cohen'),('Mcdaniel'),('Moran'),('Parks'),('Steele'),('Vaughn'),('Becker'),('Holt'),('Deleon'),('Barker'),('Terry'),('Hale'),('Leon'),('Hail'),('Benson'),('Haynes'),('Horton'),('Miles'),('Lyons'),('Pham'),('Graves'),('Bush'),('Thornton'),('Wolfe'),('Warner'),('Cabrera'),('Mckinney'),('Mann'),('Zimmerman'),('Dawson'),('Lara'),('Fletcher'),('Page'),('Mccarthy'),('Love'),('Robles'),('Cervantes'),('Solis'),('Erickson'),('Reeves'),('Chang'),('Klein'),('Salinas'),('Fuentes'),('Baldwin'),('Daniel'),('Simon'),('Velasquez'),('Hardy'),('Higgins'),('Aguirre'),('Lin'),('Cummings'),('Chandler'),('Sharp'),('Barber'),('Bowen'),('Ochoa'),('Dennis'),('Robbins'),('Liu'),('Ramsey'),('Francis'),('Griffith'),('Paul'),('Blair'),('Oconnor'),('Cardenas'),('Pacheco'),('Cross'),('Calderon'),('Quinn'),('Moss'),('Swanson'),('Chan'),('Rivas'),('Khan'),('Rodgers'),('Serrano'),('Fitzgerald'),('Rosales'),('Stevenson'),('Christensen'),('Manning'),('Gill'),('Curry'),('Mclaughlin'),('Harmon'),('Mcgee'),('Gross'),('Doyle'),('Garner'),('Newton'),('Burgess'),('Reese'),('Walton'),('Blake'),('Trujillo'),('Adkins'),('Brady'),('Goodman'),('Roman'),('Webster'),('Goodwin'),('Fischer'),('Huang'),('Potter'),('Delacruz'),('Montoya'),('Todd'),('Wu'),('Hines'),('Mullins'),('Castaneda'),('Malone'),('Cannon'),('Tate'),('Mack'),('Sherman'),('Hubbard'),('Hodges'),('Zhang'),('Guerra'),('Wolf'),('Valencia'),('Franco'),('Saunders'),('Rowe');
 INSERT INTO tblSurnames (surname) VALUES ('Gallagher'),('Farmer'),('Hammond'),('Hampton'),('Townsend'),('Ingram'),('Wise'),('Gallegos'),('Clarke'),('Barton'),('Schroeder'),('Maxwell'),('Waters'),('Logan'),('Camacho'),('Strickland'),('Norman'),('Person'),('Colon'),('Parsons'),('Frank'),('Harrington'),('Glover'),('Osborne'),('Buchanan'),('Casey'),('Floyd'),('Patton'),('Ibarra'),('Ball'),('Tyler'),('Suarez'),('Bowers'),('Orozco'),('Salas'),('Cobb'),('Gibbs'),('Andrade'),('Bauer'),('Conner'),('Moody'),('Escobar'),('Mcguire'),('Lloyd'),('Mueller'),('Hartman'),('French'),('Kramer'),('Mcbride'),('Pope'),('Lindsey'),('Velazquez'),('Norton'),('Mccormick'),('Sparks'),('Flynn'),('Yates'),('Hogan'),('Marsh'),('Macias'),('Villanueva'),('Zamora'),('Pratt'),('Stokes'),('Owen'),('Ballard'),('Lang'),('Brock'),('Villarreal'),('Charles'),('Drake'),('Barrera'),('Cain'),('Patrick'),('Pineda'),('Burnett'),('Mercado'),('Santana'),('Shepherd'),('Bautista'),('Ali'),('Shaffer'),('Lamb'),('Trevino'),('Mckenzie'),('Hess'),('Beil'),('Olsen'),('Cochran'),('Morton'),('Nash'),('Wilkins'),('Petersen'),('Briggs'),('Shah'),('Roth'),('Nicholson'),('Holloway'),('Lozano'),('Flowers'),('Rangel'),('Hoover'),('Arias'),('Short'),('Mora'),('Valenzuela'),('Bryan'),('Meyers'),('Weiss'),('Underwood'),('Bass'),('Greer'),('Summers'),('Houston'),('Carson'),('Morrow'),('Clayton'),('Whitaker'),('Decker'),('Yoder'),('Collier'),('Zuniga'),('Carey'),('Wilcox'),('Melendez'),('Poole'),('Roberson'),('Larsen'),('Conley'),('Davenport'),('Copeland'),('Massey'),('Lam'),('Huff'),('Rocha'),('Cameron'),('Jefferson'),('Hood'),('Monroe'),('Anthony'),('Pittman'),('Huynh'),('Randall'),('Singleton'),('Kirk'),('Combs'),('Mathis'),('Christian'),('Skinner'),('Bradford'),('Richard'),('Galvan'),('Wall'),('Boone'),('Kirby'),('Wilkinson');
-INSERT INTO tblSurnames (surname) VALUES ('Bridges'),('Bruce'),('Atkinson'),('Velez'),('Meza'),('Roy'),('Vincent'),('York'),('Hodge'),('Villa'),('Abbott'),('Allison'),('Tapia'),('Gates'),('Chase'),('Sosa'),('Sweeney'),('Farrell'),('Wyatt'),('Dalton'),('Horn'),('Barron'),('Phelps'),('Yu'),('Dickerson'),('Heath'),('Foley'),('Atkins'),('Mathews'),('Bonilla'),('Acevedo'),('Benitez'),('Zavala'),('Hensley'),('Glenn'),('Cisneros'),('Harrell'),('Shields'),('Rubio'),('Choi'),('Huffman'),('Boyer'),('Garrison'),('Arroyo'),('Bond'),('Kane'),('Hancock'),('Callahan'),('Dillon'),('Cline'),('Wiggins'),('Grimes'),('Arellano'),('Melton'),('Oneill'),('Savage'),('Ho'),('Beltran'),('Pitts'),('Parrish'),('Ponce'),('Rich'),('Booth'),('Koch'),('Golden'),('Ware'),('Brennan'),('Mcdowell'),('Marks'),('Cantu'),('Humphrey'),('Baxter'),('Sawyer'),('Clay'),('Tanner'),('Hutchinson'),('Kaur'),('Berg'),('Wiley'),('Gilmore'),('Russo'),('Villegas'),('Hobbs'),('Keith'),('Wilkerson'),('Ahmed'),('Beard'),('Mcclain'),('Montes'),('Mata'),('Rosario'),('Vang'),('S'),('S'),('Walter'),('Henson'),('Oneal'),('Mosley'),('Mcclure'),('Beasley'),('Stephenson'),('Snow'),('Huerta'),('Preston'),('Vance'),('Barry'),('Johns'),('Eaton'),('Blackwell'),('Dyer'),('Prince'),('Macdonald'),('Solomon'),('Guevara'),('Stafford'),('English'),('Hurst'),('Woodard'),('Cortes'),('Shannon'),('Kemp'),('Nolan'),('Mccullough'),('Merritt'),('Murillo'),('Moon'),('Salgado'),('Strong'),('Kline'),('Cordova'),('Barajas'),('Roach'),('Rosas'),('Winters'),('Jacobson'),('Lester'),('Knox'),('Bullock'),('Kerr'),('Leach'),('Meadows'),('Davila'),('Orr'),('Whitehead'),('Pruitt'),('Kent'),('Conway'),('Mckee'),('Barr'),('David'),('Dejesus'),('Marin'),('Berger'),('Mcintyre'),('Blankenship'),('Gaines'),('Palacios'),('Cuevas'),('Bartlett'),('Durham'),('Dorsey');
+INSERT INTO tblSurnames (surname) VALUES ('Bridges'),('Bruce'),('Atkinson'),('Velez'),('Meza'),('Roy'),('Vincent'),('York'),('Hodge'),('Villa'),('Abbott'),('Allison'),('Tapia'),('Gates'),('Chase'),('Sosa'),('Sweeney'),('Farrell'),('Wyatt'),('Dalton'),('Horn'),('Barron'),('Phelps'),('Yu'),('Dickerson'),('Heath'),('Foley'),('Atkins'),('Mathews'),('Bonilla'),('Acevedo'),('Benitez'),('Zavala'),('Hensley'),('Glenn'),('Cisneros'),('Harrell'),('Shields'),('Rubio'),('Choi'),('Huffman'),('Boyer'),('Garrison'),('Arroyo'),('Bond'),('Kane'),('Hancock'),('Callahan'),('Dillon'),('Cline'),('Wiggins'),('Grimes'),('Arellano'),('Melton'),('Oneill'),('Savage'),('Ho'),('Beltran'),('Pitts'),('Parrish'),('Ponce'),('Rich'),('Booth'),('Koch'),('Golden'),('Ware'),('Brennan'),('Mcdowell'),('Marks'),('Cantu'),('Humphrey'),('Baxter'),('Sawyer'),('Clay'),('Tanner'),('Hutchinson'),('Kaur'),('Berg'),('Wiley'),('Gilmore'),('Russo'),('Villegas'),('Hobbs'),('Keith'),('Wilkerson'),('Ahmed'),('Beard'),('Mcclain'),('Montes'),('Mata'),('Rosario'),('Vang'),('Walter'),('Henson'),('Oneal'),('Mosley'),('Mcclure'),('Beasley'),('Stephenson'),('Snow'),('Huerta'),('Preston'),('Vance'),('Barry'),('Johns'),('Eaton'),('Blackwell'),('Dyer'),('Prince'),('Macdonald'),('Solomon'),('Guevara'),('Stafford'),('English'),('Hurst'),('Woodard'),('Cortes'),('Shannon'),('Kemp'),('Nolan'),('Mccullough'),('Merritt'),('Murillo'),('Moon'),('Salgado'),('Strong'),('Kline'),('Cordova'),('Barajas'),('Roach'),('Rosas'),('Winters'),('Jacobson'),('Lester'),('Knox'),('Bullock'),('Kerr'),('Leach'),('Meadows'),('Davila'),('Orr'),('Whitehead'),('Pruitt'),('Kent'),('Conway'),('Mckee'),('Barr'),('David'),('Dejesus'),('Marin'),('Berger'),('Mcintyre'),('Blankenship'),('Gaines'),('Palacios'),('Cuevas'),('Bartlett'),('Durham'),('Dorsey');
 INSERT INTO tblSurnames (surname) VALUES ('Mccall'),('Odonnell'),('Stein'),('Browning'),('Stout'),('Lowery'),('Sloan'),('Mclean'),('Hendricks'),('Calhoun'),('Sexton'),('Chung'),('Gentry'),('Hull'),('Duarte'),('Ellison'),('Nielsen'),('Gillespie'),('Buck'),('Middleton'),('Sellers'),('Leblanc'),('Esparza'),('Hardin'),('Bradshaw'),('Mcintosh'),('Howe'),('Livingston'),('Frost'),('Glass'),('Morse'),('Knapp'),('Herman'),('Stark'),('Bravo'),('Noble'),('Spears'),('Weeks'),('Corona'),('Frederick'),('Buckley'),('Mcfarland'),('Hebert'),('Enriquez'),('Hickman'),('Quintero'),('Randolph'),('Schaefer'),('Walls'),('Trejo'),('House'),('Reilly'),('Pennington'),('Michael'),('Conrad'),('Giles'),('Benjamin'),('Crosby'),('Fitzpatrick'),('Donovan'),('Mays'),('Mahoney'),('Valentine'),('Raymond'),('Medrano'),('Hahn'),('Mcmillan'),('Small'),('Bentley'),('Felix'),('Peck'),('Lucero'),('Boyle'),('Hanna'),('Pace'),('Rush'),('Hurley'),('Harding'),('Mcconnell'),('Bernal'),('Nava'),('Ayers'),('Everett'),('Ventura'),('Avery'),('Pugh'),('Mayer'),('Bender'),('Shepard'),('Mcmahon'),('Landry'),('Case'),('Sampson'),('Moses'),('Magana'),('Blackburn'),('Dunlap'),('Gould'),('Duffy'),('Vaughan'),('Herring'),('Mckay'),('Espinosa'),('Rivers'),('Farley'),('Bernard'),('Ashley'),('Friedman'),('Potts'),('Truong'),('Costa'),('Correa'),('Blevins'),('Nixon'),('Clements'),('Fry'),('Delarosa'),('Best'),('Benton'),('Lugo'),('Portillo'),('Dougherty'),('Crane'),('Haley'),('Phan'),('Villalobos'),('Blanchard'),('Horne'),('Finley'),('Quintana'),('Lynn'),('Esquivel'),('Bean'),('Dodson'),('Mullen'),('Xiong'),('Hayden'),('Cano'),('Levy'),('Huber'),('Richmond'),('Moyer'),('Lim'),('Frye'),('Sheppard'),('Mccarty'),('Avalos'),('Booker'),('Waller'),('Parra'),('Woodward'),('Jaramillo'),('Krueger'),('Rasmussen'),('Brandt'),('Peralta');
-INSERT INTO tblSurnames (surname) VALUES ('Donaldson'),('Stuart'),('Faulkner'),('Maynard'),('Galindo'),('Coffey'),('Estes'),('Sanford'),('Burch'),('Maddox'),('Vo'),('Oconnell'),('Vu'),('S'),('S'),('Andersen'),('Spence'),('Mcpherson'),('Church'),('Schmitt'),('Stanton'),('Leal'),('Cherry'),('Compton'),('Dudley'),('Sierra'),('Pollard'),('Alfaro'),('Hester'),('Proctor'),('Lu'),('Hinton'),('Novak'),('Good'),('Madden'),('Mccann'),('Terrell'),('Jarvis'),('Dickson'),('Reyna'),('Cantrell'),('Mayo'),('Branch'),('Hendrix'),('Rollins'),('Rowland'),('Whitney'),('Duke'),('Odom');
-INSERT INTO tblProbabilities (probabilityName, probabilityValue) VALUES ('gender_female',0.50),('gender_male',0.49),('gender_non_binary',0.01),('age_10_14',0.15),('age_15_18',0.15),('age_19_24',0.20),('age_25_34',0.20),('age_35_54',0.20),('age_55_plus',0.10),('employment_employed',0.55),('employment_unemployed',0.15),('employment_student',0.20),('employment_homemaker',0.10),('education_none',0.10),('education_primary',0.25),('education_secondary',0.40),('education_higher',0.25),('marital_single',0.45),('marital_married',0.40),('marital_divorced',0.10),('marital_widowed',0.05),('consent_true',0.85),('consent_false',0.15),('area_urban',0.50),('area_suburban',0.30),('area_rural',0.20),('programme_planned',0.20),('programme_active',0.50),('programme_completed',0.25),('programme_cancelled',0.05),('focus_child_marriage',0.20),('focus_fgm',0.15),('focus_economic_empowerment',0.30),('focus_political_participation',0.15),('focus_anti_violence',0.20),('staff_active',0.90),('staff_inactive',0.10),('staff_role_coordinator',0.20),('staff_role_trainer',0.50),('staff_role_volunteer',0.30),('staff_gender_female',0.55),('staff_gender_male',0.40),('staff_gender_non_binary',0.05),('team_legal_reform',0.20),('team_education',0.25),('team_healthcare',0.20),('team_economic_empowerment',0.20),('team_anti_violence',0.15),('course_legal_rights',0.20),('course_health_education',0.20),('course_financial_literacy',0.25),('course_leadership',0.15),('course_digital_skills',0.20),('course_beginner',0.50),('course_intermediate',0.35),('course_advanced',0.15),('attendance_present',0.80),('attendance_absent',0.20),('enrolment_completed',0.70),('enrolment_dropped',0.15),('enrolment_active',0.15),('drop_financial',0.30),('drop_family',0.30),('drop_health',0.20),('drop_other',0.20),('pre_score_low',0.50);
-INSERT INTO tblProbabilities (probabilityName, probabilityValue) VALUES ('pre_score_medium',0.35),('pre_score_high',0.15),('post_score_low',0.20),('post_score_medium',0.40),('post_score_high',0.40),('certificate_true',0.75),('certificate_false',0.25),('funding_government',0.40),('funding_ngo',0.30),('funding_private',0.20),('funding_un',0.10);
+INSERT INTO tblSurnames (surname) VALUES ('Donaldson'),('Stuart'),('Faulkner'),('Maynard'),('Galindo'),('Coffey'),('Estes'),('Sanford'),('Burch'),('Maddox'),('Vo'),('Oconnell'),('Vu'),('Andersen'),('Spence'),('Mcpherson'),('Church'),('Schmitt'),('Stanton'),('Leal'),('Cherry'),('Compton'),('Dudley'),('Sierra'),('Pollard'),('Alfaro'),('Hester'),('Proctor'),('Lu'),('Hinton'),('Novak'),('Good'),('Madden'),('Mccann'),('Terrell'),('Jarvis'),('Dickson'),('Reyna'),('Cantrell'),('Mayo'),('Branch'),('Hendrix'),('Rollins'),('Rowland'),('Whitney'),('Duke'),('Odom');
+COMMIT;
+
+
+START TRANSACTION;
+
+-- =============================================================
+-- Deterministic Seeding Engine (config-driven, set-based)
+-- Uses tblNumbers + SET variables and arithmetic-only pseudo-random mapping.
+-- =============================================================
+
+-- =============================================================
+-- 1) tblNumbers population (safe, idempotent)
+-- Generates integers 1..100000 using set-based cross joins.
+-- =============================================================
+INSERT IGNORE INTO tblNumbers (n)
+SELECT a.N + b.N * 10 + c.N * 100 + d.N * 1000 + e.N * 10000 + 1
+FROM (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+CROSS JOIN (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+CROSS JOIN (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) c
+CROSS JOIN (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) d
+CROSS JOIN (SELECT 0 N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) e
+LIMIT 100000;
+
+
+-- =============================================================
+-- 2) Lookup tables seed (fixed values, idempotent)
+-- =============================================================
+INSERT IGNORE INTO tblGender (genderName)
+VALUES ('Female'), ('Male'), ('Non-binary'), ('Prefer not to say');
+
+INSERT IGNORE INTO tblAgeGroup (label)
+VALUES ('18-24'), ('25-34'), ('35-44'), ('45-54'), ('55+');
+
+INSERT IGNORE INTO tblEmploymentStatus (label)
+VALUES ('Unemployed'), ('Part-time'), ('Full-time'), ('Self-employed'), ('Student');
+
+INSERT IGNORE INTO tblEducationLevel (label)
+VALUES ('Primary'), ('Secondary'), ('Diploma'), ('Undergraduate'), ('Postgraduate');
+
+INSERT IGNORE INTO tblMaritalStatus (label)
+VALUES ('Single'), ('Married'), ('Divorced'), ('Widowed');
+
+INSERT IGNORE INTO tblOutcomeType (typeName)
+VALUES ('Knowledge Gain'), ('Employment Improvement'), ('Income Improvement'), ('Leadership Growth');
+
+INSERT IGNORE INTO tblProgrammeStatus (statusName)
+VALUES ('Planned'), ('Active'), ('Completed'), ('On Hold');
+
+INSERT IGNORE INTO tblTeamSpecialisation (name)
+VALUES ('Legal Reform'), ('Education'), ('Healthcare'), ('Economic Empowerment'), ('Anti-Violence');
+
+INSERT IGNORE INTO tblCourseSkillCategory (name)
+VALUES ('Legal Rights'), ('Health Education'), ('Financial Literacy'), ('Leadership'), ('Digital Skills');
+
+INSERT IGNORE INTO tblFundingSource (sourceName, sourceType, contactEmail, isActive)
+VALUES
+('UN Women Programme Fund', 'UN', 'funding@unwomen.org', 1),
+('Government Equality Grant', 'Government', 'grants@gov.example', 1),
+('Global NGO Coalition', 'NGO', 'contact@globalngo.org', 1),
+('Private Impact Partners', 'Private', 'hello@impactpartners.org', 1);
+
+
+-- =============================================================
+-- 3) Core entity seeds (deterministic, scalable)
+-- Mandatory pattern: INSERT INTO ... SELECT ... FROM tblNumbers n
+-- =============================================================
+
+-- Region rows reference existing static countries.
+INSERT INTO tblRegion (regionName, countryID, areaType, populationSize, createdAt)
+SELECT
+	CONCAT('Region_', n.n),
+	((n.n - 1) % (SELECT COUNT(*) FROM tblCountry)) + 1,
+	ELT(1 + (n.n % 3), 'Urban', 'Rural', 'Suburban'),
+	1000 + (((n.n * 9301 + 49297) % 233280) % 500000),
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= @seed_region;
+
+
+-- Required example implementation: Team.
+INSERT INTO tblTeam (teamName, specialisationID)
+SELECT
+	CONCAT('Team_', n.n),
+	(n.n % (SELECT COUNT(*) FROM tblTeamSpecialisation)) + 1
+FROM tblNumbers n
+WHERE n.n <= @seed_team;
+
+
+-- Required example implementation: Course.
+INSERT INTO tblCourse (courseName, categoryID, durationHours, difficultyLevel, createdAt)
+SELECT
+	CONCAT('Course_', n.n),
+	(n.n % (SELECT COUNT(*) FROM tblCourseSkillCategory)) + 1,
+	(n.n % 40) + 1,
+	ELT(1 + (n.n % 3), 'Beginner', 'Intermediate', 'Advanced'),
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= @seed_course;
+
+
+-- Beneficiary rows reuse static names/surnames pools (no generated name text).
+INSERT INTO tblBeneficiary (
+	firstName,
+	lastName,
+	genderID,
+	ageGroupID,
+	employmentStatusID,
+	educationLevelID,
+	maritalStatusID,
+	phone,
+	consentGiven,
+	regionID,
+	registrationDate,
+	createdAt
+)
+SELECT
+	fn.name,
+	sn.surname,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblGender)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblAgeGroup)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblEmploymentStatus)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblEducationLevel)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblMaritalStatus)) + 1,
+	CONCAT('+44', LPAD(((n.n * 9301 + 49297) % 233280), 9, '0')),
+	(n.n % 2),
+	((n.n - 1) % (SELECT COUNT(*) FROM tblRegion)) + 1,
+	DATE_SUB(CURRENT_DATE, INTERVAL (n.n % 3650) DAY),
+	NOW()
+FROM tblNumbers n
+JOIN tblNames fn
+  ON fn.nameID = ((n.n - 1) % (SELECT COUNT(*) FROM tblNames)) + 1
+JOIN tblSurnames sn
+  ON sn.surnameID = ((n.n - 1) % (SELECT COUNT(*) FROM tblSurnames)) + 1
+WHERE n.n <= @seed_beneficiary;
+
+
+-- Staff rows are deterministic and reference seeded Team/Region.
+INSERT INTO tblStaff (
+	firstName,
+	lastName,
+	email,
+	phone,
+	gender,
+	role,
+	certifiedDate,
+	isActive,
+	teamID,
+	regionID,
+	createdAt
+)
+SELECT
+	fn.name,
+	sn.surname,
+	CONCAT('staff', n.n, '@example.org'),
+	CONCAT('+44', LPAD(((n.n * 9301 + 49297) % 233280), 9, '0')),
+	ELT(1 + (n.n % 4), 'Female', 'Male', 'Non-binary', 'Prefer not to say'),
+	ELT(1 + (n.n % 3), 'Coordinator', 'Trainer', 'Volunteer'),
+	DATE_SUB(CURRENT_DATE, INTERVAL (n.n % 3000) DAY),
+	1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblTeam)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblRegion)) + 1,
+	NOW()
+FROM tblNumbers n
+JOIN tblNames fn
+  ON fn.nameID = ((n.n - 1) % (SELECT COUNT(*) FROM tblNames)) + 1
+JOIN tblSurnames sn
+  ON sn.surnameID = ((n.n - 1) % (SELECT COUNT(*) FROM tblSurnames)) + 1
+WHERE n.n <= @seed_staff;
+
+
+-- =============================================================
+-- 4) RELATIONSHIP SEEDING (deterministic, FK-safe)
+-- =============================================================
+
+-- tblProgramme: deterministic region/team mapping with valid FKs.
+INSERT INTO tblProgramme (
+	programmeName,
+	regionID,
+	teamID,
+	startDate,
+	endDate,
+	budget,
+	objectives,
+	statusID,
+	focusArea,
+	createdAt
+)
+SELECT
+	CONCAT('Programme_', n.n),
+	(n.n % (SELECT COUNT(*) FROM tblRegion)) + 1,
+	(n.n % (SELECT COUNT(*) FROM tblTeam)) + 1,
+	DATE_ADD('2020-01-01', INTERVAL (n.n % 1200) DAY),
+	CASE
+		WHEN (n.n % 5) = 0 THEN NULL
+		ELSE DATE_ADD(DATE_ADD('2020-01-01', INTERVAL (n.n % 1200) DAY), INTERVAL ((n.n % 240) + 30) DAY)
+	END,
+	((n.n * 9301 + 49297) % 233280) + 1000,
+	CONCAT('Objective_', n.n),
+	(n.n % (SELECT COUNT(*) FROM tblProgrammeStatus)) + 1,
+	ELT(1 + (n.n % 5), 'Child Marriage', 'FGM', 'Economic Empowerment', 'Political Participation', 'Anti-Violence'),
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= @seed_programme;
+
+
+-- tblProgrammeCourse (M:N): pair mapping is deterministic and unique by construction.
+INSERT INTO tblProgrammeCourse (programmeID, courseID, createdAt)
+SELECT
+	((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1,
+	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblProgramme)) % (SELECT COUNT(*) FROM tblCourse)) + 1,
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= LEAST(
+	@seed_programmecourse,
+	(SELECT COUNT(*) FROM tblProgramme) * (SELECT COUNT(*) FROM tblCourse)
+)
+AND (
+	(
+		((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1
+		+
+		(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblProgramme)) % (SELECT COUNT(*) FROM tblCourse)) + 1
+	) % 3 = 0
+);
+
+
+-- tblProgrammeFunding (M:N + attributes): unique PK guaranteed via startDate offset by n.
+INSERT INTO tblProgrammeFunding (
+	programmeID,
+	sourceID,
+	amount,
+	startDate,
+	endDate,
+	createdAt
+)
+SELECT
+	(n.n % (SELECT COUNT(*) FROM tblProgramme)) + 1,
+	(n.n % (SELECT COUNT(*) FROM tblFundingSource)) + 1,
+	((n.n % 10000) + 1000),
+	DATE_ADD('2020-01-01', INTERVAL n.n DAY),
+	CASE
+		WHEN (n.n % 4) = 0 THEN NULL
+		ELSE DATE_ADD(DATE_ADD('2020-01-01', INTERVAL n.n DAY), INTERVAL ((n.n % 180) + 30) DAY)
+	END,
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= @seed_programmefunding;
+
+
+-- tblEnrolment: unique (beneficiaryID, pcID) pairing with deterministic completion logic.
+INSERT INTO tblEnrolment (
+	beneficiaryID,
+	pcID,
+	enrolDate,
+	completionStatus,
+	dropReason,
+	preAssessmentScore,
+	postAssessmentScore,
+	certificateIssued,
+	createdAt
+)
+SELECT
+	((n.n - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
+	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblBeneficiary)) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
+	DATE_ADD('2022-01-01', INTERVAL (n.n % 730) DAY),
+	CASE
+		WHEN (n.n % 100) < 70 THEN 'Completed'
+		WHEN (n.n % 100) < 90 THEN 'Enrolled'
+		ELSE 'Dropped'
+	END,
+	CASE WHEN (n.n % 100) >= 90 THEN CONCAT('Reason_', n.n) ELSE NULL END,
+	(n.n * 7) % 101,
+	(n.n * 11) % 101,
+	CASE WHEN (n.n % 100) < 70 THEN 1 ELSE 0 END,
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= LEAST(
+	@seed_enrolment,
+	(SELECT COUNT(*) FROM tblBeneficiary) * (SELECT COUNT(*) FROM tblProgrammeCourse)
+);
+
+
+-- tblSession: deterministic schedule per valid programme-course relation.
+INSERT INTO tblSession (
+	pcID,
+	sessionDate,
+	venue,
+	durationMinutes,
+	notes,
+	createdAt
+)
+SELECT
+	(n.n % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
+	DATE_ADD('2022-01-01', INTERVAL (n.n % 365) DAY),
+	CONCAT('Venue_', n.n),
+	(n.n % 180) + 30,
+	CONCAT('Session_', n.n),
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= @seed_session;
+
+
+-- tblSessionStaff (M:N): unique (sessionID, staffID) pair mapping.
+INSERT INTO tblSessionStaff (
+	sessionID,
+	staffID,
+	roleInSession,
+	createdAt
+)
+SELECT
+	((n.n - 1) % (SELECT COUNT(*) FROM tblSession)) + 1,
+	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblSession)) % (SELECT COUNT(*) FROM tblStaff)) + 1,
+	ELT(1 + (((n.n - 1) % (SELECT COUNT(*) FROM tblSession)) % 4), 'Lead Trainer', 'Co-Trainer', 'Coordinator', 'Observer'),
+	NOW()
+FROM tblNumbers n
+WHERE n.n <= LEAST(
+	@seed_sessionstaff,
+	(SELECT COUNT(*) FROM tblSession) * (SELECT COUNT(*) FROM tblStaff)
+);
+
+
+-- tblAttendance seeding strategy:
+-- tblNumbers is used here as a sampling filter, not a row source.
+-- The JOIN condition hashes (enrolmentID, sessionID) into a number 1..233280,
+-- then WHERE n.n <= @seed_attendance keeps only rows whose hash falls
+-- within the configured sample size, producing a deterministic ~75% attendance rate
+-- without cursors or procedural logic.
+INSERT INTO tblAttendance (
+	enrolmentID,
+	sessionID,
+	attended,
+	createdAt
+)
+SELECT
+	e.enrolmentID,
+	s.sessionID,
+	(((e.enrolmentID * 13) + s.sessionID) % 100) < 75,
+	NOW()
+FROM tblEnrolment e
+JOIN tblSession s
+	ON s.pcID = e.pcID
+JOIN tblNumbers n
+	ON n.n = (((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1
+WHERE n.n <= @seed_attendance;
+
+
+-- tblOutcome: generated from valid enrolments to align beneficiary and programme-course context.
+INSERT INTO tblOutcome (
+	beneficiaryID,
+	pcID,
+	outcomeTypeID,
+	outcomeValue,
+	outcomeScore,
+	outcomeDate,
+	verified,
+	verificationSource,
+	notes
+)
+SELECT
+	e.beneficiaryID,
+	e.pcID,
+	((e.enrolmentID - 1) % (SELECT COUNT(*) FROM tblOutcomeType)) + 1,
+	CONCAT('Outcome_', e.enrolmentID),
+	((e.enrolmentID * 9301 + 49297) % 101),
+	DATE_ADD('2023-01-01', INTERVAL (e.enrolmentID % 365) DAY),
+	((e.enrolmentID % 100) < 60),
+	ELT(1 + (e.enrolmentID % 4), 'SelfReported', 'NGO', 'Government', 'ThirdParty'),
+	CONCAT('Outcome based on enrolment_', e.enrolmentID)
+FROM tblEnrolment e
+JOIN tblNumbers n
+	ON n.n = ((e.enrolmentID * 9301 + 49297) % 233280) + 1
+WHERE n.n <= @seed_outcome;
+
 COMMIT;
 
