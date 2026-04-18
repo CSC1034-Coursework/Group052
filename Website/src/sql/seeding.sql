@@ -112,7 +112,8 @@ SELECT
 		' ',
 		ELT(1 + ((n.n + 3) % 4), 'North', 'South', 'East', 'West'),
 		' ',
-		ELT(1 + ((n.n + 7) % 3), 'District', 'Province', 'Region')
+		ELT(1 + ((n.n + 7) % 3), 'District', 'Province', 'Region'),
+		' (ID-', LPAD(n.n, 3, '0'), ')'
 	),
 	((n.n - 1) % (SELECT COUNT(*) FROM tblCountry)) + 1,
 	ELT(1 + (n.n % 3), 'Urban', 'Rural', 'Suburban'),
@@ -136,7 +137,8 @@ SELECT
 			'Awareness', 'Protection', 'Engagement'
 		),
 		' Team ',
-		(n.n % 5) + 1
+		(n.n % 5) + 1,
+		'-', LPAD(n.n, 3, '0')
 	),
 	(n.n % (SELECT COUNT(*) FROM tblTeamSpecialisation)) + 1
 FROM tblNumbers n
@@ -167,7 +169,8 @@ SELECT
 		ELT(1 + ((n.n + 5) % 4), 'Spring', 'Summer', 'Autumn', 'Winter'),
 		' ',
 		(2020 + (n.n % 5)),
-		')'
+		')',
+		'-', LPAD(n.n, 3, '0')
 	),
 	(n.n % (SELECT COUNT(*) FROM tblCourseSkillCategory)) + 1,
 	(n.n % 40) + 1,
@@ -287,7 +290,8 @@ SELECT
 		' ',
 		(2020 + (n.n % 5)),
 		' Phase ',
-		(n.n % 3) + 1
+		(n.n % 3) + 1,
+		'-', LPAD(n.n, 4, '0')
 	),
 	(n.n % (SELECT COUNT(*) FROM tblRegion)) + 1,
 	(n.n % (SELECT COUNT(*) FROM tblTeam)) + 1,
