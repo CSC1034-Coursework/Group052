@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (headerPlaceholder) {
     requests.push(
-      fetch('../components/header.html')
+      fetch('../html/components/header.html')
         .then((response) => response.text())
         .then((html) => {
           headerPlaceholder.innerHTML = html;
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (footerPlaceholder) {
     requests.push(
-      fetch('../components/footer.html')
+      fetch('../html/components/footer.html')
         .then((response) => response.text())
         .then((html) => {
           footerPlaceholder.innerHTML = html;

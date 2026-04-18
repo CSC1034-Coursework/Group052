@@ -27,9 +27,6 @@ DROP TABLE IF EXISTS tblTeamSpecialisation;
 DROP TABLE IF EXISTS tblCourseSkillCategory;
 DROP TABLE IF EXISTS tblNames;
 DROP TABLE IF EXISTS tblSurnames;
-DROP TABLE IF EXISTS tblProbabilities;
-DROP TABLE IF EXISTS tblSeedHistory;
-DROP TABLE IF EXISTS tblSeedConfig;
 DROP TABLE IF EXISTS tblNumbers;
 
 
@@ -41,7 +38,7 @@ DROP TABLE IF EXISTS tblNumbers;
 --   tblCountry
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblCountry (
+CREATE TABLE IF NOT EXISTS tblCountry (
     countryID       INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     countryName     VARCHAR(100)     NOT NULL,
     CONSTRAINT pk_country            PRIMARY KEY (countryID),
@@ -53,7 +50,7 @@ CREATE TABLE tblCountry (
 --   tblGender
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblGender (
+CREATE TABLE IF NOT EXISTS tblGender (
     genderID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     genderName      VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_gender             PRIMARY KEY (genderID),
@@ -65,7 +62,7 @@ CREATE TABLE tblGender (
 --   tblAgeGroup
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblAgeGroup (
+CREATE TABLE IF NOT EXISTS tblAgeGroup (
     ageGroupID      INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     label           VARCHAR(20)      NOT NULL,
     CONSTRAINT pk_age_group          PRIMARY KEY (ageGroupID),
@@ -77,7 +74,7 @@ CREATE TABLE tblAgeGroup (
 --   tblEmploymentStatus
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblEmploymentStatus (
+CREATE TABLE IF NOT EXISTS tblEmploymentStatus (
     statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     label           VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_employment_status  PRIMARY KEY (statusID),
@@ -89,7 +86,7 @@ CREATE TABLE tblEmploymentStatus (
 --   tblEducationLevel
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblEducationLevel (
+CREATE TABLE IF NOT EXISTS tblEducationLevel (
     levelID         INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     label           VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_education_level    PRIMARY KEY (levelID),
@@ -101,7 +98,7 @@ CREATE TABLE tblEducationLevel (
 --   tblMaritalStatus
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblMaritalStatus (
+CREATE TABLE IF NOT EXISTS tblMaritalStatus (
     statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     label           VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_marital_status     PRIMARY KEY (statusID),
@@ -113,7 +110,7 @@ CREATE TABLE tblMaritalStatus (
 --   tblOutcomeType
 --   (written by Roman Kriuchkov)
 -- =============================================================    
-CREATE TABLE tblOutcomeType (
+CREATE TABLE IF NOT EXISTS tblOutcomeType (
     typeID          INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     typeName        VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_outcome_type       PRIMARY KEY (typeID),
@@ -125,7 +122,7 @@ CREATE TABLE tblOutcomeType (
 --   tblProgrammeStatus
 --   (written by Patrick Beattie)
 -- =============================================================
-CREATE TABLE tblProgrammeStatus (
+CREATE TABLE IF NOT EXISTS tblProgrammeStatus (
     statusID        INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     statusName      VARCHAR(50)      NOT NULL,
     CONSTRAINT pk_programme_status   PRIMARY KEY (statusID),
@@ -137,7 +134,7 @@ CREATE TABLE tblProgrammeStatus (
 --   tblTeamSpecialisation
 --   (written by Stephen Brown)
 -- =============================================================
-CREATE TABLE tblTeamSpecialisation (
+CREATE TABLE IF NOT EXISTS tblTeamSpecialisation (
     specialisationID INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     name             VARCHAR(100)     NOT NULL,
     CONSTRAINT pk_team_specialisation PRIMARY KEY (specialisationID),
@@ -149,7 +146,7 @@ CREATE TABLE tblTeamSpecialisation (
 --   tblCourseSkillCategory
 --   (written by Patrick Beattie)
 -- =============================================================
-CREATE TABLE tblCourseSkillCategory (
+CREATE TABLE IF NOT EXISTS tblCourseSkillCategory (
     categoryID       INT                UNSIGNED NOT NULL AUTO_INCREMENT,
     name             VARCHAR(100)       NOT NULL,
     CONSTRAINT pk_course_skill_category PRIMARY KEY (categoryID),
@@ -161,7 +158,7 @@ CREATE TABLE tblCourseSkillCategory (
 --   tblFundingSource
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblFundingSource (
+CREATE TABLE IF NOT EXISTS tblFundingSource (
     sourceID        INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     sourceName      VARCHAR(150)    NOT NULL,
     sourceType      ENUM('Government','NGO','Private','UN') NOT NULL,
@@ -180,7 +177,7 @@ CREATE TABLE tblFundingSource (
 --   tblNames
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblNames (
+CREATE TABLE IF NOT EXISTS tblNames (
     nameID     INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     name       VARCHAR(100)     NOT NULL,
     CONSTRAINT pk_name          PRIMARY KEY (nameID)
@@ -191,7 +188,7 @@ CREATE TABLE tblNames (
 --   tblSurnames
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblSurnames (
+CREATE TABLE IF NOT EXISTS tblSurnames (
     surnameID       INT              UNSIGNED NOT NULL AUTO_INCREMENT,
     surname         VARCHAR(100)     NOT NULL,
     CONSTRAINT pk_surname            PRIMARY KEY (surnameID)
@@ -199,31 +196,8 @@ CREATE TABLE tblSurnames (
 
 
 -- =============================================================
---   tblProbabilities
---   (written by Roman Kriuchkov)
--- =============================================================
-CREATE TABLE tblProbabilities (
-    probabilityID     INT              UNSIGNED NOT NULL AUTO_INCREMENT,
-    probabilityName   VARCHAR(50)      NOT NULL,
-    probabilityValue  DECIMAL(3,2)     NOT NULL,
-    CONSTRAINT pk_probability          PRIMARY KEY (probabilityID),
-    CONSTRAINT chk_probability_value   CHECK (probabilityValue >= 0)
-);
-
-
--- =============================================================
---   tblSeedConfig
---   (written by Roman Kriuchkov, seed lookup/support)
--- =============================================================
-CREATE TABLE IF NOT EXISTS tblSeedConfig (
-    entityName VARCHAR(64) PRIMARY KEY,
-    rowCount INT UNSIGNED NOT NULL
-);
-
-
--- =============================================================
 --   tblNumbers
---   (written by Roman Kriuchkov, seed lookup/support)
+--   (written by Roman Kriuchkov, seed support)
 -- =============================================================
 CREATE TABLE IF NOT EXISTS tblNumbers (
     n INT PRIMARY KEY
@@ -234,7 +208,7 @@ CREATE TABLE IF NOT EXISTS tblNumbers (
 --   tblRegion
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblRegion (
+CREATE TABLE IF NOT EXISTS tblRegion (
     regionID        INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     regionName      VARCHAR(100)    NOT NULL,
     countryID       INT             UNSIGNED NOT NULL,
@@ -253,7 +227,7 @@ CREATE TABLE tblRegion (
 --   tblBeneficiary
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblBeneficiary (
+CREATE TABLE IF NOT EXISTS tblBeneficiary (
     beneficiaryID       INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     firstName           VARCHAR(100)    NOT NULL,
     lastName            VARCHAR(100)    NOT NULL,
@@ -283,7 +257,7 @@ CREATE TABLE tblBeneficiary (
 --   tblTeam
 --   (written by Stephen Brown)
 -- =============================================================
-CREATE TABLE tblTeam (
+CREATE TABLE IF NOT EXISTS tblTeam (
     teamID          INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     teamName        VARCHAR(150)    NOT NULL,
     specialisationID INT            UNSIGNED NOT NULL,
@@ -300,7 +274,7 @@ CREATE TABLE tblTeam (
 --   tblStaff
 --   (written by Stephen Brown)
 -- =============================================================
-CREATE TABLE tblStaff (
+CREATE TABLE IF NOT EXISTS tblStaff (
     staffID         INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     firstName       VARCHAR(100)    NOT NULL,
     lastName        VARCHAR(100)    NOT NULL,
@@ -327,7 +301,7 @@ CREATE TABLE tblStaff (
 --   tblCourse
 --   (written by Patrick Beattie)
 -- =============================================================
-CREATE TABLE tblCourse (
+CREATE TABLE IF NOT EXISTS tblCourse (
     courseID        INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     courseName      VARCHAR(200)    NOT NULL,
     categoryID      INT             UNSIGNED NOT NULL,
@@ -348,7 +322,7 @@ CREATE TABLE tblCourse (
 --   tblProgramme
 --   (written by Patrick Beattie)
 -- =============================================================
-CREATE TABLE tblProgramme (
+CREATE TABLE IF NOT EXISTS tblProgramme (
     programmeID     INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     programmeName   VARCHAR(200)    NOT NULL,
     regionID        INT             UNSIGNED NOT NULL,
@@ -375,7 +349,7 @@ CREATE TABLE tblProgramme (
 --   tblProgrammeCourse  (Programme many-to-many Course)
 --   (written by Patrick Beattie)
 -- =============================================================
-CREATE TABLE tblProgrammeCourse (
+CREATE TABLE IF NOT EXISTS tblProgrammeCourse (
     pcID            INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     programmeID     INT             UNSIGNED NOT NULL,
     courseID        INT             UNSIGNED NOT NULL,
@@ -392,7 +366,7 @@ CREATE TABLE tblProgrammeCourse (
 --   tblProgrammeFunding (Programme many-to-many FundingSource)
 --   (written by Oliver Statham)
 -- =============================================================
-CREATE TABLE tblProgrammeFunding (
+CREATE TABLE IF NOT EXISTS tblProgrammeFunding (
     programmeID     INT             UNSIGNED NOT NULL,
     sourceID        INT             UNSIGNED NOT NULL,
     amount          DECIMAL(15,2)   UNSIGNED NOT NULL,
@@ -413,7 +387,7 @@ CREATE TABLE tblProgrammeFunding (
 --   tblSession
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblSession (
+CREATE TABLE IF NOT EXISTS tblSession (
     sessionID       INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     pcID            INT             UNSIGNED NOT NULL,
     sessionDate     DATE            NOT NULL,
@@ -433,7 +407,7 @@ CREATE TABLE tblSession (
 --   tblEnrolment
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblEnrolment (
+CREATE TABLE IF NOT EXISTS tblEnrolment (
     enrolmentID         INT             UNSIGNED NOT NULL AUTO_INCREMENT,
     beneficiaryID       INT             UNSIGNED NOT NULL,
     pcID                INT             UNSIGNED NOT NULL,
@@ -461,7 +435,7 @@ CREATE TABLE tblEnrolment (
 --   tblAttendance
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblAttendance (
+CREATE TABLE IF NOT EXISTS tblAttendance (
     enrolmentID     INT             UNSIGNED NOT NULL,
     sessionID       INT             UNSIGNED NOT NULL,
     attended        BOOLEAN         NOT NULL DEFAULT 0,
@@ -478,7 +452,7 @@ CREATE TABLE tblAttendance (
 --   tblOutcome
 --   (written by Roman Kriuchkov)
 -- =============================================================
-CREATE TABLE tblOutcome (
+CREATE TABLE IF NOT EXISTS tblOutcome (
     outcomeID          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     beneficiaryID      INT UNSIGNED NOT NULL,
     pcID               INT UNSIGNED NOT NULL,
@@ -501,7 +475,7 @@ CREATE TABLE tblOutcome (
 --   tblSessionStaff
 --   (written by Stephen Brown)
 -- =============================================================
-CREATE TABLE tblSessionStaff (
+CREATE TABLE IF NOT EXISTS tblSessionStaff (
     sessionID       INT             UNSIGNED NOT NULL,
     staffID         INT             UNSIGNED NOT NULL,
     roleInSession   ENUM('Lead Trainer','Co-Trainer','Coordinator','Observer') NOT NULL DEFAULT 'Lead Trainer',

@@ -103,7 +103,17 @@ VALUES
 -- Region rows reference existing static countries.
 INSERT INTO tblRegion (regionName, countryID, areaType, populationSize, createdAt)
 SELECT
-	CONCAT('Region_', n.n),
+	CONCAT(
+		ELT(1 + (n.n % 15),
+			'Nairobi', 'Kampala', 'Lagos', 'Accra', 'Dar es Salaam',
+			'Kigali', 'Lusaka', 'Harare', 'Addis Ababa', 'Dakar',
+			'Bamako', 'Conakry', 'Mogadishu', 'Lilongwe', 'Maputo'
+		),
+		' ',
+		ELT(1 + ((n.n + 3) % 4), 'North', 'South', 'East', 'West'),
+		' ',
+		ELT(1 + ((n.n + 7) % 3), 'District', 'Province', 'Region')
+	),
 	((n.n - 1) % (SELECT COUNT(*) FROM tblCountry)) + 1,
 	ELT(1 + (n.n % 3), 'Urban', 'Rural', 'Suburban'),
 	1000 + (((n.n * 9301 + 49297) % 233280) % 500000),
@@ -115,7 +125,19 @@ WHERE n.n <= @seed_region;
 -- Required example implementation: Team.
 INSERT INTO tblTeam (teamName, specialisationID)
 SELECT
-	CONCAT('Team_', n.n),
+	CONCAT(
+		ELT(1 + (n.n % 8),
+			'Advocacy', 'Outreach', 'Training', 'Support',
+			'Research', 'Community', 'Legal Aid', 'Health'
+		),
+		' & ',
+		ELT(1 + ((n.n + 4) % 6),
+			'Empowerment', 'Education', 'Development',
+			'Awareness', 'Protection', 'Engagement'
+		),
+		' Team ',
+		(n.n % 5) + 1
+	),
 	(n.n % (SELECT COUNT(*) FROM tblTeamSpecialisation)) + 1
 FROM tblNumbers n
 WHERE n.n <= @seed_team;
@@ -124,7 +146,29 @@ WHERE n.n <= @seed_team;
 -- Required example implementation: Course.
 INSERT INTO tblCourse (courseName, categoryID, durationHours, difficultyLevel, createdAt)
 SELECT
-	CONCAT('Course_', n.n),
+	CONCAT(
+		ELT(1 + (n.n % 10),
+			'Introduction to Legal Rights',
+			'Financial Literacy Fundamentals',
+			'Leadership Skills for Women',
+			'Digital Skills and Online Safety',
+			'Health and Reproductive Rights',
+			'Microfinance and Savings',
+			'Conflict Resolution Techniques',
+			'Civic Engagement and Voting Rights',
+			'Entrepreneurship Essentials',
+			'Gender-Based Violence Awareness'
+		),
+		': ',
+		ELT(1 + ((n.n + 2) % 4),
+			'Foundation', 'Core', 'Advanced', 'Masterclass'
+		),
+		' (',
+		ELT(1 + ((n.n + 5) % 4), 'Spring', 'Summer', 'Autumn', 'Winter'),
+		' ',
+		(2020 + (n.n % 5)),
+		')'
+	),
 	(n.n % (SELECT COUNT(*) FROM tblCourseSkillCategory)) + 1,
 	(n.n % 40) + 1,
 	ELT(1 + (n.n % 3), 'Beginner', 'Intermediate', 'Advanced'),
@@ -221,7 +265,30 @@ INSERT INTO tblProgramme (
 	createdAt
 )
 SELECT
-	CONCAT('Programme_', n.n),
+	CONCAT(
+		ELT(1 + (n.n % 10),
+			'Safe Futures Initiative',
+			'Women in Leadership',
+			'Economic Empowerment Project',
+			'Girls Education Drive',
+			'Anti-Violence Outreach',
+			'Legal Rights Awareness',
+			'Community Health Programme',
+			'Financial Independence Campaign',
+			'Political Participation Push',
+			'End FGM Coalition'
+		),
+		' - ',
+		ELT(1 + ((n.n + 2) % 15),
+			'Kenya', 'Uganda', 'Nigeria', 'Ghana', 'Tanzania',
+			'Rwanda', 'Zambia', 'Zimbabwe', 'Ethiopia', 'Senegal',
+			'Mali', 'Guinea', 'Malawi', 'Mozambique', 'Somalia'
+		),
+		' ',
+		(2020 + (n.n % 5)),
+		' Phase ',
+		(n.n % 3) + 1
+	),
 	(n.n % (SELECT COUNT(*) FROM tblRegion)) + 1,
 	(n.n % (SELECT COUNT(*) FROM tblTeam)) + 1,
 	DATE_ADD('2020-01-01', INTERVAL (n.n % 1200) DAY),
@@ -230,7 +297,14 @@ SELECT
 		ELSE DATE_ADD(DATE_ADD('2020-01-01', INTERVAL (n.n % 1200) DAY), INTERVAL ((n.n % 240) + 30) DAY)
 	END,
 	((n.n * 9301 + 49297) % 233280) + 1000,
-	CONCAT('Objective_', n.n),
+	ELT(1 + (n.n % 6),
+		'Increase awareness of legal rights among women in rural communities',
+		'Reduce incidence of gender-based violence through education and outreach',
+		'Improve economic independence through microfinance and skills training',
+		'Strengthen political participation and civic engagement among women',
+		'Eliminate harmful traditional practices through community-led advocacy',
+		'Improve access to healthcare and reproductive rights information'
+	),
 	(n.n % (SELECT COUNT(*) FROM tblProgrammeStatus)) + 1,
 	ELT(1 + (n.n % 5), 'Child Marriage', 'FGM', 'Economic Empowerment', 'Political Participation', 'Anti-Violence'),
 	NOW()
@@ -302,7 +376,14 @@ SELECT
 		WHEN (n.n % 100) < 90 THEN 'Enrolled'
 		ELSE 'Dropped'
 	END,
-	CASE WHEN (n.n % 100) >= 90 THEN CONCAT('Reason_', n.n) ELSE NULL END,
+	CASE WHEN (n.n % 100) >= 90 THEN ELT(1 + (n.n % 6),
+		'Relocated to another region',
+		'Personal or family circumstances',
+		'Health issues prevented attendance',
+		'Work or employment commitments',
+		'Childcare responsibilities',
+		'withdrew due to safety concerns'
+	) ELSE NULL END,
 	(n.n * 7) % 101,
 	(n.n * 11) % 101,
 	CASE WHEN (n.n % 100) < 70 THEN 1 ELSE 0 END,
@@ -326,9 +407,17 @@ INSERT INTO tblSession (
 SELECT
 	(n.n % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
 	DATE_ADD('2022-01-01', INTERVAL (n.n % 365) DAY),
-	CONCAT('Venue_', n.n),
+	CONCAT(
+		ELT(1 + (n.n % 8),
+			'Community Hall', 'District Office', 'Local School',
+			'Health Centre', 'Church Hall', 'NGO Field Office',
+			'Village Meeting Point', 'Women`s Centre'
+		),
+		' ',
+		(n.n % 20) + 1
+	),
 	(n.n % 180) + 30,
-	CONCAT('Session_', n.n),
+	NULL,
 	NOW()
 FROM tblNumbers n
 WHERE n.n <= @seed_session;
@@ -394,12 +483,24 @@ SELECT
 	e.beneficiaryID,
 	e.pcID,
 	((e.enrolmentID - 1) % (SELECT COUNT(*) FROM tblOutcomeType)) + 1,
-	CONCAT('Outcome_', e.enrolmentID),
+	CASE ((e.enrolmentID - 1) % 4) + 1
+		WHEN 1 THEN 'Improved understanding of legal rights and protections'
+		WHEN 2 THEN ELT(1 + (e.enrolmentID % 3),
+					'Gained full-time employment',
+					'Promoted at current job',
+					'Returned to workforce after absence')
+		WHEN 3 THEN ELT(1 + (e.enrolmentID % 2),
+					'Income increased by 10-25% within six months',
+					'Started an income-generating activity')
+		WHEN 4 THEN ELT(1 + (e.enrolmentID % 2),
+					'Joined a community leadership role',
+					'Completed certified leadership training')
+	END,
 	((e.enrolmentID * 9301 + 49297) % 101),
 	DATE_ADD('2023-01-01', INTERVAL (e.enrolmentID % 365) DAY),
 	((e.enrolmentID % 100) < 60),
 	ELT(1 + (e.enrolmentID % 4), 'SelfReported', 'NGO', 'Government', 'ThirdParty'),
-	CONCAT('Outcome based on enrolment_', e.enrolmentID)
+	NULL
 FROM tblEnrolment e
 JOIN tblNumbers n
 	ON n.n = ((e.enrolmentID * 9301 + 49297) % 233280) + 1
