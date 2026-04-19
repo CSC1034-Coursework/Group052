@@ -500,7 +500,7 @@ CREATE TABLE IF NOT EXISTS tblSessionStaff (
 -- tblBeneficiary: filters often combine region + demographics
 -- --------------------------
 CREATE INDEX idx_ben_region  ON tblBeneficiary (regionID);
-CREATE INDEX idx_ben_filters ON tblBeneficiary (regionID, gender, ageGroup);
+CREATE INDEX idx_ben_filters ON tblBeneficiary (regionID, genderID, ageGroupID);
 
 
 -- --------------------------
@@ -510,7 +510,7 @@ CREATE INDEX idx_ben_filters ON tblBeneficiary (regionID, gender, ageGroup);
 -- --------------------------
 CREATE INDEX idx_prog_region       ON tblProgramme (regionID);
 CREATE INDEX idx_prog_team         ON tblProgramme (teamID);
-CREATE INDEX idx_prog_status_focus ON tblProgramme (status, focusArea);
+CREATE INDEX idx_prog_status_focus ON tblProgramme (statusID, focusArea);
 CREATE INDEX idx_pc_course         ON tblProgrammeCourse (courseID);
 
 
@@ -568,9 +568,3 @@ CREATE INDEX idx_pf_dates     ON tblProgrammeFunding (startDate, endDate);
 --   WRITTEN BY ROMAN KRIUCHKOV
 -- =============================================================
 
-
-
-
--- =============================================================
---   Scripts for  data generation
--- =============================================================

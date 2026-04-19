@@ -1,19 +1,49 @@
 -- =============================================================
+-- Test Data Generation Script
+--
+--   All data is generated arithmetically using tblNumbers — a helper
+--   table containing integers 1..100000. By joining tblNumbers and
+--   applying modulo arithmetic, we produce consistent, repeatable
+--   rows without cursors, loops, or procedural logic. tblAttendance 
+--   does not use tblNumbers as a row source. Instead it hashes (enrolmentID, sessionID) 
+--   into a number and uses WHERE n.n <= @seed_attendance as a sampling filter,
+--   producing a deterministic ~75% attendance rate across all sessions.
+--
+-- AUTHORS:
+--   Oliver Statham  — tblCountry, tblRegion, tblBeneficiary,
+--                     tblProgrammeFunding lookup data
+--   Patrick Beattie — tblCourse, tblProgramme, tblProgrammeCourse,
+--                     tblProgrammeStatus, tblCourseSkillCategory
+--   Stephen Brown   — tblTeam, tblStaff, tblSessionStaff,
+--                     tblTeamSpecialisation
+--   Roman Kriuchkov — tblSession, tblEnrolment, tblAttendance,
+--                     tblOutcome, tblFundingSource, tblOutcomeType,
+--                     tblNames, tblSurnames, tblNumbers seed logic
+--
 -- Seed row-count configuration
 -- =============================================================
-SET @seed_region = 60;
-SET @seed_team = 40;
-SET @seed_course = 80;
-SET @seed_beneficiary = 1200;
-SET @seed_staff = 200;
-SET @seed_programme = 120;
-SET @seed_programmecourse = 260;
-SET @seed_programmefunding = 300;
-SET @seed_session = 2000;
-SET @seed_enrolment = 6000;
-SET @seed_attendance = 30000;
-SET @seed_outcome = 3500;
-SET @seed_sessionstaff = 2400;
+SET @seed_region            = 60;
+SET @seed_team              = 40;
+SET @seed_course            = 80;
+SET @seed_beneficiary       = 1200;
+SET @seed_staff             = 200;
+SET @seed_programme         = 120;
+-- ~2 courses per programme
+SET @seed_programmecourse   = @seed_programme * 2;
+-- ~2 funding records per programme
+SET @seed_programmefunding  = @seed_programme * 2;
+-- ~7 sessions per programme-course link
+SET @seed_session           = @seed_programmecourse * 7;
+-- ~20 enrolments per programme-course link
+SET @seed_enrolment         = @seed_programmecourse * 20;
+-- ~75% attendance rate across enrolments x sessions
+SET @seed_attendance        = @seed_enrolment * 4;
+-- ~60% of enrolments receive an outcome record
+SET @seed_outcome           = @seed_enrolment * 0.6;
+-- Lead Trainer + Coordinator always, Co-Trainer 50%, Observer 20% = ~2.7 staff per session
+SET @seed_sessionstaff = FLOOR(@seed_session * 2.7);
+
+
 
 START TRANSACTION;
 INSERT INTO tblCountry (countryName) VALUES ('Afghanistan'),('Albania'),('Algeria'),('American Samoa'),('Andorra'),('Angola'),('Anguilla'),('Antarctica'),('Antigua and Barbuda'),('Argentina'),('Armenia'),('Aruba'),('Australia'),('Austria'),('Azerbaidjan'),('Bahamas'),('Bahrain'),('Bangladesh'),('Barbados'),('Belarus'),('Belgium'),('Belize'),('Benin'),('Bermuda'),('Bhutan'),('Bolivia'),('Bosnia-Herzegovina'),('Botswana'),('Bouvet Island'),('Brazil'),('British Indian Ocean Territory'),('Brunei Darussalam'),('Bulgaria'),('Burkina Faso'),('Burundi'),('Cambodia'),('Cameroon'),('Canada'),('Cape Verde'),('Cayman Islands'),('Central African Republic'),('Chad'),('Chile'),('China'),('Christmas Island'),('Cocos (Keeling) Islands'),('Colombia'),('Comoros'),('Congo'),('Cook Islands'),('Costa Rica'),('Croatia'),('Cuba'),('Cyprus'),('Czech Republic'),('Denmark'),('Djibouti'),('Dominica'),('Dominican Republic'),('East Timor'),('Ecuador'),('Egypt'),('El Salvador'),('Equatorial Guinea'),('Eritrea'),('Estonia'),('Ethiopia'),('Falkland Islands'),('Faroe Islands'),('Fiji'),('Finland'),('France'),('France (European Territory)'),('French Guyana'),('French Southern Territories'),('Gabon'),('Gambia'),('Georgia'),('Germany'),('Ghana'),('Gibraltar'),('Great Britain'),('Greece'),('Greenland'),('Grenada'),('Guadeloupe (French)'),('Guam (USA)'),('Guatemala'),('Guinea'),('Guinea Bissau'),('Guyana'),('Haiti'),('Heard and McDonald Islands'),('Honduras'),('Hong Kong'),('Hungary'),('Iceland'),('India'),('Indonesia'),('Iran'),('Iraq'),('Ireland'),('Israel'),('Italy'),('Ivory Coast (Cote D`Ivoire)'),('Jamaica'),('Japan'),('Jordan'),('Kazakhstan'),('Kenya'),('Kiribati'),('Kuwait'),('Kyrgyzstan'),('Laos'),('Latvia'),('Lebanon'),('Lesotho'),('Liberia'),('Libya'),('Liechtenstein'),('Lithuania'),('Luxembourg');
@@ -33,18 +63,10 @@ INSERT INTO tblSurnames (surname) VALUES ('Gallagher'),('Farmer'),('Hammond'),('
 INSERT INTO tblSurnames (surname) VALUES ('Bridges'),('Bruce'),('Atkinson'),('Velez'),('Meza'),('Roy'),('Vincent'),('York'),('Hodge'),('Villa'),('Abbott'),('Allison'),('Tapia'),('Gates'),('Chase'),('Sosa'),('Sweeney'),('Farrell'),('Wyatt'),('Dalton'),('Horn'),('Barron'),('Phelps'),('Yu'),('Dickerson'),('Heath'),('Foley'),('Atkins'),('Mathews'),('Bonilla'),('Acevedo'),('Benitez'),('Zavala'),('Hensley'),('Glenn'),('Cisneros'),('Harrell'),('Shields'),('Rubio'),('Choi'),('Huffman'),('Boyer'),('Garrison'),('Arroyo'),('Bond'),('Kane'),('Hancock'),('Callahan'),('Dillon'),('Cline'),('Wiggins'),('Grimes'),('Arellano'),('Melton'),('Oneill'),('Savage'),('Ho'),('Beltran'),('Pitts'),('Parrish'),('Ponce'),('Rich'),('Booth'),('Koch'),('Golden'),('Ware'),('Brennan'),('Mcdowell'),('Marks'),('Cantu'),('Humphrey'),('Baxter'),('Sawyer'),('Clay'),('Tanner'),('Hutchinson'),('Kaur'),('Berg'),('Wiley'),('Gilmore'),('Russo'),('Villegas'),('Hobbs'),('Keith'),('Wilkerson'),('Ahmed'),('Beard'),('Mcclain'),('Montes'),('Mata'),('Rosario'),('Vang'),('Walter'),('Henson'),('Oneal'),('Mosley'),('Mcclure'),('Beasley'),('Stephenson'),('Snow'),('Huerta'),('Preston'),('Vance'),('Barry'),('Johns'),('Eaton'),('Blackwell'),('Dyer'),('Prince'),('Macdonald'),('Solomon'),('Guevara'),('Stafford'),('English'),('Hurst'),('Woodard'),('Cortes'),('Shannon'),('Kemp'),('Nolan'),('Mccullough'),('Merritt'),('Murillo'),('Moon'),('Salgado'),('Strong'),('Kline'),('Cordova'),('Barajas'),('Roach'),('Rosas'),('Winters'),('Jacobson'),('Lester'),('Knox'),('Bullock'),('Kerr'),('Leach'),('Meadows'),('Davila'),('Orr'),('Whitehead'),('Pruitt'),('Kent'),('Conway'),('Mckee'),('Barr'),('David'),('Dejesus'),('Marin'),('Berger'),('Mcintyre'),('Blankenship'),('Gaines'),('Palacios'),('Cuevas'),('Bartlett'),('Durham'),('Dorsey');
 INSERT INTO tblSurnames (surname) VALUES ('Mccall'),('Odonnell'),('Stein'),('Browning'),('Stout'),('Lowery'),('Sloan'),('Mclean'),('Hendricks'),('Calhoun'),('Sexton'),('Chung'),('Gentry'),('Hull'),('Duarte'),('Ellison'),('Nielsen'),('Gillespie'),('Buck'),('Middleton'),('Sellers'),('Leblanc'),('Esparza'),('Hardin'),('Bradshaw'),('Mcintosh'),('Howe'),('Livingston'),('Frost'),('Glass'),('Morse'),('Knapp'),('Herman'),('Stark'),('Bravo'),('Noble'),('Spears'),('Weeks'),('Corona'),('Frederick'),('Buckley'),('Mcfarland'),('Hebert'),('Enriquez'),('Hickman'),('Quintero'),('Randolph'),('Schaefer'),('Walls'),('Trejo'),('House'),('Reilly'),('Pennington'),('Michael'),('Conrad'),('Giles'),('Benjamin'),('Crosby'),('Fitzpatrick'),('Donovan'),('Mays'),('Mahoney'),('Valentine'),('Raymond'),('Medrano'),('Hahn'),('Mcmillan'),('Small'),('Bentley'),('Felix'),('Peck'),('Lucero'),('Boyle'),('Hanna'),('Pace'),('Rush'),('Hurley'),('Harding'),('Mcconnell'),('Bernal'),('Nava'),('Ayers'),('Everett'),('Ventura'),('Avery'),('Pugh'),('Mayer'),('Bender'),('Shepard'),('Mcmahon'),('Landry'),('Case'),('Sampson'),('Moses'),('Magana'),('Blackburn'),('Dunlap'),('Gould'),('Duffy'),('Vaughan'),('Herring'),('Mckay'),('Espinosa'),('Rivers'),('Farley'),('Bernard'),('Ashley'),('Friedman'),('Potts'),('Truong'),('Costa'),('Correa'),('Blevins'),('Nixon'),('Clements'),('Fry'),('Delarosa'),('Best'),('Benton'),('Lugo'),('Portillo'),('Dougherty'),('Crane'),('Haley'),('Phan'),('Villalobos'),('Blanchard'),('Horne'),('Finley'),('Quintana'),('Lynn'),('Esquivel'),('Bean'),('Dodson'),('Mullen'),('Xiong'),('Hayden'),('Cano'),('Levy'),('Huber'),('Richmond'),('Moyer'),('Lim'),('Frye'),('Sheppard'),('Mccarty'),('Avalos'),('Booker'),('Waller'),('Parra'),('Woodward'),('Jaramillo'),('Krueger'),('Rasmussen'),('Brandt'),('Peralta');
 INSERT INTO tblSurnames (surname) VALUES ('Donaldson'),('Stuart'),('Faulkner'),('Maynard'),('Galindo'),('Coffey'),('Estes'),('Sanford'),('Burch'),('Maddox'),('Vo'),('Oconnell'),('Vu'),('Andersen'),('Spence'),('Mcpherson'),('Church'),('Schmitt'),('Stanton'),('Leal'),('Cherry'),('Compton'),('Dudley'),('Sierra'),('Pollard'),('Alfaro'),('Hester'),('Proctor'),('Lu'),('Hinton'),('Novak'),('Good'),('Madden'),('Mccann'),('Terrell'),('Jarvis'),('Dickson'),('Reyna'),('Cantrell'),('Mayo'),('Branch'),('Hendrix'),('Rollins'),('Rowland'),('Whitney'),('Duke'),('Odom');
-COMMIT;
 
-
-START TRANSACTION;
 
 -- =============================================================
--- Deterministic Seeding Engine (config-driven, set-based)
--- Uses tblNumbers + SET variables and arithmetic-only pseudo-random mapping.
--- =============================================================
-
--- =============================================================
--- 1) tblNumbers population (safe, idempotent)
+-- tblNumbers population (safe, idempotent)
 -- Generates integers 1..100000 using set-based cross joins.
 -- =============================================================
 INSERT IGNORE INTO tblNumbers (n)
@@ -58,7 +80,7 @@ LIMIT 100000;
 
 
 -- =============================================================
--- 2) Lookup tables seed (fixed values, idempotent)
+-- Lookup tables seed (fixed values, idempotent)
 -- =============================================================
 INSERT IGNORE INTO tblGender (genderName)
 VALUES ('Female'), ('Male'), ('Non-binary'), ('Prefer not to say');
@@ -89,18 +111,18 @@ VALUES ('Legal Rights'), ('Health Education'), ('Financial Literacy'), ('Leaders
 
 INSERT IGNORE INTO tblFundingSource (sourceName, sourceType, contactEmail, isActive)
 VALUES
-('UN Women Programme Fund', 'UN', 'funding@unwomen.org', 1),
-('Government Equality Grant', 'Government', 'grants@gov.example', 1),
-('Global NGO Coalition', 'NGO', 'contact@globalngo.org', 1),
-('Private Impact Partners', 'Private', 'hello@impactpartners.org', 1);
+('UN Women Programme Fund', 'UN', 'funding@unwomen.com', 1),
+('Government Equality Grant', 'Government', 'grants@gov.com', 1),
+('Global NGO Coalition', 'NGO', 'contact@globalngo.com', 1),
+('Private Impact Partners', 'Private', 'hello@impactpartners.com', 1);
+
+COMMIT; -- changed: commit all lookup/reference seeds before dependent entity inserts to enforce transaction ordering safety
+START TRANSACTION; -- changed: start transaction 2 for entity/junction inserts that depend on committed parent rows
 
 
 -- =============================================================
--- 3) Core entity seeds (deterministic, scalable)
--- Mandatory pattern: INSERT INTO ... SELECT ... FROM tblNumbers n
+-- Core entity seeds
 -- =============================================================
-
--- Region rows reference existing static countries.
 INSERT INTO tblRegion (regionName, countryID, areaType, populationSize, createdAt)
 SELECT
 	CONCAT(
@@ -111,17 +133,27 @@ SELECT
 		),
 		' ',
 		ELT(1 + ((n.n + 3) % 4), 'North', 'South', 'East', 'West'),
-		' District'
+		' ',
+		ELT(1 + ((n.n + 7) % 3), 'District', 'Province', 'Region'),
+		' (ID-', LPAD(n.n, 3, '0'), ')'
 	),
-	((n.n - 1) % (SELECT COUNT(*) FROM tblCountry)) + 1,
+	c.countryID,
 	ELT(1 + (n.n % 3), 'Urban', 'Rural', 'Suburban'),
 	1000 + (((n.n * 9301 + 49297) % 233280) % 500000),
 	NOW()
 FROM tblNumbers n
+JOIN (
+	SELECT countryID,
+	       ROW_NUMBER() OVER () AS rn
+	FROM tblCountry
+) c
+	ON c.rn = ((n.n - 1) % (SELECT COUNT(*) FROM tblCountry)) + 1
 WHERE n.n <= @seed_region;
 
 
--- Required example implementation: Team.
+-- =============================================================
+-- tblTeam
+-- =============================================================
 INSERT INTO tblTeam (teamName, specialisationID)
 SELECT
 	CONCAT(
@@ -129,15 +161,29 @@ SELECT
 			'Advocacy', 'Outreach', 'Training', 'Support',
 			'Research', 'Community', 'Legal Aid', 'Health'
 		),
+		' & ',
+		ELT(1 + ((n.n + 4) % 6),
+			'Empowerment', 'Education', 'Development',
+			'Awareness', 'Protection', 'Engagement'
+		),
 		' Team ',
-		(n.n % 5) + 1
+		(n.n % 5) + 1,
+		'-', LPAD(n.n, 3, '0')
 	),
-	(n.n % (SELECT COUNT(*) FROM tblTeamSpecialisation)) + 1
+	ts.specialisationID
 FROM tblNumbers n
+JOIN (
+	SELECT specialisationID,
+	       ROW_NUMBER() OVER () AS rn
+	FROM tblTeamSpecialisation
+) ts
+	ON ts.rn = ((n.n - 1) % (SELECT COUNT(*) FROM tblTeamSpecialisation)) + 1
 WHERE n.n <= @seed_team;
 
 
--- Required example implementation: Course.
+-- =============================================================
+-- tblCourse
+-- =============================================================
 INSERT INTO tblCourse (courseName, categoryID, durationHours, difficultyLevel, createdAt)
 SELECT
 	CONCAT(
@@ -153,10 +199,18 @@ SELECT
 			'Entrepreneurship Essentials',
 			'Gender-Based Violence Awareness'
 		),
-		' - ',
-		ELT(1 + (n.n % 3), 'Beginner', 'Intermediate', 'Advanced')
+		': ',
+		ELT(1 + ((n.n + 2) % 4),
+			'Foundation', 'Core', 'Advanced', 'Masterclass'
+		),
+		' (',
+		ELT(1 + ((n.n + 5) % 4), 'Spring', 'Summer', 'Autumn', 'Winter'),
+		' ',
+		(2020 + (n.n % 5)),
+		')',
+		'-', LPAD(n.n, 3, '0')
 	),
-	(n.n % (SELECT COUNT(*) FROM tblCourseSkillCategory)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblCourseSkillCategory)) + 1, -- changed: use (n.n - 1) modulo form to guarantee FK ID range starts at 1
 	(n.n % 40) + 1,
 	ELT(1 + (n.n % 3), 'Beginner', 'Intermediate', 'Advanced'),
 	NOW()
@@ -164,7 +218,9 @@ FROM tblNumbers n
 WHERE n.n <= @seed_course;
 
 
--- Beneficiary rows reuse static names/surnames pools (no generated name text).
+-- =============================================================
+-- tblBeneficiary
+-- =============================================================
 INSERT INTO tblBeneficiary (
 	firstName,
 	lastName,
@@ -200,7 +256,9 @@ JOIN tblSurnames sn
 WHERE n.n <= @seed_beneficiary;
 
 
--- Staff rows are deterministic and reference seeded Team/Region.
+-- =============================================================
+-- tblStaff
+-- =============================================================
 INSERT INTO tblStaff (
 	firstName,
 	lastName,
@@ -217,7 +275,7 @@ INSERT INTO tblStaff (
 SELECT
 	fn.name,
 	sn.surname,
-	CONCAT('staff', n.n, '@example.org'),
+	CONCAT('staff', n.n, '@example.com'),
 	CONCAT('+44', LPAD(((n.n * 9301 + 49297) % 233280), 9, '0')),
 	ELT(1 + (n.n % 4), 'Female', 'Male', 'Non-binary', 'Prefer not to say'),
 	ELT(1 + (n.n % 3), 'Coordinator', 'Trainer', 'Volunteer'),
@@ -235,10 +293,8 @@ WHERE n.n <= @seed_staff;
 
 
 -- =============================================================
--- 4) RELATIONSHIP SEEDING (deterministic, FK-safe)
+-- tblProgramme
 -- =============================================================
-
--- tblProgramme: deterministic region/team mapping with valid FKs.
 INSERT INTO tblProgramme (
 	programmeName,
 	regionID,
@@ -268,14 +324,18 @@ SELECT
 		' - ',
 		ELT(1 + ((n.n + 2) % 15),
 			'Kenya', 'Uganda', 'Nigeria', 'Ghana', 'Tanzania',
+
 			'Rwanda', 'Zambia', 'Zimbabwe', 'Ethiopia', 'Senegal',
 			'Mali', 'Guinea', 'Malawi', 'Mozambique', 'Somalia'
 		),
 		' ',
-		(2020 + (n.n % 5))
+		(2020 + (n.n % 5)),
+		' Phase ',
+		(n.n % 3) + 1,
+		'-', LPAD(n.n, 4, '0')
 	),
-	(n.n % (SELECT COUNT(*) FROM tblRegion)) + 1,
-	(n.n % (SELECT COUNT(*) FROM tblTeam)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblRegion)) + 1, -- changed: avoid zero-offset modulo edge and keep FK values strictly within [1..COUNT]
+	((n.n - 1) % (SELECT COUNT(*) FROM tblTeam)) + 1, -- changed: avoid zero-offset modulo edge and keep FK values strictly within [1..COUNT]
 	DATE_ADD('2020-01-01', INTERVAL (n.n % 1200) DAY),
 	CASE
 		WHEN (n.n % 5) = 0 THEN NULL
@@ -290,35 +350,37 @@ SELECT
 		'Eliminate harmful traditional practices through community-led advocacy',
 		'Improve access to healthcare and reproductive rights information'
 	),
-	(n.n % (SELECT COUNT(*) FROM tblProgrammeStatus)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblProgrammeStatus)) + 1, -- changed: use safe modulo mapping so status FK always resolves to an existing row
 	ELT(1 + (n.n % 5), 'Child Marriage', 'FGM', 'Economic Empowerment', 'Political Participation', 'Anti-Violence'),
 	NOW()
 FROM tblNumbers n
 WHERE n.n <= @seed_programme;
 
 
--- tblProgrammeCourse (M:N): pair mapping is deterministic and unique by construction.
+-- =============================================================
+-- tblProgrammeCourse
+-- =============================================================
 INSERT INTO tblProgrammeCourse (programmeID, courseID, createdAt)
 SELECT
-	((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1,
-	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblProgramme)) % (SELECT COUNT(*) FROM tblCourse)) + 1,
+	pairs.programmeID,
+	pairs.courseID,
 	NOW()
-FROM tblNumbers n
-WHERE n.n <= LEAST(
-	@seed_programmecourse,
-	(SELECT COUNT(*) FROM tblProgramme) * (SELECT COUNT(*) FROM tblCourse)
-)
-AND (
-	(
-		((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1
-		+
-		(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblProgramme)) % (SELECT COUNT(*) FROM tblCourse)) + 1
-	) % 3 = 0
-);
+FROM (
+	SELECT
+		p.programmeID,
+		c.courseID,
+		ROW_NUMBER() OVER (ORDER BY p.programmeID, c.courseID) AS rn
+	FROM tblProgramme p
+	CROSS JOIN tblCourse c
+	WHERE ((p.programmeID + c.courseID) % 3) = 0
+) pairs
+WHERE pairs.rn <= @seed_programmecourse; -- changed: row_number slice over explicit programme-course pairs guarantees uniqueness under UNIQUE(programmeID,courseID)
 
 
--- tblProgrammeFunding (M:N + attributes): unique PK guaranteed via startDate offset by n.
-INSERT INTO tblProgrammeFunding (
+-- =============================================================
+-- tblProgrammeFunding
+-- =============================================================
+INSERT IGNORE INTO tblProgrammeFunding (
 	programmeID,
 	sourceID,
 	amount,
@@ -327,8 +389,8 @@ INSERT INTO tblProgrammeFunding (
 	createdAt
 )
 SELECT
-	(n.n % (SELECT COUNT(*) FROM tblProgramme)) + 1,
-	(n.n % (SELECT COUNT(*) FROM tblFundingSource)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1, -- changed: safe modulo mapping for FK range correctness
+	((n.n - 1) % (SELECT COUNT(*) FROM tblFundingSource)) + 1, -- changed: safe modulo mapping for FK range correctness
 	((n.n % 10000) + 1000),
 	DATE_ADD('2020-01-01', INTERVAL n.n DAY),
 	CASE
@@ -337,10 +399,12 @@ SELECT
 	END,
 	NOW()
 FROM tblNumbers n
-WHERE n.n <= @seed_programmefunding;
+WHERE n.n <= @seed_programmefunding; -- changed: INSERT IGNORE prevents rare composite PK collisions on (programmeID, sourceID, startDate)
 
 
--- tblEnrolment: unique (beneficiaryID, pcID) pairing with deterministic completion logic.
+-- =============================================================
+-- tblEnrolment
+-- =============================================================
 INSERT INTO tblEnrolment (
 	beneficiaryID,
 	pcID,
@@ -380,7 +444,10 @@ WHERE n.n <= LEAST(
 );
 
 
--- tblSession: deterministic schedule per valid programme-course relation.
+
+-- =============================================================
+-- tblSession
+-- =============================================================
 INSERT INTO tblSession (
 	pcID,
 	sessionDate,
@@ -390,7 +457,7 @@ INSERT INTO tblSession (
 	createdAt
 )
 SELECT
-	(n.n % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1, -- changed: safe modulo mapping to prevent zero-offset FK generation
 	DATE_ADD('2022-01-01', INTERVAL (n.n % 365) DAY),
 	CONCAT(
 		ELT(1 + (n.n % 8),
@@ -408,31 +475,39 @@ FROM tblNumbers n
 WHERE n.n <= @seed_session;
 
 
--- tblSessionStaff (M:N): unique (sessionID, staffID) pair mapping.
-INSERT INTO tblSessionStaff (
-	sessionID,
-	staffID,
-	roleInSession,
-	createdAt
-)
-SELECT
-	((n.n - 1) % (SELECT COUNT(*) FROM tblSession)) + 1,
-	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblSession)) % (SELECT COUNT(*) FROM tblStaff)) + 1,
-	ELT(1 + (((n.n - 1) % (SELECT COUNT(*) FROM tblSession)) % 4), 'Lead Trainer', 'Co-Trainer', 'Coordinator', 'Observer'),
-	NOW()
-FROM tblNumbers n
-WHERE n.n <= LEAST(
-	@seed_sessionstaff,
-	(SELECT COUNT(*) FROM tblSession) * (SELECT COUNT(*) FROM tblStaff)
+-- =============================================================
+-- tblSessionStaff
+-- =============================================================
+SET @sql = CONCAT(
+	'INSERT IGNORE INTO tblSessionStaff (sessionID, staffID, roleInSession, createdAt) ',
+	'SELECT s.sessionID, ',
+	'CASE ro.offs ',
+	'WHEN 1 THEN (s.sessionID * 7  % (SELECT COUNT(*) FROM tblStaff)) + 1 ',
+	'WHEN 2 THEN (s.sessionID * 13 % (SELECT COUNT(*) FROM tblStaff)) + 1 ',
+	'WHEN 3 THEN (s.sessionID * 19 % (SELECT COUNT(*) FROM tblStaff)) + 1 ',
+	'WHEN 4 THEN (s.sessionID * 23 % (SELECT COUNT(*) FROM tblStaff)) + 1 ',
+	'END AS staffID, ',
+	'ro.roleName, NOW() ',
+	'FROM tblSession s ',
+	'CROSS JOIN ( ',
+	'SELECT 1 AS offs, ''Lead Trainer'' AS roleName UNION ALL ',
+	'SELECT 2, ''Coordinator'' UNION ALL ',
+	'SELECT 3, ''Co-Trainer'' UNION ALL ',
+	'SELECT 4, ''Observer'' ',
+	') ro ',
+	'WHERE ro.offs <= 2 ',
+	'OR (ro.offs = 3 AND s.sessionID % 2 = 0) ',
+	'OR (ro.offs = 4 AND s.sessionID % 5 = 0) ',
+	'LIMIT ', @seed_sessionstaff
 );
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
 
 
--- tblAttendance seeding strategy:
--- tblNumbers is used here as a sampling filter, not a row source.
--- The JOIN condition hashes (enrolmentID, sessionID) into a number 1..233280,
--- then WHERE n.n <= @seed_attendance keeps only rows whose hash falls
--- within the configured sample size, producing a deterministic ~75% attendance rate
--- without cursors or procedural logic.
+-- =============================================================
+-- tblAttendance
+-- =============================================================
 INSERT INTO tblAttendance (
 	enrolmentID,
 	sessionID,
@@ -447,12 +522,12 @@ SELECT
 FROM tblEnrolment e
 JOIN tblSession s
 	ON s.pcID = e.pcID
-JOIN tblNumbers n
-	ON n.n = (((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1
-WHERE n.n <= @seed_attendance;
+WHERE ((((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1) <= @seed_attendance; -- changed: replace tblNumbers sampler join with deterministic hash threshold directly on enrolment-session pair
 
 
--- tblOutcome: generated from valid enrolments to align beneficiary and programme-course context.
+-- =============================================================
+-- tblOutcome
+-- =============================================================
 INSERT INTO tblOutcome (
 	beneficiaryID,
 	pcID,
