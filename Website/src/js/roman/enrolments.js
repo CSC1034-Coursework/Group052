@@ -778,7 +778,7 @@
 			renderScoreReport(rows);
 		} catch (error) {
 			renderMessage(dom.scoreTable, error.message);
-			destroyChart(state.reports.score.chart);
+			destroyChart('scoreReportChart');
 		} finally {
 			state.reports.score.loading = false;
 		}
@@ -820,13 +820,13 @@
 	}
 
 	function renderScoreChart(rows) {
-		destroyChart(state.reports.score.chart);
+		destroyChart('scoreReportChart');
 
 		if (!rows.length || !dom.scoreChart) {
 			return;
 		}
 
-		state.reports.score.chart = new Chart(dom.scoreChart, {
+		window.scoreReportChart = new Chart(dom.scoreChart, {
 			type: 'bar',
 			data: {
 				labels: rows.map((row) => `${row.programmeName} (${row.difficultyLevel})`),
@@ -874,7 +874,7 @@
 			renderCoverageReport(rows);
 		} catch (error) {
 			renderMessage(dom.coverageTable, error.message);
-			destroyChart(state.reports.coverage.chart);
+			destroyChart('coverageReportChart');
 		} finally {
 			state.reports.coverage.loading = false;
 		}
@@ -918,13 +918,13 @@
 	}
 
 	function renderCoverageChart(rows) {
-		destroyChart(state.reports.coverage.chart);
+		destroyChart('coverageReportChart');
 
 		if (!rows.length || !dom.coverageChart) {
 			return;
 		}
 
-		state.reports.coverage.chart = new Chart(dom.coverageChart, {
+		window.coverageReportChart = new Chart(dom.coverageChart, {
 			type: 'bar',
 			data: {
 				labels: rows.map((row) => row.programmeName),
@@ -972,7 +972,7 @@
 			renderDropoutReport(rows);
 		} catch (error) {
 			renderMessage(dom.dropoutTable, error.message);
-			destroyChart(state.reports.dropout.chart);
+			destroyChart('dropoutReportChart');
 		} finally {
 			state.reports.dropout.loading = false;
 		}
@@ -1015,13 +1015,13 @@
 	}
 
 	function renderDropoutChart(rows) {
-		destroyChart(state.reports.dropout.chart);
+		destroyChart('dropoutReportChart');
 
 		if (!rows.length || !dom.dropoutChart) {
 			return;
 		}
 
-		state.reports.dropout.chart = new Chart(dom.dropoutChart, {
+		window.dropoutReportChart = new Chart(dom.dropoutChart, {
 			type: 'bar',
 			data: {
 				labels: rows.map((row) => `${row.focusArea} - ${row.regionName}`),
@@ -1229,12 +1229,18 @@
 		}
 
 		const table = document.createElement('table');
+		table.style.width = '100%';
+		table.style.borderCollapse = 'collapse';
 		const thead = document.createElement('thead');
 		const headerRow = document.createElement('tr');
 
 		headers.forEach((header) => {
 			const th = document.createElement('th');
 			th.textContent = header;
+			th.style.position = 'sticky';
+			th.style.top = '0';
+			th.style.zIndex = '1';
+			th.style.background = '#ffffff';
 			headerRow.appendChild(th);
 		});
 
@@ -1245,8 +1251,18 @@
 
 		table.appendChild(thead);
 		table.appendChild(tbody);
+
+		const wrapper = document.createElement('div');
+		wrapper.className = 'table-scroll-wrapper';
+		wrapper.style.maxHeight = '350px';
+		wrapper.style.overflowY = 'auto';
+		wrapper.style.overflowX = 'auto';
+		wrapper.style.border = '1px solid #e0e0e0';
+		wrapper.style.borderRadius = '8px';
+		wrapper.appendChild(table);
+
 		container.innerHTML = '';
-		container.appendChild(table);
+		container.appendChild(wrapper);
 	}
 
 	function renderMessage(container, message) {
@@ -1257,9 +1273,10 @@
 		container.innerHTML = `<p>${escapeHtml(message)}</p>`;
 	}
 
-	function destroyChart(chart) {
-		if (chart && typeof chart.destroy === 'function') {
-			chart.destroy();
+	function destroyChart(chartKey) {
+		if (window[chartKey] && typeof window[chartKey].destroy === 'function') {
+			window[chartKey].destroy();
+			window[chartKey] = null;
 		}
 	}
 
