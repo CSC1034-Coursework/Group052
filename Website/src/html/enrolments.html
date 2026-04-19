@@ -3,19 +3,173 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>EmpowerTrack — Enrolments</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+	<title>EmpowerTrack — Enrolments & Funding</title>
 	<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 	<div id="header-placeholder"></div>
 
-	<main></main>
+	<main class="enrolments-page">
+		<section class="section">
+			<div class="container">
+				<p class="section__label">EmpowerTrack operations</p>
+				<h1 class="section__title">Enrolments & Funding</h1>
+				<p>Manage enrolments, funding sources, and reports from one place.</p>
+			</div>
+		</section>
+
+		<section class="section">
+			<div class="container">
+				<p class="section__label">Enrolments</p>
+				<h2 class="section__title">Enrolments</h2>
+				<div id="enrolments-table-container"></div>
+
+				<form id="enrolment-form" class="form-section" novalidate>
+					<div class="form-grid">
+						<div class="form-field">
+							<label for="enrolment-beneficiary">Beneficiary</label>
+							<select id="enrolment-beneficiary" name="beneficiaryID" required>
+								<option value="">Select beneficiary</option>
+							</select>
+							<p class="field-error" data-error-for="beneficiaryID"></p>
+						</div>
+						<div class="form-field">
+							<label for="enrolment-programme-course">Programme and course</label>
+							<select id="enrolment-programme-course" name="pcID" required>
+								<option value="">Select programme-course</option>
+							</select>
+							<p class="field-error" data-error-for="pcID"></p>
+						</div>
+						<div class="form-field">
+							<label for="enrolment-date">Enrol date</label>
+							<input id="enrolment-date" name="enrolDate" type="date" required />
+							<p class="field-error" data-error-for="enrolDate"></p>
+						</div>
+						<div class="form-field">
+							<label for="enrolment-pre-score">Pre-assessment score</label>
+							<input id="enrolment-pre-score" name="preAssessmentScore" type="number" min="0" max="100" />
+							<p class="field-error" data-error-for="preAssessmentScore"></p>
+						</div>
+						<div class="form-field">
+							<label for="enrolment-status">Status</label>
+							<select id="enrolment-status" name="completionStatus" required>
+								<option value="Enrolled">Enrolled</option>
+								<option value="Completed">Completed</option>
+								<option value="Dropped">Dropped</option>
+							</select>
+							<p class="field-error" data-error-for="completionStatus"></p>
+						</div>
+					</div>
+					<div class="form-field" id="enrolment-dropReason-group" hidden>
+						<label for="enrolment-dropReason">Drop reason</label>
+						<textarea id="enrolment-dropReason" name="dropReason" rows="3"></textarea>
+						<p class="field-error" data-error-for="dropReason"></p>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn--primary">Register Enrolment</button>
+					</div>
+					<p class="form-feedback" data-form-feedback="enrolment"></p>
+				</form>
+			</div>
+		</section>
+
+		<section class="section">
+			<div class="container">
+				<p class="section__label">Funding Sources</p>
+				<h2 class="section__title">Funding Sources</h2>
+				<div id="funding-table-container"></div>
+
+				<form id="funding-form" class="form-section" novalidate>
+					<div class="form-grid">
+						<div class="form-field">
+							<label for="funding-source-name">Source name</label>
+							<input id="funding-source-name" name="sourceName" type="text" maxlength="150" required />
+							<p class="field-error" data-error-for="sourceName"></p>
+						</div>
+						<div class="form-field">
+							<label for="funding-source-type">Source type</label>
+							<select id="funding-source-type" name="sourceType" required>
+								<option value="Government">Government</option>
+								<option value="NGO">NGO</option>
+								<option value="Private">Private</option>
+								<option value="UN">UN</option>
+							</select>
+							<p class="field-error" data-error-for="sourceType"></p>
+						</div>
+						<div class="form-field">
+							<label for="funding-contact-email">Contact email</label>
+							<input id="funding-contact-email" name="contactEmail" type="email" />
+							<p class="field-error" data-error-for="contactEmail"></p>
+						</div>
+						<div class="form-field form-field--inline">
+							<label for="funding-active">Active</label>
+							<input id="funding-active" name="isActive" type="checkbox" checked />
+							<p class="field-error" data-error-for="isActive"></p>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn--primary">Add Funding Source</button>
+					</div>
+					<p class="form-feedback" data-form-feedback="funding"></p>
+				</form>
+			</div>
+		</section>
+
+		<section class="section">
+			<div class="container">
+				<p class="section__label">Reports</p>
+				<h2 class="section__title">Reports</h2>
+
+				<section>
+					<h3>Score Improvement</h3>
+					<div class="form-field">
+						<label for="score-filter">Difficulty level</label>
+						<select id="score-filter" data-report-filter="score">
+							<option value="All">All</option>
+							<option value="Beginner">Beginner</option>
+							<option value="Intermediate">Intermediate</option>
+							<option value="Advanced">Advanced</option>
+						</select>
+					</div>
+					<div id="score-report-table"></div>
+					<canvas id="score-report-chart" aria-label="Average score improvement by programme chart" role="img"></canvas>
+				</section>
+
+				<section>
+					<h3>Funding Coverage</h3>
+					<div class="form-field">
+						<label for="coverage-filter">Programme status</label>
+						<select id="coverage-filter" data-report-filter="coverage">
+							<option value="All">All Statuses</option>
+						</select>
+					</div>
+					<div id="coverage-report-table"></div>
+					<canvas id="coverage-report-chart" aria-label="Funding coverage by programme chart" role="img"></canvas>
+				</section>
+
+				<section>
+					<h3>Dropout &amp; Completion</h3>
+					<div class="form-field">
+						<label for="dropout-filter">Focus area</label>
+						<select id="dropout-filter" data-report-filter="dropout">
+							<option value="All">All</option>
+						</select>
+					</div>
+					<div id="dropout-report-table"></div>
+					<canvas id="dropout-report-chart" aria-label="Completion and dropout by region chart" role="img"></canvas>
+				</section>
+			</div>
+		</section>
+
+		<div id="modal-root"></div>
+		<div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+	</main>
 
 	<div id="footer-placeholder"></div>
 	<script src="../js/loadComponents.js"></script>
+	<script src="../js/roman/repository.js"></script>
 	<script src="../js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="../js/roman/enrolments.js"></script>
 </body>
 </html>

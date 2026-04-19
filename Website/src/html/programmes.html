@@ -1,21 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>EmpowerTrack — Programmes</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="../css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmpowerTrack — Gender Equality Programme Monitoring</title>
+  <!-- DM Serif Display for headings, DM Sans for body — both used on all 5 pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-	<div id="header-placeholder"></div>
 
-	<main></main>
+    <!-- HEADER — same markup on all 5 pages, only nav__link--active changes -->
+    <header class="site-header">
+        <!-- sticky top bar, dark background -->
+        <nav class="nav container">
+            <!-- flex row: logo | links | badge; container = shared max-width wrapper -->
 
-	<div id="footer-placeholder"></div>
-	<script src="../js/loadComponents.js"></script>
-	<script src="../js/main.js"></script>
+            <a href="index.html" class="nav__logo">
+                <!-- logo: icon + brand name side by side -->
+                <div class="nav__logo-mark">
+                    <!-- small circle SVG icon -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+                        <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <span class="nav__logo-name">EmpowerTrack</span> <!-- brand name text -->
+            </a>
+
+            <!-- hamburger button, visible on mobile only; JS toggles nav__links--open -->
+            <button class="nav__burger" id="navBurger" aria-label="Toggle navigation menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <!-- nav links: horizontal on desktop, dropdown on mobile -->
+            <div class="nav__links" id="navLinks">
+                <a href="index.html" class="nav__link">Home</a>
+                <a href="beneficiaries.html" class="nav__link">Beneficiaries</a>
+                <a href="programmes.html" class="nav__link nav__link--active">Programmes</a> <!-- nav__link--active = current page -->
+                <a href="staff.html" class="nav__link">Staff</a>
+                <a href="enrolments.html" class="nav__link">Enrolments</a>
+            </div>
+
+            <div class="nav__actions">
+                <span class="badge badge--sdg">SDG 5</span> <!-- green pill badge, same on all pages -->
+            </div>
+
+        </nav>
+    </header>
+
+
+
+
+
+
+
+
+    <main>
+
+
+
+        <!-- HERO — homepage only; dark background continues from header -->
+        <section class="hero">
+            <div class="container hero__inner">
+                <!-- two columns: content left, visual right -->
+
+                <div class="hero__content">
+                    <!-- left column, ~55% width -->
+                    <!-- small label line above the title: dot + short text -->
+                    <p class="hero__eyebrow">
+                        <span class="hero__eyebrow-dot"></span> <!-- tiny accent-coloured circle -->
+                        Gender equality monitoring platform
+                    </p>
+
+                    <!-- main H1-->
+                    <h1 class="hero__title">
+                        Programmes<br>
+                    </h1>
+
+                    <p class="hero__subtitle">
+                        Manage Programmes
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section for adding programmes CRUD-->
+        <section class="pages section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <p class="section__label">Add Programmes</p>
+                    <h2 class="section__title">Enter a New Programme</h2>
+
+                    <!--Programme form for adding a programme-->
+                    <form id="programmeForm">
+                        <label for="pName">Programme Name</label><br>
+                        <input type="text" id="pName" name="programmeName" required><br>
+                        <label for="rID">Region ID</label><br>
+                        <select id="rID" name="regionID" required>
+                            <option value=""></option>
+                        </select><br>
+
+                        <label for="tID">Team ID</label><br>
+                        <select id="tID" name="teamID" required>
+                            <option value=""></option>
+                        </select><br>
+
+                        <label for="startDate">Start Date</label><br>
+                        <input type="date" id="startDate" name="startDate"><br>
+                        <label for="endDate">End Date</label><br>
+                        <input type="date" id="endDate" name="endDate"><br>
+                        <label for="budget">Budget</label><br>
+                        <input type="number" step="0.01" id="budget" name="budget"><br>
+                        <label for="objectives">Objectives</label><br>
+                        <input type="text" id="objectives" name="objectives"><br>
+                        <label for="status">Status</label><br>
+                        <select id="sID" name="statusID" required>
+                            <option value=""></option>
+                        </select><br>
+
+                        <label for="focusArea">Focus Area</label><br>
+                        <select id="focusArea" name="focusArea" required>
+                            <option value="Child Marriage">Child Marriage</option>
+                            <option value="FGM">FGM</option>
+                            <option value="Economic Empowerment">Economic Empowerment</option>
+                            <option value="Political Participation">Political Participation</option>
+                            <option value="Anti-Violence">Anti-Violence</option>
+
+
+                        </select>
+                        <br>
+                        <input type="submit" value="Add Record">
+                    </form>
+
+                    <!--This empty box is filled with success or error messages by java script-->
+                    <div id="output" class="message"></div>
+
+
+                </div>
+            </div>
+        </section>
+
+
+        <!--java script to get dropdowns to be pulled from the database-->
+        <script src="dropdowns.js"></script>
+
+        <!--java script for adding programmes to the database-->
+        <script src="addProgramme.js"></script>
+        <script>
+            //displays a message to the user in output div
+            const showMessage = (text, type) => {
+                const output = document.querySelector("#output");
+                output.textContent = text;
+                output.className = `message ${type}`;
+            };
+            // Clear any old message so the page does not show stale feedback.
+            const clearMessage = () => {
+                const output = document.querySelector("#message");
+                output.textContent = "";
+                output.className = "message";
+            };
+
+            //event listener listens for submit event and prevents a refresh
+            document.querySelector("#programmeForm").addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                //built object with info from form
+                const programme = {
+                    programmeName: document.querySelector("#pName").value.trim(),
+                    regionID: Number(document.querySelector("#rID").value),
+                    teamID: Number(document.querySelector("#tID").value),
+                    startDate: document.querySelector("#startDate").value,
+                    endDate: document.querySelector("#endDate").value,
+                    budget: Number(document.querySelector("#budget").value) || 0,
+                    objectives: document.querySelector("#objectives").value.trim(),
+                    statusID: Number(document.querySelector("#sID").value),
+                    focusArea: document.querySelector("#focusArea").value.trim()
+                };
+
+                //console.log(programme);
+
+                //validation check for data from form
+                const validationMessage = validateProgramme(programme);
+                //console.log(validationMessage);
+                if (validationMessage) {
+                    showMessage(validationMessage, "error")
+                    return;
+                }
+
+                //builds sql string
+                const sql = `
+                                              INSERT INTO tblProgramme(programmeName, regionID, teamID, startDate, endDate, budget, objectives, statusID, focusArea)
+                                              VALUES(
+                                                '${escapeSql(programme.programmeName)}',
+                                                ${programme.regionID},
+                                                ${programme.teamID},
+                                                '${programme.startDate}',
+                                                ${programme.endDate ? `'${programme.endDate}'` : 'NULL'},
+                                                ${programme.budget},
+                                                '${escapeSql(programme.objectives)}',
+                                                ${programme.statusID},
+                                                '${escapeSql(programme.focusArea)}'
+                                                    );
+                                                 `;
+
+                //console.log(sql);
+
+                //executes query
+                const result = await runQuery(sql);
+
+                //acknowledgements for success and errors
+                if (result && result.success) {
+                    showMessage("Programme record added succesfully!", "success");
+                    document.querySelector("#programmeForm").reset();
+                    return;
+                }
+
+                if (result && result.error) {
+                    showMessage(result.error, "error");
+                } else {
+                    showMessage("Unable to add the record.", "error");
+                }
+
+            });
+        </script>
+
+
+        <!-- Section for deleting and editing programmes CRUD-->
+        <section class="pages section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <p class="section__label">Edit or Delete a Programmes</p>
+                    <h2 class="section__title">Programme Table</h2>
+                </div>
+                <!--Display delete table-->
+                <div id="outputDelete"></div>
+
+                <!--EDIT FORM STARTS HERE -->
+
+                <h2 class="section__title">Edit a Programme</h2>
+
+                <!-- This text reminds the user which student is currently loaded into the form. -->
+                <p id="selectedProgrammeText" class="muted">Choose a programme from the table first.</p>
+
+
+                <!--Programme form for editing a programme-->
+                <form id="editForm">
+                    <label for="pName">Programme Name</label><br>
+                    <input type="text" id="editPName" name="programmeName" required><br>
+                    <label for="rID">Region ID</label><br>
+                    <select id="editRID" name="regionID" required>
+                        <option value=""></option>
+                    </select><br>
+
+                    <label for="tID">Team ID</label><br>
+                    <select id="editTID" name="teamID" required>
+                        <option value=""></option>
+                    </select><br>
+
+                    <label for="startDate">Start Date</label><br>
+                    <input type="date" id="editStartDate" name="startDate"><br>
+                    <label for="endDate">End Date</label><br>
+                    <input type="date" id="editEndDate" name="endDate"><br>
+                    <label for="budget">Budget</label><br>
+                    <input type="number" step="0.01" id="editBudget" name="budget"><br>
+                    <label for="objectives">Objectives</label><br>
+                    <input type="text" id="editObjectives" name="objectives"><br>
+                    <label for="status">Status</label><br>
+                    <select id="editSID" name="statusID" required>
+                        <option value=""></option>
+                    </select><br>
+
+                    <label for="focusArea">Focus Area</label><br>
+                    <select id="editFocusArea" name="focusArea" required>
+                        <option value="Child Marriage">Child Marriage</option>
+                        <option value="FGM">FGM</option>
+                        <option value="Economic Empowerment">Economic Empowerment</option>
+                        <option value="Political Participation">Political Participation</option>
+                        <option value="Anti-Violence">Anti-Violence</option>
+
+
+                    </select>
+                    <br>
+                    <input type="submit" value="Save Record">
+                </form>
+                <!--EDIT FORM ENDS HERE -->
+
+            </div>
+        </section>
+
+
+
+
+
+        <!--java script to display tblProgramme records-->
+        <script src="displayTable.js"></script>
+        <!--Display Table-->
+        <div id="outputDisplay"></div>
+
+
+
+
+
+
+
+        <!-- Section for programme impact by focus area REPORT1-->
+        <section class="pages section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <p class="section__label">Programmes Impact by Focus Area</p>
+                    <h2 class="section__title">Which SDG 5 focus areas are getting to the most beneficiaries and recieving the most funding</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section for programmes effectiveness REPORT2-->
+        <section class="pages section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <p class="section__label">Programmes Completion Rate</p>
+                    <h2 class="section__title">Which programmes are the most effective based on the completion rates</h2>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section for regional programme coverage REPORT3-->
+        <section class="pages section section--alt">
+            <div class="container">
+                <div class="section__header">
+                    <p class="section__label">Region-Based Programme Coverage Report</p>
+                    <h2 class="section__title">How many programmes and beneficiaries there are in the selected region</h2>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+        <!--java script for deleting programmes from the database-->
+        <script src="deleteProgramme.js"></script>
+
+
+
+    </main>
+
+
+    <!-- FOOTER — same markup on all 5 pages -->
+    <footer class="site-footer">
+        <div class="container footer__inner">
+            <!-- flex row: brand col + 3 link cols -->
+
+            <div class="footer__brand">
+                <!-- wider left column with logo + tagline -->
+                <a href="index.html" class="nav__logo">
+                    <!-- reuses nav logo styles -->
+                    <div class="nav__logo-mark">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+                            <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="nav__logo-name">EmpowerTrack</span>
+                </a>
+                <p class="footer__brand-desc">A gender equality programme monitoring platform aligned to UN SDG 5. Built for NGOs, coordinators, and funding bodies.</p>
+            </div>
+
+            <!-- footer__col: one link column; footer__col-title = small uppercase heading -->
+            <div class="footer__col">
+                <p class="footer__col-title">Manage</p>
+                <ul class="footer__links">
+                    <!-- plain list, no bullets -->
+                    <li><a href="beneficiaries.html">Beneficiaries</a></li>
+                    <li><a href="programmes.html">Programmes</a></li>
+                    <li><a href="programmes.html">Courses</a></li>
+                    <li><a href="staff.html">Staff &amp; teams</a></li>
+                    <li><a href="enrolments.html">Enrolments</a></li>
+                    <li><a href="enrolments.html">Funding sources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <p class="footer__col-title">Reports</p>
+                <ul class="footer__links">
+                    <li><a href="beneficiaries.html">Regional coverage</a></li>
+                    <li><a href="beneficiaries.html">Dropout analysis</a></li>
+                    <li><a href="programmes.html">Completion rates</a></li>
+                    <li><a href="staff.html">Trainer workload</a></li>
+                    <li><a href="enrolments.html">Funding risk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <p class="footer__col-title">Project</p>
+                <ul class="footer__links">
+                    <li><a href="index.html">About EmpowerTrack</a></li>
+                    <li><a href="index.html">SDG 5 alignment</a></li>
+                    <li><a href="index.html">CSC1034 Coursework</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- footer__bottom: thin copyright strip; footer__bottom-inner = space-between row -->
+        <div class="footer__bottom">
+            <div class="container footer__bottom-inner">
+                <span class="footer__copy">CSC1034 Group Coursework &middot; Group 52 &middot; Queen's University Belfast &middot; 2025&ndash;26</span>
+                <span class="footer__sdg">UN SDG 5 &mdash; Gender Equality</span>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+
 </body>
 </html>

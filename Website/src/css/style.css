@@ -779,6 +779,83 @@ a:active {
     text-align: right;
 }
 
+.form-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: var(--spacing-md);
+		}
+
+		@media (max-width: 720px) {
+			.form-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.form-field {
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-xs);
+		}
+
+		.form-field label {
+			font-weight: 700;
+		}
+
+		.form-field input,
+		.form-field select,
+		.form-field textarea {
+			width: 100%;
+			padding: 0.7rem 0.8rem;
+			border: 1px solid var(--color-border);
+			border-radius: var(--radius-md);
+			background: var(--color-surface-2);
+			font: inherit;
+			color: var(--color-text);
+		}
+
+		.form-field textarea {
+			resize: vertical;
+		}
+
+		.form-field--inline {
+			flex-direction: row;
+			align-items: center;
+			gap: var(--spacing-sm);
+		}
+
+		.form-field--inline input {
+			width: auto;
+		}
+
+		.field-error {
+			min-height: 1em;
+			margin: 0;
+			font-size: var(--font-size-small);
+			color: var(--color-red-note);
+		}
+
+		.form-feedback {
+			margin: var(--spacing-sm) 0 0;
+			font-size: var(--font-size-small);
+		}
+
+		.form-feedback[data-state="success"] {
+			color: var(--color-accent);
+		}
+
+		.form-feedback[data-state="error"] {
+			color: var(--color-red-note);
+		}
+
+		.form-actions {
+			display: flex;
+			justify-content: flex-end;
+			gap: var(--spacing-sm);
+			margin-top: var(--spacing-md);
+			flex-wrap: wrap;
+		}
+
+        
 /* Basic responsive tweaks */
 @media (max-width: 768px) {
     .nav {
@@ -873,5 +950,26 @@ a:active {
         font-size: 0.95rem;
     }
 }
+
+.form-section {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-2);
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-row .form-field {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
 /* === SECTION 4 END ========================================= */
 
