@@ -14,21 +14,23 @@ window.reports.fundingRiskReport = {
                 tableColumns.text('programmeName', 'Programme'),
                 tableColumns.text('focusArea', 'Focus Area'),
                 tableColumns.text('regionName', 'Region'),
-                tableColumns.text('budgetDisplay', 'Budget'),
-                tableColumns.text('fundedDisplay', 'Funded'),
-                tableColumns.text('gapDisplay', 'Gap'),
-                tableColumns.text('costDisplay', 'Cost/Enrolment'),
-                tableColumns.html('statusDisplay', 'Status'),
+                tableColumns.text('budgetDisplay', 'Total Budget'),
+                tableColumns.text('fundedDisplay', 'Confirmed Funding'),
+                tableColumns.html('gapDisplay', 'Shortfall'),
+                tableColumns.text('costDisplay', 'Cost per Participant'),
+                tableColumns.html('statusDisplay', 'Risk Status'),
             ],
             rows.map((row) => ({
                 ...row,
                 budgetDisplay: window.fmt.currency(row.budget),
                 fundedDisplay: window.fmt.currency(row.total_funded),
-                gapDisplay: window.fmt.currency(row.funding_gap),
+                gapDisplay: Number(row.funding_gap || 0) > 0
+                    ? '<span style="color:#dc2626;font-weight:600;">' + window.fmt.currency(row.funding_gap) + '</span>'
+                    : '<span style="color:#16a34a;font-weight:600;">' + window.fmt.currency(row.funding_gap) + '</span>',
                 costDisplay: row.cost_per_enrolment === null ? '-' : window.fmt.currency(row.cost_per_enrolment),
                 statusDisplay: row.funding_status === 'AT RISK'
-                    ? '<span style="background:#d94d4d;color:#ffffff;padding:3px 8px;border-radius:5px;display:inline-block;">AT RISK</span>'
-                    : '<span class="badge badge--sdg">Funded</span>',
+                    ? '<span style="background:#dc2626;color:#ffffff;padding:3px 8px;border-radius:999px;display:inline-block;font-weight:600;">AT RISK</span>'
+                    : '<span style="background:#16a34a;color:#ffffff;padding:3px 8px;border-radius:999px;display:inline-block;font-weight:600;">Funded</span>',
             })),
             []
         );
@@ -47,13 +49,18 @@ window.reports.fundingRiskReport = {
             state.charts.fundingRisk.destroy();
         }
 
-        const labels = rows.map((row) => {
+        const topRows = rows
+            .filter((row) => Number(row.total_funded || 0) <= Number(row.budget || 0))
+            .sort((a, b) => Number(b.funding_gap || 0) - Number(a.funding_gap || 0))
+            .slice(0, 10);
+
+        const labels = topRows.map((row) => {
             const name = row.programmeName;
-            return name.length > 20 ? name.substring(0, 20) + '...' : name;
+            return name.length > 25 ? name.substring(0, 25) + '...' : name;
         });
 
-        const budgetData = rows.map((row) => Number(row.budget || 0));
-        const fundedData = rows.map((row) => Number(row.total_funded || 0));
+        const budgetData = topRows.map((row) => Number(row.budget || 0));
+        const fundedData = topRows.map((row) => Number(row.total_funded || 0));
 
         state.charts.fundingRisk = new Chart(chartElement, {
             type: 'bar',
@@ -61,12 +68,12 @@ window.reports.fundingRiskReport = {
                 labels,
                 datasets: [
                     {
-                        label: 'Budget (£)',
+                        label: 'Total Budget (£)',
                         data: budgetData,
                         backgroundColor: '#6366f1',
                     },
                     {
-                        label: 'Total Funded (£)',
+                        label: 'Confirmed Funding (£)',
                         data: fundedData,
                         backgroundColor: '#22c55e',
                     },
@@ -76,6 +83,10 @@ window.reports.fundingRiskReport = {
                 responsive: true,
                 plugins: {
                     legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Top 10 Programmes by Funding Shortfall',
+                    },
                 },
                 scales: {
                     x: {
@@ -83,7 +94,7 @@ window.reports.fundingRiskReport = {
                     },
                     y: {
                         ticks: {
-                            callback: (value) => '£' + value.toLocaleString(),
+                            callback: (value) => '£' + Number(value).toLocaleString(),
                         },
                         title: {
                             display: true,

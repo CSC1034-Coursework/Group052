@@ -322,7 +322,7 @@ SELECT
 			'End FGM Coalition'
 		),
 		' - ',
-		ELT(1 + ((n.n + 2) % 15),
+		ELT(1 + ((n.n * 3 + 7) % 15),
 			'Kenya', 'Uganda', 'Nigeria', 'Ghana', 'Tanzania',
 
 			'Rwanda', 'Zambia', 'Zimbabwe', 'Ethiopia', 'Senegal',
@@ -391,7 +391,7 @@ INSERT IGNORE INTO tblProgrammeFunding (
 SELECT
 	((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1, -- changed: safe modulo mapping for FK range correctness
 	((n.n - 1) % (SELECT COUNT(*) FROM tblFundingSource)) + 1, -- changed: safe modulo mapping for FK range correctness
-	((n.n % 10000) + 1000),
+	(((n.n * 9301 + 49297) % 49) + 1) * 10000,
 	DATE_ADD('2024-01-01', INTERVAL n.n DAY),
 	CASE
 		WHEN (n.n % 5) IN (0,1,2) THEN DATE_ADD('2025-01-01', INTERVAL ((n.n % 400) + 30) DAY)
@@ -417,12 +417,12 @@ INSERT IGNORE INTO tblEnrolment (
 	createdAt
 )
 SELECT
-	((n.n - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
+	((n.n * 7 - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
 	((n.n - 1) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
 	DATE_ADD('2022-01-01', INTERVAL (n.n % 730) DAY),
 	CASE
-		WHEN (n.n % 100) < 70 THEN 'Completed'
-		WHEN (n.n % 100) < 90 THEN 'Enrolled'
+		WHEN (n.n % 100) < 60 THEN 'Completed'
+		WHEN (n.n % 100) < 82 THEN 'Enrolled'
 		ELSE 'Dropped'
 	END,
 	CASE WHEN (n.n % 100) >= 90 THEN ELT(1 + (n.n % 6),
@@ -433,9 +433,9 @@ SELECT
 		'Childcare responsibilities',
 		'withdrew due to safety concerns'
 	) ELSE NULL END,
-	(n.n * 7) % 101,
-	(n.n * 11) % 101,
-	CASE WHEN (n.n % 100) < 70 THEN 1 ELSE 0 END,
+	30 + ((n.n * 7) % 51),
+	LEAST(100, (30 + ((n.n * 7) % 51)) + 5 + ((n.n * 13) % 26)),
+	CASE WHEN (n.n % 100) < 60 THEN 1 ELSE 0 END,
 	NOW()
 FROM tblNumbers n
 WHERE n.n <= LEAST(
@@ -517,13 +517,13 @@ INSERT INTO tblAttendance (
 SELECT
 	e.enrolmentID,
 	s.sessionID,
-	(((e.enrolmentID * 13) + s.sessionID) % 100) < 75,
+	(((e.enrolmentID * 13) + s.sessionID) % 100) < 65,
 	NOW()
 FROM tblEnrolment e
 JOIN tblSession s
 	ON s.pcID = e.pcID
-WHERE ((((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1) <= @seed_attendance; -- changed: replace tblNumbers sampler join with deterministic hash threshold directly on enrolment-session pair
-
+WHERE (((e.enrolmentID * 13) + s.sessionID) % 100) < 75
+  AND ((((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1) <= @seed_attendance;
 
 -- =============================================================
 -- tblOutcome
@@ -540,7 +540,7 @@ INSERT INTO tblOutcome (
 	notes
 )
 SELECT
-	e.beneficiaryID,
+	((e.enrolmentID * 7 - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
 	e.pcID,
 	((e.enrolmentID - 1) % (SELECT COUNT(*) FROM tblOutcomeType)) + 1,
 	CASE ((e.enrolmentID - 1) % 4) + 1
