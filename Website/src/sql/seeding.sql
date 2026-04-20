@@ -406,41 +406,46 @@ WHERE n.n <= @seed_programmefunding; -- changed: INSERT IGNORE prevents rare com
 -- tblEnrolment
 -- =============================================================
 INSERT INTO tblEnrolment (
-	beneficiaryID,
-	pcID,
-	enrolDate,
-	completionStatus,
-	dropReason,
-	preAssessmentScore,
-	postAssessmentScore,
-	certificateIssued,
-	createdAt
+    beneficiaryID,
+    pcID,
+    enrolDate,
+    completionStatus,
+    dropReason,
+    preAssessmentScore,
+    postAssessmentScore,
+    certificateIssued,
+    createdAt
 )
 SELECT
-	((n.n - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
-	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblBeneficiary)) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
-	DATE_ADD('2022-01-01', INTERVAL (n.n % 730) DAY),
-	CASE
-		WHEN (n.n % 100) < 70 THEN 'Completed'
-		WHEN (n.n % 100) < 90 THEN 'Enrolled'
-		ELSE 'Dropped'
-	END,
-	CASE WHEN (n.n % 100) >= 90 THEN ELT(1 + (n.n % 6),
-		'Relocated to another region',
-		'Personal or family circumstances',
-		'Health issues prevented attendance',
-		'Work or employment commitments',
-		'Childcare responsibilities',
-		'withdrew due to safety concerns'
-	) ELSE NULL END,
-	(n.n * 7) % 101,
-	(n.n * 11) % 101,
-	CASE WHEN (n.n % 100) < 70 THEN 1 ELSE 0 END,
-	NOW()
+    ((n.n - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
+    (FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblBeneficiary)) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
+    DATE_ADD('2022-01-01', INTERVAL (n.n % 730) DAY),
+
+    CASE
+        WHEN (n.n % 100) < 70 THEN 'Completed'
+        WHEN (n.n % 100) < 90 THEN 'Enrolled'
+        ELSE 'Dropped'
+    END,
+
+    CASE WHEN (n.n % 100) >= 90 THEN ELT(1 + (n.n % 6),
+        'Relocated to another region',
+        'Personal or family circumstances',
+        'Health issues prevented attendance',
+        'Work or employment commitments',
+        'Childcare responsibilities',
+        'Withdrew due to safety concerns'
+    ) ELSE NULL END,
+
+    (n.n * 7) % 61,
+
+    LEAST(100, ((n.n * 7) % 61) + ((n.n * 11) % 41)),
+
+    CASE WHEN (n.n % 100) < 70 THEN 1 ELSE 0 END,
+    NOW()
 FROM tblNumbers n
 WHERE n.n <= LEAST(
-	@seed_enrolment,
-	(SELECT COUNT(*) FROM tblBeneficiary) * (SELECT COUNT(*) FROM tblProgrammeCourse)
+    @seed_enrolment,
+    (SELECT COUNT(*) FROM tblBeneficiary) * (SELECT COUNT(*) FROM tblProgrammeCourse)
 );
 
 
@@ -509,20 +514,19 @@ DEALLOCATE PREPARE stmt;
 -- tblAttendance
 -- =============================================================
 INSERT INTO tblAttendance (
-	enrolmentID,
-	sessionID,
-	attended,
-	createdAt
+    enrolmentID,
+    sessionID,
+    attended,
+    createdAt
 )
 SELECT
-	e.enrolmentID,
-	s.sessionID,
-	(((e.enrolmentID * 13) + s.sessionID) % 100) < 75,
-	NOW()
+    e.enrolmentID,
+    s.sessionID,
+    ((e.enrolmentID + s.sessionID) % 4) != 0,
+    NOW()
 FROM tblEnrolment e
 JOIN tblSession s
-	ON s.pcID = e.pcID
-WHERE ((((e.enrolmentID * 9301) + (s.sessionID * 49297)) % 233280) + 1) <= @seed_attendance; -- changed: replace tblNumbers sampler join with deterministic hash threshold directly on enrolment-session pair
+ON s.pcID = e.pcID;
 
 
 -- =============================================================

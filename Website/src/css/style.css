@@ -159,7 +159,6 @@ a:active {
 
 
 /* === SECTION 2: Header & Navigation – Patrick Beattie === */
-/* nav stuff */
 .site-header {
     position: sticky;
     top: 0;
@@ -780,83 +779,143 @@ a:active {
 }
 
 .form-grid {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: var(--spacing-md);
-		}
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+}
 
-		@media (max-width: 720px) {
-			.form-grid {
-				grid-template-columns: 1fr;
-			}
-		}
+@media (max-width: 720px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
-		.form-field {
-			display: flex;
-			flex-direction: column;
-			gap: var(--spacing-xs);
-		}
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
 
-		.form-field label {
-			font-weight: 700;
-		}
+.form-field label {
+    font-weight: 700;
+}
 
-		.form-field input,
-		.form-field select,
-		.form-field textarea {
-			width: 100%;
-			padding: 0.7rem 0.8rem;
-			border: 1px solid var(--color-border);
-			border-radius: var(--radius-md);
-			background: var(--color-surface-2);
-			font: inherit;
-			color: var(--color-text);
-		}
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-2);
+    font: inherit;
+    color: var(--color-text);
+}
 
-		.form-field textarea {
-			resize: vertical;
-		}
+.form-field textarea {
+    resize: vertical;
+}
 
-		.form-field--inline {
-			flex-direction: row;
-			align-items: center;
-			gap: var(--spacing-sm);
-		}
+.form-field--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
 
-		.form-field--inline input {
-			width: auto;
-		}
+.form-field--inline input {
+    width: auto;
+}
 
-		.field-error {
-			min-height: 1em;
-			margin: 0;
-			font-size: var(--font-size-small);
-			color: var(--color-red-note);
-		}
+.field-error {
+    min-height: 1em;
+    margin: 0;
+    font-size: var(--font-size-small);
+    color: var(--color-red-note);
+}
 
-		.form-feedback {
-			margin: var(--spacing-sm) 0 0;
-			font-size: var(--font-size-small);
-		}
+.form-feedback {
+    margin: var(--spacing-sm) 0 0;
+    font-size: var(--font-size-small);
+}
 
-		.form-feedback[data-state="success"] {
-			color: var(--color-accent);
-		}
+.form-feedback[data-state="success"] {
+    color: var(--color-accent);
+}
 
-		.form-feedback[data-state="error"] {
-			color: var(--color-red-note);
-		}
+.form-feedback[data-state="error"] {
+    color: var(--color-red-note);
+}
 
-		.form-actions {
-			display: flex;
-			justify-content: flex-end;
-			gap: var(--spacing-sm);
-			margin-top: var(--spacing-md);
-			flex-wrap: wrap;
-		}
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
 
-        
-/* Basic responsive tweaks */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #b8b8b8;
+    margin-top: 12px;
+}
+
+th {
+    border: 1px solid #b8b8b8;
+    padding: 8px;
+    text-align: left;
+    background-color: #d9e6f2;
+}
+
+td {
+    border: 1px solid #b8b8b8;
+    padding: 8px;
+}
+
+tr {
+    border: 1px solid #b8b8b8;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-wrapper {
+    max-height: 420px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-2);
+}
+
+.table-scroll {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+
+.btn--table {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-small);
+    cursor: pointer;
+}
+
+.btn--table:hover {
+    background: #222;
+    border-color: #222;
+}
+
 @media (max-width: 768px) {
     .nav {
         padding-top: 8px;
