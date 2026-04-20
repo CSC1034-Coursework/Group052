@@ -392,10 +392,10 @@ SELECT
 	((n.n - 1) % (SELECT COUNT(*) FROM tblProgramme)) + 1, -- changed: safe modulo mapping for FK range correctness
 	((n.n - 1) % (SELECT COUNT(*) FROM tblFundingSource)) + 1, -- changed: safe modulo mapping for FK range correctness
 	((n.n % 10000) + 1000),
-	DATE_ADD('2020-01-01', INTERVAL n.n DAY),
+	DATE_ADD('2024-01-01', INTERVAL n.n DAY),
 	CASE
-		WHEN (n.n % 4) = 0 THEN NULL
-		ELSE DATE_ADD(DATE_ADD('2020-01-01', INTERVAL n.n DAY), INTERVAL ((n.n % 180) + 30) DAY)
+		WHEN (n.n % 5) IN (0,1,2) THEN DATE_ADD('2025-01-01', INTERVAL ((n.n % 400) + 30) DAY)
+		ELSE DATE_ADD('2023-01-01', INTERVAL ((n.n % 300) + 30) DAY)
 	END,
 	NOW()
 FROM tblNumbers n
@@ -405,7 +405,7 @@ WHERE n.n <= @seed_programmefunding; -- changed: INSERT IGNORE prevents rare com
 -- =============================================================
 -- tblEnrolment
 -- =============================================================
-INSERT INTO tblEnrolment (
+INSERT IGNORE INTO tblEnrolment (
 	beneficiaryID,
 	pcID,
 	enrolDate,
@@ -418,7 +418,7 @@ INSERT INTO tblEnrolment (
 )
 SELECT
 	((n.n - 1) % (SELECT COUNT(*) FROM tblBeneficiary)) + 1,
-	(FLOOR((n.n - 1) / (SELECT COUNT(*) FROM tblBeneficiary)) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
+	((n.n - 1) % (SELECT COUNT(*) FROM tblProgrammeCourse)) + 1,
 	DATE_ADD('2022-01-01', INTERVAL (n.n % 730) DAY),
 	CASE
 		WHEN (n.n % 100) < 70 THEN 'Completed'

@@ -12,7 +12,7 @@
 <body>
 	<div id="header-placeholder"></div>
 
-	<main>
+	<main class="programmes-page">
         <!-- Section for adding programmes ->
         <section class="pages section section--alt">
             <div class="container">
@@ -63,6 +63,9 @@
 
                     <!--This empty box is filled with success or error messages by java script-->
                     <div id="output" class="message"></div>
+                    <div id="programmes-table-container"></div>
+                    <div id="programmes-form-panel" class="form-section" hidden></div>
+
 
 
                 </div>
@@ -70,88 +73,8 @@
         </section>
 
 
-        <!--java script to get dropdowns to be pulled from the database-->
-        <script src="dropdowns.js"></script>
+        <!--java script files for programmes management - now consolidated in Patrick modules-->
 
-        <!--java script for adding programmes to the database-->
-        <script src="addProgramme.js"></script>
-        <script>
-            //displays a message to the user in output div
-            const showMessage = (text, type) => {
-                const output = document.querySelector("#output");
-                output.textContent = text;
-                output.className = `message ${type}`;
-            };
-            // Clear any old message so the page does not show stale feedback.
-            const clearMessage = () => {
-                const output = document.querySelector("#message");
-                output.textContent = "";
-                output.className = "message";
-            };
-
-            //event listener listens for submit event and prevents a refresh
-            document.querySelector("#programmeForm").addEventListener("submit", async (event) => {
-                event.preventDefault();
-
-                //built object with info from form
-                const programme = {
-                    programmeName: document.querySelector("#pName").value.trim(),
-                    regionID: Number(document.querySelector("#rID").value),
-                    teamID: Number(document.querySelector("#tID").value),
-                    startDate: document.querySelector("#startDate").value,
-                    endDate: document.querySelector("#endDate").value,
-                    budget: Number(document.querySelector("#budget").value) || 0,
-                    objectives: document.querySelector("#objectives").value.trim(),
-                    statusID: Number(document.querySelector("#sID").value),
-                    focusArea: document.querySelector("#focusArea").value.trim()
-                };
-
-                //console.log(programme);
-
-                //validation check for data from form
-                const validationMessage = validateProgramme(programme);
-                //console.log(validationMessage);
-                if (validationMessage) {
-                    showMessage(validationMessage, "error")
-                    return;
-                }
-
-                //builds sql string
-                const sql = `
-                                              INSERT INTO tblProgramme(programmeName, regionID, teamID, startDate, endDate, budget, objectives, statusID, focusArea)
-                                              VALUES(
-                                                '${escapeSql(programme.programmeName)}',
-                                                ${programme.regionID},
-                                                ${programme.teamID},
-                                                '${programme.startDate}',
-                                                ${programme.endDate ? `'${programme.endDate}'` : 'NULL'},
-                                                ${programme.budget},
-                                                '${escapeSql(programme.objectives)}',
-                                                ${programme.statusID},
-                                                '${escapeSql(programme.focusArea)}'
-                                                    );
-                                                 `;
-
-                //console.log(sql);
-
-                //executes query
-                const result = await runQuery(sql);
-
-                //acknowledgements for success and errors
-                if (result && result.success) {
-                    showMessage("Programme record added succesfully!", "success");
-                    document.querySelector("#programmeForm").reset();
-                    return;
-                }
-
-                if (result && result.error) {
-                    showMessage(result.error, "error");
-                } else {
-                    showMessage("Unable to add the record.", "error");
-                }
-
-            });
-        </script>
 
 
         <!-- Section for deleting and editing programmes ->
@@ -221,9 +144,7 @@
 
 
 
-        <!--java script to display tblProgramme records-->
-        <script src="displayTable.js"></script>
-        <!--Display Table-->
+        <!-- Display Table Container -->
         <div id="outputDisplay"></div>
 
 
@@ -270,14 +191,32 @@
 
 
 
-        <!--java script for deleting programmes from the database-->
-        <script src="deleteProgramme.js"></script>
+        <!-- Programmes management handled by Patrick modules loaded at bottom of page -->
+
 
 
 
     </main>
 
 	<div id="footer-placeholder"></div>
+
+	<!-- Global utilities -->
 	<script src="../js/loadComponents.js"></script>
 	<script src="../js/main.js"></script>
+
+	<!-- Core layer - DB, UI, validation, form/table rendering -->
+	<script src="../js/core/repository.js"></script>
+	<script src="../js/core/formatters.js"></script>
+	<script src="../js/core/validators.js"></script>
+	<script src="../js/core/ui.js"></script>
+	<script src="../js/core/actions.js"></script>
+	<script src="../js/core/fieldSchemas.js"></script>
+	<script src="../js/core/tableBuilder.js"></script>
+	<script src="../js/core/crud.js"></script>
+
+	<!-- Patrick feature modules - programmes management -->
+	<script src="../js/patrick/programmesRepo.js"></script>
+	<script src="../js/patrick/programmesTable.js"></script>
+	<script src="../js/patrick/programmesForm.js"></script>
+	<script src="../js/patrick/programmesPage.js"></script>
 </body>

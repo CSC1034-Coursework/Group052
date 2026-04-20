@@ -16,7 +16,6 @@
 		<section class="pages section section--alt">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Page Overview</p>
 					<h1 class="section__title">Enrolments &amp; Funding</h1>
 					<p class="page-card__desc">Manage participant enrolments, track attendance, and monitor programme funding.</p>
 				</div>
@@ -26,7 +25,6 @@
 		<section class="pages section section--alt" id="enrolments-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 2</p>
 					<h2 class="section__title">Enrolments</h2>
 				</div>
 				<div class="form-row">
@@ -57,7 +55,6 @@
 		<section class="pages section section--alt" id="attendance-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 3</p>
 					<h2 class="section__title">Attendance</h2>
 				</div>
 				<div class="form-row">
@@ -72,13 +69,13 @@
 					</div>
 				</div>
 				<div id="attendance-table-container"></div>
+				<div class="form-section" id="attendance-form-panel" hidden></div>
 			</div>
 		</section>
 
 		<section class="pages section section--alt" id="funding-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 4</p>
 					<h2 class="section__title">Programme Funding</h2>
 				</div>
 				<div class="form-row">
@@ -87,14 +84,15 @@
 					</div>
 				</div>
 				<div id="funding-table-container"></div>
+				<div class="form-section" id="funding-form-panel" hidden></div>
 			</div>
 		</section>
 
 		<section class="pages section section--alt" id="report-score-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 5</p>
 					<h2 class="section__title">Report 1: Score Improvement Analysis</h2>
+					<p class="page-card__desc">Compares average pre- and post-assessment scores across programmes, courses, and gender groups. Use this report to identify which programmes produce the greatest measurable learning improvement and whether outcomes differ by gender.</p>
 				</div>
 				<div class="form-row">
 					<div class="form-field">
@@ -114,8 +112,8 @@
 		<section class="pages section section--alt" id="report-funding-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 6</p>
 					<h2 class="section__title">Report 2: Funding Risk &amp; Coverage</h2>
+					<p class="page-card__desc">Shows each active programme's total budget against confirmed funding received, and flags programmes where funding has expired or is insufficient. Use this to prioritise funding renewals and identify programmes at financial risk before delivery is disrupted.</p>
 				</div>
 				<div id="funding-risk-report-table"></div>
 				<div class="form-section">
@@ -127,8 +125,8 @@
 		<section class="pages section section--alt" id="report-completion-section">
 			<div class="container">
 				<div class="section__header">
-					<p class="section__label">Section 7</p>
 					<h2 class="section__title">Report 3: Attendance &amp; Completion by Region</h2>
+					<p class="page-card__desc">Breaks down enrolment completion and attendance rates by programme and region. Use this to identify where participants are disengaging and which regions may need additional support or scheduling adjustments.</p>
 				</div>
 				<div class="form-row">
 					<div class="form-field">
@@ -147,11 +145,50 @@
 	</main>
 
 	<div id="footer-placeholder"></div>
+
+	<!-- External libraries -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="../js/repository.js"></script>
-	<script src="../js/crud.js"></script>
-	<script src="../js/roman/enrolments.js"></script>
+
+	<!-- Global utilities -->
 	<script src="../js/loadComponents.js"></script>
 	<script src="../js/main.js"></script>
+
+	<!-- Core layer - DB, UI, validation, form/table rendering -->
+	<script src="../js/core/repository.js"></script>
+	<script src="../js/core/formatters.js"></script>
+	<script src="../js/core/validators.js"></script>
+	<script src="../js/core/ui.js"></script>
+	<script src="../js/core/actions.js"></script>
+	<script src="../js/core/fieldSchemas.js"></script>
+	<script src="../js/core/tableBuilder.js"></script>
+	<script src="../js/core/crud.js"></script>
+
+	<!-- Roman feature modules - state and orchestration -->
+	<script src="../js/roman/state.js"></script>
+	<script src="../js/roman/dom.js"></script>
+	<script src="../js/roman/refs.js"></script>
+
+	<!-- Enrolments module -->
+	<script src="../js/roman/enrolments/enrolmentsRepo.js"></script>
+	<script src="../js/roman/enrolments/enrolmentsTable.js"></script>
+	<script src="../js/roman/enrolments/enrolmentsForm.js"></script>
+
+	<!-- Attendance module -->
+	<script src="../js/roman/attendance/attendanceRepo.js"></script>
+	<script src="../js/roman/attendance/attendanceTable.js"></script>
+	<script src="../js/roman/attendance/attendanceForm.js"></script>
+
+	<!-- Funding module -->
+	<script src="../js/roman/funding/fundingRepo.js"></script>
+	<script src="../js/roman/funding/fundingTable.js"></script>
+	<script src="../js/roman/funding/fundingForm.js"></script>
+
+	<!-- Reports module -->
+	<script src="../js/roman/reports/scoreReport.js"></script>
+	<script src="../js/roman/reports/fundingRiskReport.js"></script>
+	<script src="../js/roman/reports/completionReport.js"></script>
+
+	<!-- Page controller (orchestrator) -->
+	<script src="../js/roman/enrolmentsPage.js"></script>
 </body>
 </html>

@@ -567,24 +567,21 @@ CREATE INDEX idx_pf_dates     ON tblProgrammeFunding (startDate, endDate);
 -- =============================================================
 --   WRITTEN BY ROMAN KRIUCHKOV
 -- =============================================================
-DROP VIEW IF EXISTS vw_score_improvement;
-DROP VIEW IF EXISTS vw_funding_risk;
-DROP VIEW IF EXISTS vw_completion_attendance;
 
 -- BUSINESS QUESTION: Identifies which programme-course combinations deliver
 -- the greatest measurable learning improvement (post minus pre assessment score),
 -- broken down by gender. Helps programme managers prioritise high-impact delivery
 -- and detect demographic gaps in learning outcomes.
-CREATE VIEW vw_score_improvement AS
+CREATE OR REPLACE VIEW vw_score_improvement AS
 SELECT
     p.programmeName,
     p.focusArea,
     c.courseName,
     g.genderName,
-    COUNT(e.enrolmentID)                                         AS total_enrolled,
-    ROUND(AVG(e.preAssessmentScore), 1)                          AS avg_pre,
-    ROUND(AVG(e.postAssessmentScore), 1)                         AS avg_post,
-    ROUND(AVG(e.postAssessmentScore - e.preAssessmentScore), 1)  AS avg_improvement
+    COUNT(e.enrolmentID)                                                                            AS total_enrolled,
+    ROUND(AVG(e.preAssessmentScore), 1)                                                             AS avg_pre,
+    ROUND(AVG(e.postAssessmentScore), 1)                                                            AS avg_post,
+    ROUND(AVG(CAST(e.postAssessmentScore AS SIGNED) - CAST(e.preAssessmentScore AS SIGNED)), 1)     AS avg_improvement
 FROM tblEnrolment e
 INNER JOIN tblProgrammeCourse pc ON e.pcID          = pc.pcID
 INNER JOIN tblProgramme p        ON pc.programmeID  = p.programmeID
@@ -599,7 +596,7 @@ GROUP BY p.programmeID, c.courseID, g.genderID;
 -- and calculates cost-per-enrolment to assess financial efficiency.
 -- Enables funding officers to prioritise renewal and reallocate resources
 -- before programme delivery is disrupted.
-CREATE VIEW vw_funding_risk AS
+CREATE OR REPLACE VIEW vw_funding_risk AS
 SELECT
     p.programmeID,
     p.programmeName,

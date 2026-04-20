@@ -12,10 +12,30 @@
 <body>
 	<div id="header-placeholder"></div>
 
-	<main></main>
+	<main class="staff-page">
+		<!-- Placeholder for staff content -->
+	</main>
 
 	<div id="footer-placeholder"></div>
+
+	<!-- Global utilities -->
 	<script src="../js/loadComponents.js"></script>
 	<script src="../js/main.js"></script>
+
+	<!-- Core layer - DB, UI, validation, form/table rendering -->
+	<script src="../js/core/repository.js"></script>
+	<script src="../js/core/formatters.js"></script>
+	<script src="../js/core/validators.js"></script>
+	<script src="../js/core/ui.js"></script>
+	<script src="../js/core/actions.js"></script>
+	<script src="../js/core/fieldSchemas.js"></script>
+	<script src="../js/core/tableBuilder.js"></script>
+	<script src="../js/core/crud.js"></script>
+
+	<!-- Stephen feature modules - staff management -->
+	<script src="../js/stephen/staffRepo.js"></script>
+	<script src="../js/stephen/staffTable.js"></script>
+	<script src="../js/stephen/staffForm.js"></script>
+	<script src="../js/stephen/staffPage.js"></script>
 </body>
 </html>

@@ -38,9 +38,9 @@ async function initHomeStats() {
 
 	try {
 		const [completionRows, activeRows, improvementRows] = await Promise.all([
-			query("SELECT ROUND(100.0 * SUM(CASE WHEN completionStatus = 'Completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0), 1) AS completion_rate FROM tblEnrolment"),
-			query("SELECT COUNT(DISTINCT beneficiaryID) AS active_participants FROM tblEnrolment WHERE completionStatus = 'Enrolled'"),
-			query("SELECT ROUND(AVG(CAST(postAssessmentScore AS SIGNED) - CAST(preAssessmentScore AS SIGNED)), 1) AS avg_improvement FROM tblEnrolment WHERE preAssessmentScore IS NOT NULL AND postAssessmentScore IS NOT NULL")
+			selectRows("SELECT ROUND(100.0 * SUM(CASE WHEN completionStatus = 'Completed' THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0), 1) AS completion_rate FROM tblEnrolment"),
+			selectRows("SELECT COUNT(DISTINCT beneficiaryID) AS active_participants FROM tblEnrolment WHERE completionStatus = 'Enrolled'"),
+			selectRows("SELECT ROUND(AVG(CAST(postAssessmentScore AS SIGNED) - CAST(preAssessmentScore AS SIGNED)), 1) AS avg_improvement FROM tblEnrolment WHERE preAssessmentScore IS NOT NULL AND postAssessmentScore IS NOT NULL")
 		]);
 
 		const completion = completionRows[0]?.completion_rate;
