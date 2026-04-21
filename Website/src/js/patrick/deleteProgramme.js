@@ -79,8 +79,10 @@ const printTable = async () => {
 
     const rows = result.data;
     const table = document.createElement("table");
+    const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    table.appendChild(headerRow);
+    thead.appendChild(headerRow); //puts row inside thead
+    table.appendChild(thead); //attaches thead to the table
 
     // These headings become the top row of the table.
     const headings = ["Programme Name", "Start Date", "End Date", "Budget", "Objectives", "Focus Areas","Delete","Edit"];
@@ -171,8 +173,20 @@ const printTable = async () => {
         table.appendChild(tr);
     }
 
+    //creates wrapper for tables
+    const wrapper = document.createElement("div");
+    wrapper.className = "table-wrapper";
+    const scroll = document.createElement("div");
+    scroll.className = "table-scroll";
+
+    //sticky heading
+    table.classList.add("table");
+
+    scroll.appendChild(table);
+    wrapper.appendChild(scroll);
+
     //generates table
-    outputDelete.appendChild(table);
+    outputDelete.appendChild(wrapper);
 
 };
 

@@ -12,15 +12,18 @@ const printReport3 = async () => {
     const sql = `SELECT 
     r.regionName,
     COUNT(DISTINCT p.programmeID) AS total_programmes,
-    ROUND(SUM(pf.amount), 2) AS total_funding,
-    ROUND(AVG(pf.amount), 2) AS avg_funding_per_programme
+    COALESCE(ROUND(SUM(pf.amount), 2), 0) AS total_funding,
+    ROUND(
+    COALESCE(SUM(pf.amount), 0) / COUNT(DISTINCT p.programmeID),
+    2
+    ) AS avg_funding_per_programme
     FROM tblRegion r
     LEFT JOIN tblProgramme p 
     ON r.regionID = p.regionID
     LEFT JOIN tblProgrammeFunding pf 
     ON p.programmeID = pf.programmeID
     GROUP BY r.regionID, r.regionName
-    HAVING COUNT(p.programmeID) > 0
+    HAVING COUNT(DISTINCT p.programmeID) > 0
     ORDER BY total_funding DESC;`;
 
 
@@ -36,8 +39,10 @@ const printReport3 = async () => {
 
     const rows = result.data;
     const table = document.createElement("table");
+    const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
-    table.appendChild(headerRow);
+    thead.appendChild(headerRow); //puts row inside thead
+    table.appendChild(thead); //attaches thead to the table
 
     // These headings become the top row of the table.
     const headings = ["Region", "Total Programmes", "Total Funding", "Average Funding per Programme"];
@@ -70,8 +75,21 @@ const printReport3 = async () => {
         table.appendChild(tr);
     }
 
-    //generates table
-    outputReport3.appendChild(table);
+    
+    //creates wrapper for tables
+    const wrapper = document.createElement("div");
+    wrapper.className = "table-wrapper";
+    const scroll = document.createElement("div");
+    scroll.className = "table-scroll";
+
+    //sticky heading
+    table.classList.add("table");
+
+    scroll.appendChild(table);
+    wrapper.appendChild(scroll);
+
+    //generates tabular report
+    outputReport3.appendChild(wrapper);
 };
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#runReport3").addEventListener("click", async (event) => {

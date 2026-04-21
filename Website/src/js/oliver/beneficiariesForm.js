@@ -1,4 +1,4 @@
-// beneficiaries.form.js
+
 
 const BeneficiaryForm = (() => {
   function showMessage(elementId, text) {

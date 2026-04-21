@@ -1,4 +1,4 @@
-// beneficiaries.page.js
+
 
 document.addEventListener("DOMContentLoaded", () => {
   function setMessage(id, text) {
@@ -59,52 +59,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function loadRegionalCoverage() {
-    clearReportMessage();
-    try {
-      const result = await BeneficiaryRepo.getRegionalCoverageReport();
-      if (result.error) {
-        setMessage("reportMessage", result.error);
-        return;
-      }
-      BeneficiaryTable.render("reportTable", result.data);
-      setMessage("reportMessage", "Showing number of beneficiaries in each region.");
-    } catch (error) {
-      console.error(error);
-      setMessage("reportMessage", "Could not load regional coverage report.");
+  clearReportMessage();
+  try {
+    const result = await BeneficiaryRepo.getRegionalCoverageReport();
+    if (result.error) {
+      setMessage("reportMessage", result.error);
+      BeneficiaryTable.destroyChart();
+      return;
     }
+    BeneficiaryTable.render("reportTable", result.data);
+    BeneficiaryTable.renderRegionalCoverageChart(result.data);
+    setMessage("reportMessage", "Showing number of beneficiaries in each region.");
+  } catch (error) {
+    console.error(error);
+    BeneficiaryTable.destroyChart();
+    setMessage("reportMessage", "Could not load regional coverage report.");
   }
+}
 
-  async function loadDemographicBreakdown() {
-    clearReportMessage();
-    try {
-      const result = await BeneficiaryRepo.getDemographicBreakdownReport();
-      if (result.error) {
-        setMessage("reportMessage", result.error);
-        return;
-      }
-      BeneficiaryTable.render("reportTable", result.data);
-      setMessage("reportMessage", "Showing demographic breakdown.");
-    } catch (error) {
-      console.error(error);
-      setMessage("reportMessage", "Could not load demographic breakdown report.");
+async function loadDemographicBreakdown() {
+  clearReportMessage();
+  try {
+    const result = await BeneficiaryRepo.getDemographicBreakdownReport();
+    if (result.error) {
+      setMessage("reportMessage", result.error);
+      BeneficiaryTable.destroyChart();
+      return;
     }
+    BeneficiaryTable.render("reportTable", result.data);
+    BeneficiaryTable.renderDemographicBreakdownChart(result.data);
+    setMessage("reportMessage", "Showing demographic breakdown.");
+  } catch (error) {
+    console.error(error);
+    BeneficiaryTable.destroyChart();
+    setMessage("reportMessage", "Could not load demographic breakdown report.");
   }
+}
 
-  async function loadDropoutAnalysis() {
-    clearReportMessage();
-    try {
-      const result = await BeneficiaryRepo.getDropoutAnalysisReport();
-      if (result.error) {
-        setMessage("reportMessage", result.error);
-        return;
-      }
-      BeneficiaryTable.render("reportTable", result.data);
-      setMessage("reportMessage", "Showing dropout analysis by region and reason.");
-    } catch (error) {
-      console.error(error);
-      setMessage("reportMessage", "Could not load dropout analysis.");
+async function loadDropoutAnalysis() {
+  clearReportMessage();
+  try {
+    const result = await BeneficiaryRepo.getDropoutAnalysisReport();
+    if (result.error) {
+      setMessage("reportMessage", result.error);
+      BeneficiaryTable.destroyChart();
+      return;
     }
+    BeneficiaryTable.render("reportTable", result.data);
+    BeneficiaryTable.renderDropoutAnalysisChart(result.data);
+    setMessage("reportMessage", "Showing dropout analysis by region and reason.");
+  } catch (error) {
+    console.error(error);
+    BeneficiaryTable.destroyChart();
+    setMessage("reportMessage", "Could not load dropout analysis.");
   }
+}
 
   window.loadAll = loadAll;
   window.searchData = searchData;

@@ -1,18 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>EmpowerTrack — Staff</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="../css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmpowerTrack — Gender Equality Programme Monitoring</title>
+  <!-- DM Serif Display for headings, DM Sans for body — both used on all 5 pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-	<div id="header-placeholder"></div>
 
-	<main>
+    <!-- HEADER — same markup on all 5 pages, only nav__link--active changes -->
+    <header class="site-header">
+        <!-- sticky top bar, dark background -->
+        <nav class="nav container">
+            <!-- flex row: logo | links | badge; container = shared max-width wrapper -->
+
+            <a href="index.html" class="nav__logo">
+                <!-- logo: icon + brand name side by side -->
+                <div class="nav__logo-mark">
+                    <!-- small circle SVG icon -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+                        <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <span class="nav__logo-name">EmpowerTrack</span> <!-- brand name text -->
+            </a>
+
+            <!-- hamburger button, visible on mobile only; JS toggles nav__links--open -->
+            <button class="nav__burger" id="navBurger" aria-label="Toggle navigation menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <!-- nav links: horizontal on desktop, dropdown on mobile -->
+            <div class="nav__links" id="navLinks">
+                <a href="index.html" class="nav__link">Home</a>
+                <a href="beneficiaries.html" class="nav__link">Beneficiaries</a>
+                <a href="programmes.html" class="nav__link nav__link--active">Programmes</a> <!-- nav__link--active = current page -->
+                <a href="staff.html" class="nav__link">Staff</a>
+                <a href="enrolments.html" class="nav__link">Enrolments</a>
+            </div>
+
+            <div class="nav__actions">
+                <span class="badge badge--sdg">SDG 5</span> <!-- green pill badge, same on all pages -->
+            </div>
+
+        </nav>
+    </header>
+
+
+
+
+
+
+
+
+    <main>
 
 
 
@@ -103,10 +149,10 @@
 
 
         <!--java script to get dropdowns to be pulled from the database-->
-        <script src="../js/patrick/dropdowns.js"></script>
+        <script src="js/dropDowns.js"></script>
 
         <!--java script for adding programmes to the database-->
-        <script src="../js/patrick/addProgramme.js"></script>
+        <script src="js/addProgramme.js"></script>
 
 
 
@@ -266,26 +312,88 @@
 
 
         <!--java script for deleting programmes from the database-->
-        <script src="../js/patrick/deleteProgramme.js"></script>
+        <script src="js/deleteProgramme.js"></script>
 
 
 
     </main>
 
 
-	<div id="footer-placeholder"></div>
+    <!-- FOOTER — same markup on all 5 pages -->
+    <footer class="site-footer">
+        <div class="container footer__inner">
+            <!-- flex row: brand col + 3 link cols -->
 
-	<!-- Global utilities -->
-	<script src="../js/loadComponents.js"></script>
-	<script src="../js/main.js"></script>
+            <div class="footer__brand">
+                <!-- wider left column with logo + tagline -->
+                <a href="index.html" class="nav__logo">
+                    <!-- reuses nav logo styles -->
+                    <div class="nav__logo-mark">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+                            <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="nav__logo-name">EmpowerTrack</span>
+                </a>
+                <p class="footer__brand-desc">A gender equality programme monitoring platform aligned to UN SDG 5. Built for NGOs, coordinators, and funding bodies.</p>
+            </div>
 
-	<!--Runs java script for report 1-->
-    <script src="../js/patrick/progQ1.js"></script>
+            <!-- footer__col: one link column; footer__col-title = small uppercase heading -->
+            <div class="footer__col">
+                <p class="footer__col-title">Manage</p>
+                <ul class="footer__links">
+                    <!-- plain list, no bullets -->
+                    <li><a href="beneficiaries.html">Beneficiaries</a></li>
+                    <li><a href="programmes.html">Programmes</a></li>
+                    <li><a href="programmes.html">Courses</a></li>
+                    <li><a href="staff.html">Staff &amp; teams</a></li>
+                    <li><a href="enrolments.html">Enrolments</a></li>
+                    <li><a href="enrolments.html">Funding sources</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <p class="footer__col-title">Reports</p>
+                <ul class="footer__links">
+                    <li><a href="beneficiaries.html">Regional coverage</a></li>
+                    <li><a href="beneficiaries.html">Dropout analysis</a></li>
+                    <li><a href="programmes.html">Completion rates</a></li>
+                    <li><a href="staff.html">Trainer workload</a></li>
+                    <li><a href="enrolments.html">Funding risk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <p class="footer__col-title">Project</p>
+                <ul class="footer__links">
+                    <li><a href="index.html">About EmpowerTrack</a></li>
+                    <li><a href="index.html">SDG 5 alignment</a></li>
+                    <li><a href="index.html">CSC1034 Coursework</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- footer__bottom: thin copyright strip; footer__bottom-inner = space-between row -->
+        <div class="footer__bottom">
+            <div class="container footer__bottom-inner">
+                <span class="footer__copy">CSC1034 Group Coursework &middot; Group 52 &middot; Queen's University Belfast &middot; 2025&ndash;26</span>
+                <span class="footer__sdg">UN SDG 5 &mdash; Gender Equality</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--Runs java script for report 1-->
+    <script src="js/progQ1.js"></script>
     <!--Runs java script for report 2-->
-    <script src="../js/patrick/progQ2.js"></script>
+    <script src="js/progQ2.js"></script>
     <!--Runs java script for report 3-->
-    <script src="../js/patrick/progQ3.js"></script>
+    <script src="js/progQ3.js"></script>
 
     <!--Runs java script for chart-->
-    <script src="../js/patrick/chartCourses.js"></script>
+    <script src="js/chartCourses.js"></script>
+
 </body>
+</html>

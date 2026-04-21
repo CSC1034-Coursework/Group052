@@ -1,6 +1,8 @@
-// beneficiaries.table.js
+
 
 const BeneficiaryTable = (() => {
+  let currentChart = null;
+
   function render(tableId, rows) {
     const table = document.getElementById(tableId);
     if (!table) return;
@@ -55,5 +57,157 @@ const BeneficiaryTable = (() => {
     `;
   }
 
-  return { render };
+  function destroyChart() {
+    if (currentChart) {
+      currentChart.destroy();
+      currentChart = null;
+    }
+  }
+
+  function renderChart(config) {
+    const canvas = document.getElementById("reportChart");
+    if (!canvas) return;
+
+    destroyChart();
+
+    const ctx = canvas.getContext("2d");
+    currentChart = new Chart(ctx, config);
+  }
+
+  function renderRegionalCoverageChart(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      destroyChart();
+      return;
+    }
+
+    const labels = rows.map(row => row.regionName);
+    const values = rows.map(row => Number(row.totalBeneficiaries) || 0);
+
+    renderChart({
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Total Beneficiaries",
+            data: values
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  function renderDemographicBreakdownChart(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      destroyChart();
+      return;
+    }
+
+    const labels = rows.map(row =>
+      `${row.gender} / ${row.ageGroup}`
+    );
+    const values = rows.map(row => Number(row.totalBeneficiaries) || 0);
+
+    renderChart({
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Total Beneficiaries",
+            data: values
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 90,
+              minRotation: 45
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  function renderDropoutAnalysisChart(rows) {
+    if (!Array.isArray(rows) || rows.length === 0) {
+      destroyChart();
+      return;
+    }
+
+    const labels = rows.map(row =>
+      `${row.regionName} / ${row.dropReason}`
+    );
+    const values = rows.map(row => Number(row.totalDropped) || 0);
+
+    renderChart({
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Total Dropped",
+            data: values
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 90,
+              minRotation: 45
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  return {
+    render,
+    destroyChart,
+    renderRegionalCoverageChart,
+    renderDemographicBreakdownChart,
+    renderDropoutAnalysisChart
+  };
 })();
