@@ -3,6 +3,31 @@
 // This remembers which record was chosen from the table.
 let selectedProgrammeID = null;
 
+//displays a message to the user in output div
+const showMessageEdit = (text, type) => {
+    const output = document.querySelector("#outputEdit");
+    output.textContent = text;
+    output.className = `message ${type}`;
+};
+
+//clears messages for edit form
+const clearMessageEdit = () => {
+    const output = document.querySelector("#outputEdit");
+    output.textContent = "";
+    output.className = "message";
+};
+
+// Put the form back into its starting state.
+const resetForm = () => {
+    const form = document.querySelector("#editForm");
+    const selectedProgrammeText = document.querySelector("#selectedProgrammeText");
+
+    form.reset();
+    selectedProgrammeID = null;
+    selectedProgrammeText.textContent = "Choose a programme from the table first please.";
+};
+
+
 //Copy the chosen programme's data from the table into the form fields.
 const selectProgramme = (tblProgramme) => {
     const selectedProgrammeText = document.querySelector("#selectedProgrammeText");
@@ -29,7 +54,7 @@ const selectProgramme = (tblProgramme) => {
     // user feedback text
     selectedProgrammeText.textContent =
         `Editing Programme ${tblProgramme.programmeID}: ${tblProgramme.programmeName}`;
-    clearMessage();
+    clearMessageEdit();
 };
 
 // Read all programmes from the database and draw them as an HTML table.
@@ -58,7 +83,7 @@ const printTable = async () => {
     table.appendChild(headerRow);
 
     // These headings become the top row of the table.
-    const headings = ["Programme Name", "Start Date", "End Date", "Budget", "Objectives", "Focus Areas","Action"];
+    const headings = ["Programme Name", "Start Date", "End Date", "Budget", "Objectives", "Focus Areas","Delete","Edit"];
 
     for (let heading of headings) {
         const th = document.createElement("th");
@@ -111,15 +136,15 @@ const printTable = async () => {
             const deleteResult = await runQuery(deleteSQL);
 
             if (deleteResult && deleteResult.success) {
-                showMessage("Programme record deleted successfully.", "success");
+                showMessageEdit("Programme record deleted successfully.", "success");
                 printTable();
                 return;
             }
 
             if (deleteResult && deleteResult.error) {
-                showMessage(deleteResult.error, "error");
+                showMessageEdit(deleteResult.error, "error");
             } else {
-                showMessage("Unable to delete this record", "error");
+                showMessageEdit("Unable to delete this record", "error");
             }
         });
 
@@ -152,6 +177,7 @@ const printTable = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    resetForm();
     printTable();
     
 });
@@ -161,7 +187,7 @@ document.querySelector("#editForm").addEventListener("submit", async (event) => 
     event.preventDefault();
 
     if (selectedProgrammeID == null) {
-        showMessage("Please select a programme to edit first.", "error");
+        showMessageEdit("Please select a programme to edit first.", "error");
         return;
     }
 
@@ -184,7 +210,7 @@ document.querySelector("#editForm").addEventListener("submit", async (event) => 
     const validationMessage = validateProgramme(programme);
     //console.log(validationMessage);
     if (validationMessage) {
-        showMessage(validationMessage, "error")
+        showMessageEdit(validationMessage, "error")
         return;
     }
 
@@ -211,21 +237,17 @@ document.querySelector("#editForm").addEventListener("submit", async (event) => 
 
     //acknowledgements for success and errors
     if (result && result.success) {
-        showMessage("Programme record updated successfully!", "success");
+        showMessageEdit("Programme record updated successfully!", "success");
 
-        document.querySelector("#editForm").reset();
-        selectedProgrammeID = null;
-
-        document.querySelector("#selectedProgrammeText").textContent = "Choose a programme from the table first please.";
-
+        resetForm();
         printTable();
         return;
     }
 
     if (result && result.error) {
-        showMessage(result.error, "error");
+        showMessageEdit(result.error, "error");
     } else {
-        showMessage("Unable to update the record.", "error");
+        showMessageEdit("Unable to update the record.", "error");
     }
 
 });
