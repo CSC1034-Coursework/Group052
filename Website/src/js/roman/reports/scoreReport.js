@@ -24,7 +24,7 @@ window.reports.scoreReport = {
         window.renderTable(
             'score-report-table',
             [
-                tableColumns.text('programmeName', 'Programme'),
+                tableColumns.text('focusArea', 'Focus Area'),
                 tableColumns.text('courseName', 'Course'),
                 tableColumns.text('genderName', 'Gender'),
                 tableColumns.text('total_enrolled', 'Enrolled'),

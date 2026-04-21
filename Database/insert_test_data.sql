@@ -433,8 +433,8 @@ SELECT
 		'Childcare responsibilities',
 		'withdrew due to safety concerns'
 	) ELSE NULL END,
-	30 + ((n.n * 7) % 51),
-	LEAST(100, (30 + ((n.n * 7) % 51)) + 5 + ((n.n * 13) % 26)),
+	25 + ((n.n * 17) % 56),
+	LEAST(100, (25 + ((n.n * 17) % 56)) + 8 + ((n.n * 31) % 32)),
 	CASE WHEN (n.n % 100) < 60 THEN 1 ELSE 0 END,
 	NOW()
 FROM tblNumbers n

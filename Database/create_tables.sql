@@ -574,7 +574,6 @@ CREATE INDEX idx_pf_dates     ON tblProgrammeFunding (startDate, endDate);
 -- and detect demographic gaps in learning outcomes.
 CREATE OR REPLACE VIEW vw_score_improvement AS
 SELECT
-    p.programmeName,
     p.focusArea,
     c.courseName,
     g.genderName,
@@ -590,7 +589,7 @@ INNER JOIN tblBeneficiary b      ON e.beneficiaryID = b.beneficiaryID
 INNER JOIN tblGender g           ON b.genderID      = g.genderID
 WHERE e.preAssessmentScore  IS NOT NULL
   AND e.postAssessmentScore IS NOT NULL
-GROUP BY p.programmeID, c.courseID, g.genderID;
+GROUP BY p.focusArea, c.courseID, g.genderID;
 
 -- BUSINESS QUESTION: Flags active programmes where funding has expired or is absent,
 -- and calculates cost-per-enrolment to assess financial efficiency.
@@ -646,7 +645,7 @@ SELECT
     ) AS completion_rate_pct,
     ROUND(
         100.0 * att.attended_sessions
-        / NULLIF(att.total_sessions, 0),
+        / NULLIF(att.total_possible, 0),
         1
     ) AS attendance_rate_pct
 FROM tblProgramme p
@@ -655,12 +654,12 @@ JOIN tblEnrolment e        ON e.pcID = pc.pcID
 JOIN tblRegion r           ON p.regionID = r.regionID
 LEFT JOIN (
     SELECT
-        e.pcID,
-        COUNT(*) AS total_sessions,
+        s.pcID,
+        COUNT(DISTINCT s.sessionID) * COUNT(DISTINCT a.enrolmentID) AS total_possible,
         SUM(a.attended = 1) AS attended_sessions
-    FROM tblAttendance a
-    JOIN tblEnrolment e ON e.enrolmentID = a.enrolmentID
-    GROUP BY e.pcID
+    FROM tblSession s
+    LEFT JOIN tblAttendance a ON a.sessionID = s.sessionID
+    GROUP BY s.pcID
 ) att ON att.pcID = pc.pcID
 GROUP BY p.programmeID, p.programmeName, p.focusArea, r.regionName;
 

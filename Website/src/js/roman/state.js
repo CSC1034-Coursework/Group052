@@ -7,6 +7,8 @@ window.enrolmentsAppState = {
         enrolmentStatus: 'All',
         enrolmentFocusArea: 'All',
         attendanceProgrammeId: 'All',
+        fundingProgrammeId: 'All',
+        fundingSourceType: 'All',
         scoreFocusArea: 'All',
         completionFocusArea: 'All',
     },

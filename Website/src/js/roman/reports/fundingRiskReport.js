@@ -29,8 +29,8 @@ window.reports.fundingRiskReport = {
                     : '<span style="color:#16a34a;font-weight:600;">' + window.fmt.currency(row.funding_gap) + '</span>',
                 costDisplay: row.cost_per_enrolment === null ? '-' : window.fmt.currency(row.cost_per_enrolment),
                 statusDisplay: row.funding_status === 'AT RISK'
-                    ? '<span style="background:#dc2626;color:#ffffff;padding:3px 8px;border-radius:999px;display:inline-block;font-weight:600;">AT RISK</span>'
-                    : '<span style="background:#16a34a;color:#ffffff;padding:3px 8px;border-radius:999px;display:inline-block;font-weight:600;">Funded</span>',
+                    ? '<span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;white-space:nowrap;">AT RISK</span>'
+                    : '<span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:600;white-space:nowrap;">Funded</span>',
             })),
             []
         );
@@ -56,14 +56,18 @@ window.reports.fundingRiskReport = {
 
         const labels = topRows.map((row) => {
             const name = row.programmeName;
-            return name.length > 25 ? name.substring(0, 25) + '...' : name;
+            return name.length > 30 ? name.substring(0, 30) + '...' : name;
         });
+
+        // Set dynamic height for horizontal bar chart
+        chartElement.style.height = (topRows.length * 50 + 80) + 'px';
 
         const budgetData = topRows.map((row) => Number(row.budget || 0));
         const fundedData = topRows.map((row) => Number(row.total_funded || 0));
 
         state.charts.fundingRisk = new Chart(chartElement, {
             type: 'bar',
+            indexAxis: 'y',
             data: {
                 labels,
                 datasets: [
@@ -90,16 +94,16 @@ window.reports.fundingRiskReport = {
                 },
                 scales: {
                     x: {
-                        ticks: { maxRotation: 45 },
-                    },
-                    y: {
                         ticks: {
-                            callback: (value) => '£' + Number(value).toLocaleString(),
+                            callback: (value) => '£' + (value / 1000).toFixed(0) + 'k',
                         },
                         title: {
                             display: true,
                             text: 'Amount (£)',
                         },
+                    },
+                    y: {
+                        ticks: { maxRotation: 0 },
                     },
                 },
             },

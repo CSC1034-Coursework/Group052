@@ -8,6 +8,8 @@ window.enrolmentsDom = {
         this.enrolmentStatusFilter = document.getElementById('enrolment-status-filter');
         this.enrolmentFocusFilter = document.getElementById('enrolment-focus-filter');
         this.attendanceProgrammeFilter = document.getElementById('attendance-programme-filter');
+        this.fundingProgrammeFilter = document.getElementById('funding-programme-filter');
+        this.fundingSourceTypeFilter = document.getElementById('funding-source-type-filter');
         this.scoreFocusFilter = document.getElementById('score-focus-filter');
         this.completionFocusFilter = document.getElementById('completion-focus-filter');
 

@@ -39,6 +39,16 @@
             void window.attendanceTable.render(state.filters.attendanceProgrammeId);
         });
 
+        dom.fundingProgrammeFilter?.addEventListener('change', () => {
+            state.filters.fundingProgrammeId = dom.fundingProgrammeFilter.value;
+            void window.fundingTable.render(state.filters.fundingProgrammeId, state.filters.fundingSourceType);
+        });
+
+        dom.fundingSourceTypeFilter?.addEventListener('change', () => {
+            state.filters.fundingSourceType = dom.fundingSourceTypeFilter.value;
+            void window.fundingTable.render(state.filters.fundingProgrammeId, state.filters.fundingSourceType);
+        });
+
         dom.scoreFocusFilter?.addEventListener('change', () => {
             state.filters.scoreFocusArea = dom.scoreFocusFilter.value;
             void window.reports.scoreReport.load(state.filters.scoreFocusArea);
@@ -59,7 +69,7 @@
         await Promise.all([
             window.enrolmentsTable.render(state.filters.enrolmentStatus, state.filters.enrolmentFocusArea),
             window.attendanceTable.render(state.filters.attendanceProgrammeId),
-            window.fundingTable.render(),
+            window.fundingTable.render(state.filters.fundingProgrammeId, state.filters.fundingSourceType),
             window.reports.scoreReport.load(state.filters.scoreFocusArea),
             window.reports.fundingRiskReport.load(),
             window.reports.completionReport.load(state.filters.completionFocusArea),

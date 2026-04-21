@@ -2,12 +2,36 @@
  * Funding Table - Rendering and actions for funding table
  */
 window.fundingTable = {
-    async render() {
+    async render(programmeID, sourceType) {
         const repo = window.fundingRepo;
         const tableColumns = window.tableColumns;
         const uiActions = window.uiActions;
+        const dom = window.enrolmentsDom;
 
-        const rows = await repo.loadFundingData();
+        // Default filter values
+        programmeID = programmeID || 'All';
+        sourceType = sourceType || 'All';
+
+        // Update filter UI
+        if (dom.fundingProgrammeFilter) {
+            dom.fundingProgrammeFilter.value = programmeID;
+        }
+        if (dom.fundingSourceTypeFilter) {
+            dom.fundingSourceTypeFilter.value = sourceType;
+        }
+
+        // Populate programme dropdown if empty
+        if (dom.fundingProgrammeFilter && dom.fundingProgrammeFilter.children.length === 1) {
+            const programmes = await repo.loadProgrammes();
+            programmes.forEach((prog) => {
+                const option = document.createElement('option');
+                option.value = prog.programmeID;
+                option.textContent = prog.programmeName;
+                dom.fundingProgrammeFilter.appendChild(option);
+            });
+        }
+
+        const rows = await repo.loadFundingData(programmeID, sourceType);
         const transformedRows = window.tableTransforms.apply(rows, {
             dates: { startDate: 'startDateDisplay', endDate: 'endDateDisplay' },
             currencies: ['amount'],
@@ -36,7 +60,7 @@ window.fundingTable = {
                     );
 
                     window.ui.success('Funding record deleted successfully.');
-                    await Promise.all([window.fundingTable.render(), window.reports.fundingRiskReport.load()]);
+                    await Promise.all([window.fundingTable.render(programmeID, sourceType), window.reports.fundingRiskReport.load()]);
                 },
                 'Are you sure you want to delete this funding record?'
             )

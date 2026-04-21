@@ -79,6 +79,22 @@
 					<h2 class="section__title">Programme Funding</h2>
 				</div>
 				<div class="form-row">
+					<div class="form-field">
+						<label for="funding-programme-filter">Programme</label>
+						<select id="funding-programme-filter">
+							<option value="All">All Programmes</option>
+						</select>
+					</div>
+					<div class="form-field">
+						<label for="funding-source-type-filter">Source Type</label>
+						<select id="funding-source-type-filter">
+							<option value="All">All</option>
+							<option value="Government">Government</option>
+							<option value="NGO">NGO</option>
+							<option value="Private">Private</option>
+							<option value="UN">UN</option>
+						</select>
+					</div>
 					<div class="form-field form-field--inline">
 						<button type="button" class="btn btn--primary" id="btn-add-funding">Add Funding Record</button>
 					</div>
@@ -113,7 +129,7 @@
 			<div class="container">
 				<div class="section__header">
 					<h2 class="section__title">Report 2: Funding Risk &amp; Coverage</h2>
-					<p class="page-card__desc">Shows each active programme's total budget against confirmed funding received, and flags programmes where funding has expired or is insufficient. Use this to prioritise funding renewals and identify programmes at financial risk before delivery is disrupted.</p>
+					<p class="page-card__desc">Each programme has a planned budget — the total cost of delivery. Confirmed Funding shows how much has actually been committed by donors. The Shortfall is the gap between the two. A programme is flagged AT RISK when its funding has expired or when no funding is confirmed, meaning delivery may be disrupted. Cost per Participant shows financial efficiency — a lower figure means more people are reached per pound spent.</p>
 				</div>
 				<div id="funding-risk-report-table"></div>
 				<div class="form-section">
