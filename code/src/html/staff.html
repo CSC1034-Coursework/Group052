@@ -56,7 +56,7 @@
 
     <section class="section">
       <h1 class="section__title">Staff</h1>
-      <button id="runAllStaffButton" type="button" class="btn btn--primary">RUN QUERY</button>
+      <button id="runAllStaffButton" type="button" class="btn btn--primary">Toggle Query</button>
       <div class="table-wrapper">
         <div class="table-scroll">
           <div id="tableStaffOutput"></div>
@@ -68,7 +68,7 @@
 
     <section class="section">
       <h1 class="section__title">Teams</h1>
-      <button id="runAllTeamButton" type="button" class="btn btn--primary">RUN QUERY</button>
+      <button id="runAllTeamButton" type="button" class="btn btn--primary">Toggle Query</button>
       <div class="table-wrapper">
         <div class="table-scroll">
           <div id="tableTeamOutput"></div>
@@ -81,7 +81,70 @@
     </hr>
 
     <h3>Staff per region</h3>
-    <button id="runStaffButton" type="button" class="btn btn--primary">RUN QUERY</button>
+    <label for="regionFilter">Filter by Region:</label>
+    <select id="regionFilter">
+      <option value="">All Regions</option>
+      <option value="Kampala North Region (ID-001)">Kampala North Region (ID-001)</option>
+      <option value="Lagos South District (ID-002)">Lagos South District (ID-002)</option>
+      <option value="Accra East Province (ID-003)">Accra East Province (ID-003)</option>
+      <option value="Dar es Salaam West Region (ID-004)">Dar es Salaam West Region (ID-004)</option>
+      <option value="Kigali North District (ID-005)">Kigali North District (ID-005)</option>
+      <option value="Lusaka South Province (ID-006)">Lusaka South Province (ID-006)</option>
+      <option value="Harare East Region (ID-007)">Harare East Region (ID-007)</option>
+      <option value="Addis Ababa West District (ID-008)">Addis Ababa West District (ID-008)</option>
+      <option value="Dakar North Province (ID-009)">Dakar North Province (ID-009)</option>
+      <option value="Bamako South Region (ID-010)">Bamako South Region (ID-010)</option>
+      <option value="Conakry East District (ID-011)">Conakry East District (ID-011)</option>
+      <option value="Mogadishu West Province (ID-012)">Mogadishu West Province (ID-012)</option>
+      <option value="Lilongwe North Region (ID-013)">Lilongwe North Region (ID-013)</option>
+      <option value="Maputo South District (ID-014)">Maputo South District (ID-014)</option>
+      <option value="Nairobi East Province (ID-015)">Nairobi East Province (ID-015)</option>
+      <option value="Kampala West Region (ID-016)">Kampala West Region (ID-016)</option>
+      <option value="Lagos North District (ID-017)">Lagos North District (ID-017)</option>
+      <option value="Accra South Province (ID-018)">Accra South Province (ID-018)</option>
+      <option value="Dar es Salaam East Region (ID-019)">Dar es Salaam East Region (ID-019)</option>
+      <option value="Kigali West District (ID-020)">Kigali West District (ID-020)</option>
+      <option value="Lusaka North Province (ID-021)">Lusaka North Province (ID-021)</option>
+      <option value="Harare South Region (ID-022)">Harare South Region (ID-022)</option>
+      <option value="Addis Ababa East District (ID-023)">Addis Ababa East District (ID-023)</option>
+      <option value="Dakar West Province (ID-024)">Dakar West Province (ID-024)</option>
+      <option value="Bamako North Region (ID-025)">Bamako North Region (ID-025)</option>
+      <option value="Conakry South District (ID-026)">Conakry South District (ID-026)</option>
+      <option value="Mogadishu East Province (ID-027)">Mogadishu East Province (ID-027)</option>
+      <option value="Lilongwe West Region (ID-028)">Lilongwe West Region (ID-028)</option>
+      <option value="Maputo North District (ID-029)">Maputo North District (ID-029)</option>
+      <option value="Nairobi South Province (ID-030)">Nairobi South Province (ID-030)</option>
+      <option value="Kampala East Region (ID-031)">Kampala East Region (ID-031)</option>
+      <option value="Lagos West District (ID-032)">Lagos West District (ID-032)</option>
+      <option value="Accra North Province (ID-033)">Accra North Province (ID-033)</option>
+      <option value="Dar es Salaam South Region (ID-034)">Dar es Salaam South Region (ID-034)</option>
+      <option value="Kigali East District (ID-035)">Kigali East District (ID-035)</option>
+      <option value="Lusaka West Province (ID-036)">Lusaka West Province (ID-036)</option>
+      <option value="Harare North Region (ID-037)">Harare North Region (ID-037)</option>
+      <option value="Addis Ababa South District (ID-038)">Addis Ababa South District (ID-038)</option>
+      <option value="Dakar East Province (ID-039)">Dakar East Province (ID-039)</option>
+      <option value="Bamako West Region (ID-040)">Bamako West Region (ID-040)</option>
+      <option value="Conakry North District (ID-041)">Conakry North District (ID-041)</option>
+      <option value="Mogadishu South Province (ID-042)">Mogadishu South Province (ID-042)</option>
+      <option value="Lilongwe East Region (ID-043)">Lilongwe East Region (ID-043)</option>
+      <option value="Maputo West District (ID-044)">Maputo West District (ID-044)</option>
+      <option value="Nairobi North Province (ID-045)">Nairobi North Province (ID-045)</option>
+      <option value="Kampala South Region (ID-046)">Kampala South Region (ID-046)</option>
+      <option value="Lagos East District (ID-047)">Lagos East District (ID-047)</option>
+      <option value="Accra West Province (ID-048)">Accra West Province (ID-048)</option>
+      <option value="Dar es Salaam North Region (ID-049)">Dar es Salaam North Region (ID-049)</option>
+      <option value="Kigali South District (ID-050)">Kigali South District (ID-050)</option>
+      <option value="Lusaka East Province (ID-051)">Lusaka East Province (ID-051)</option>
+      <option value="Harare West Region (ID-052)">Harare West Region (ID-052)</option>
+      <option value="Addis Ababa North District (ID-053)">Addis Ababa North District (ID-053)</option>
+      <option value="Dakar South Province (ID-054)">Dakar South Province (ID-054)</option>
+      <option value="Bamako East Region (ID-055)">Bamako East Region (ID-055)</option>
+      <option value="Conakry West District (ID-056)">Conakry West District (ID-056)</option>
+      <option value="Mogadishu North Province (ID-057)">Mogadishu North Province (ID-057)</option>
+      <option value="Lilongwe South Region (ID-058)">Lilongwe South Region (ID-058)</option>
+      <option value="Maputo East District (ID-059)">Maputo East District (ID-059)</option>
+      <option value="Nairobi West Province (ID-060)">Nairobi West Province (ID-060)</option>
+    </select>
     <div class="table-wrapper">
       <div class="table-scroll">
         <div id="outputStaff"></div>
@@ -90,7 +153,7 @@
     <script src="js/StaffQuery.js"></script>
 
     <h3>Trainer Session Workload</h3>
-    <button id="runTrainerButton" type="button" class="btn btn--primary">RUN QUERY</button>
+    <button id="runTrainerButton" type="button" class="btn btn--primary">Toggle Query</button>
     <div class="table-wrapper">
       <div class="table-scroll">
         <div id="outputTrainer"></div>
@@ -99,7 +162,7 @@
     <script src="js/StaffQuery2.js"></script>
 
     <h3>Uncertified Staff lessions</h3>
-    <button id="runUncertifiedStaffButton" type="button" class="btn btn--primary">RUN QUERY</button>
+    <button id="runUncertifiedStaffButton" type="button" class="btn btn--primary">Toggle Query</button>
     <div class="table-wrapper">
       <div class="table-scroll">
         <div id="outputUncertifiedStaff"></div>
