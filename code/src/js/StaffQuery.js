@@ -1,19 +1,15 @@
 console.log("StaffQuery loaded");
 
 const runStaffRegionQuery = async () => {
-
+    const region = document.getElementById("regionFilter").value;
     const sql = `SELECT r.regionName, COUNT(s.staffID) AS NumberOfStaff
     FROM tblStaff s
     JOIN tblRegion r ON s.regionID = r.regionID
+    ${region ? `WHERE r.regionName = '${region}'` : ""}
     GROUP BY r.regionName;`;
+    // If region is there, display that region row, else display nothing
     const output = document.getElementById("outputStaff");
     const url = "https://sbrown635.webhosting1.eeecs.qub.ac.uk/dbConnector.php";
-
-    if (output.innerHTML !== "") {
-        /*If something loaded, clear, makes Toggle*/
-        output.innerHTML = ""; 
-        return;
-    }
 
     output.innerHTML = "";
 
@@ -70,8 +66,7 @@ const runStaffRegionQuery = async () => {
     }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-    document
-        .getElementById("runStaffButton")
-        .addEventListener("click", runStaffRegionQuery);
+document.addEventListener("DOMContentLoaded", async () => {
+    document.getElementById("regionFilter").addEventListener("change", runStaffRegionQuery);
+    await runStaffRegionQuery();
 });
