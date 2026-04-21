@@ -1,41 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>EmpowerTrack — Beneficiaries</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="../css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmpowerTrack — Beneficiaries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-	<div id="header-placeholder"></div>
+  <div id="header-placeholder"></div>
 
-	<main class="beneficiaries-page">
-		<!-- Placeholder for beneficiaries content -->
-	</main>
+  <main>
 
-	<div id="footer-placeholder"></div>
 
-	<!-- Global utilities -->
-	<script src="../js/loadComponents.js"></script>
-	<script src="../js/main.js"></script>
+    <section class="hero">
+      <div class="container hero__inner">
 
-	<!-- Core layer - DB, UI, validation, form/table rendering -->
-	<script src="../js/core/repository.js"></script>
-	<script src="../js/core/formatters.js"></script>
-	<script src="../js/core/validators.js"></script>
-	<script src="../js/core/ui.js"></script>
-	<script src="../js/core/actions.js"></script>
-	<script src="../js/core/fieldSchemas.js"></script>
-	<script src="../js/core/tableBuilder.js"></script>
-	<script src="../js/core/crud.js"></script>
+        <div class="hero__content">
+          <p class="hero__eyebrow">
+            <span class="hero__eyebrow-dot"></span>
+            Gender equality monitoring platform
+          </p>
 
-	<!-- Oliver feature modules - beneficiaries management -->
-	<script src="../js/oliver/beneficiariesRepo.js"></script>
-	<script src="../js/oliver/beneficiariesTable.js"></script>
-	<script src="../js/oliver/beneficiariesForm.js"></script>
-	<script src="../js/oliver/beneficiariesPage.js"></script>
+          <h1 class="hero__title">Beneficiaries</h1>
+
+          <p class="hero__subtitle">
+            Beneficiaries are those who our programmes serve. Join us today!
+          </p>
+
+          <div class="hero__cta">
+            <a href="index.html" class="btn btn--primary">Return to home</a>
+            <a href="#about" class="btn btn--outline">Learn more</a>
+          </div>
+        </div>
+
+        <div class="hero__content">
+
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+		<h2>Beneficiaries</h2>
+    <section class="section">
+  <div class="container">
+    <h2>Reports</h2>
+
+    <div class="report-buttons">
+      <button type="button" class="report-chip" onclick="loadRegionalCoverage()">
+        Regional coverage
+      </button>
+
+      <button type="button" class="report-chip" onclick="loadDemographicBreakdown()">
+        Demographic breakdown
+      </button>
+
+      <button type="button" class="report-chip" onclick="loadDropoutAnalysis()">
+        Dropout analysis
+      </button>
+    </div>
+
+    <p id="reportMessage"></p>
+
+    <div class="table-wrapper">
+      <div class = "table-scroll">
+
+      <table id="reportTable" class="data-table"></table>
+      </div>
+    </div>
+  </div>
+</section>
+    <div class="action-row">
+	    <button type="button" class="btn btn--primary" onclick="loadAll()">Load All</button>
+    </div>
+	
+       <div class="table-wrapper">
+        <div class = "table-scroll">
+        <table id="table" class="data-table"></table>
+        </div>
+      </div>
+
+        <h2>Search Beneficiaries</h2>
+
+       <div class="action-row">
+        <label for="searchType">Search by:</label>
+        <select id="searchType">
+          <option value="country">Country</option>
+          <option value="region">Region</option>
+          <option value="gender">Gender</option>
+          <option value="ageGroup">Age Group</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="employmentStatus">Employment Status</option>
+          <option value="maritalStatus">Marital Status</option>
+          <option value="educationLevel">Education Level</option>
+        </select>
+
+        <input type="text" id="searchValue" placeholder="Enter value" />
+        <button type="button" class="btn btn--primary" onclick="searchData()">Search</button>
+      </div>
+
+        <div id="message"></div>
+      <div class="table-wrapper">
+         <div class = "table-scroll">
+        <table id="resultsTable" class="data-table"></table>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Become a Beneficiary</h2>
+
+        <form id="beneficiaryForm">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" required><br><br>
+
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" required><br><br>
+
+          <label for="gender">Gender:</label>
+          <select id="gender" required>
+            <option value="">Select</option>
+            <option value="1">Female</option>
+            <option value="2">Male</option>
+            <option value="3">Other</option>
+          </select><br><br>
+
+          <label for="ageGroup">Age Group:</label>
+          <select id="ageGroup" required>
+            <option value="">Select</option>
+            <option value="1">10-14</option>
+            <option value="2">15-24</option>
+            <option value="3">25-34</option>
+            <option value="4">35-54</option>
+            <option value="5">55+</option>
+          </select><br><br>
+
+          <label for="employmentStatus">Employment Status:</label>
+          <select id="employmentStatus" required>
+            <option value="">Select</option>
+            <option value="1">Employed</option>
+            <option value="2">Unemployed</option>
+            <option value="3">Student</option>
+            <option value="4">Homemaker</option>
+          </select><br><br>
+
+          <label for="educationLevel">Education Level:</label>
+          <select id="educationLevel" required>
+            <option value="">Select</option>
+            <option value="1">None</option>
+            <option value="2">Primary</option>
+            <option value="3">Secondary</option>
+            <option value="4">Higher</option>
+          </select><br><br>
+
+          <label for="maritalStatus">Marital Status:</label>
+          <select id="maritalStatus" required>
+            <option value="">Select</option>
+            <option value="1">Single</option>
+            <option value="2">Married</option>
+            <option value="3">Widowed</option>
+            <option value="4">Divorced</option>
+            <option value="5">Engaged</option>
+          </select><br><br>
+
+          <label for="regionID">Region ID:</label>
+          <input type="number" id="regionID" required><br><br>
+
+          <label for="registrationDate">Registration Date:</label>
+          <input type="date" id="registrationDate" required><br><br>
+
+          <button type="button" class="btn btn--primary" onclick="addBeneficiary()">Submit</button>
+        </form>
+
+        <p id="formMessage"></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <button type="button" class="btn btn--primary" onclick="toggleHelp()">Need help?</button>
+
+        <div id="helpMenu" style="display:none; margin-top:10px;">
+          <button type="button" class="btn btn--primary" onclick="showEdit()">Edit Record</button>
+          <button type="button" class="btn btn--primary" onclick="showDelete()">Delete Record</button>
+        </div>
+
+        <div id="editSection" style="display:none; margin-top:20px;">
+          <h3>Edit Record</h3>
+
+          <input type="number" id="editID" placeholder="Enter Beneficiary ID"><br><br>
+
+          <label for="editField">Field to edit:</label>
+          <select id="editField">
+            <option value="firstName">First Name</option>
+            <option value="lastName">Last Name</option>
+            <option value="genderID">Gender ID</option>
+            <option value="ageGroupID">Age Group ID</option>
+            <option value="employmentStatusID">Employment Status ID</option>
+            <option value="educationLevelID">Education Level ID</option>
+            <option value="maritalStatusID">Marital Status ID</option>
+            <option value="phone">Phone</option>
+            <option value="consentGiven">Consent Given</option>
+            <option value="regionID">Region ID</option>
+            <option value="registrationDate">Registration Date</option>
+          </select><br><br>
+
+          <input type="text" id="editValue" placeholder="Enter new value"><br><br>
+
+          <button type="button" class="btn btn--primary" onclick="editRecord()">Update</button>
+        </div>
+
+        <div id="deleteSection" style="display:none; margin-top:20px;">
+          <h3>Delete Record</h3>
+
+          <input type="number" id="deleteID" placeholder="Enter Beneficiary ID"><br><br>
+
+         <button type="button" class="btn btn--primary" onclick="deleteRecord()">Delete</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="pages section section--alt" id="about">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__label">System pages</p>
+          <h2 class="section__title">Four modules, one connected database</h2>
+        </div>
+
+        <div class="pages__grid">
+
+          <a href="beneficiaries.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--green"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 1</span>
+              <h3 class="page-card__name">Beneficiaries</h3>
+              <p class="page-card__desc">
+                Add, edit, and delete beneficiary records. Filter by region, age group, education level, and country.
+              </p>
+              <div class="page-card__reports">
+                <span>Regional coverage</span>
+                <span>Demographic breakdown</span>
+                <span>Dropout analysis</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="programmes.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--blue"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 2</span>
+              <h3 class="page-card__name">Programmes &amp; Courses</h3>
+              <p class="page-card__desc">
+                Manage programme records and course catalogue. Link courses to programmes, regions, and staff teams.
+              </p>
+              <div class="page-card__reports">
+                <span>Active by focus area</span>
+                <span>Difficulty vs attendance</span>
+                <span>Empty programmes</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="staff.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--purple"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 3</span>
+              <h3 class="page-card__name">Staff &amp; Teams</h3>
+              <p class="page-card__desc">
+                Register staff members and teams. Track roles, certification dates, and regional assignments.
+              </p>
+              <div class="page-card__reports">
+                <span>Staff by region</span>
+                <span>Trainer workload</span>
+                <span>Uncertified staff</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="enrolments.html" class="page-card">
+            <div class="page-card__stripe page-card__stripe--amber"></div>
+            <div class="page-card__body">
+              <span class="page-card__tag">Student 4</span>
+              <h3 class="page-card__name">Enrolments &amp; Funding</h3>
+              <p class="page-card__desc">
+                Manage enrolment records and funding sources. Track attendance, completion, and budget coverage.
+              </p>
+              <div class="page-card__reports">
+                <span>Score improvement</span>
+                <span>Completion rates</span>
+                <span>Funding risk</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="../js/loadComponents.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/Oliver/bemeficiaries.js"></script>
 </body>
 </html>
