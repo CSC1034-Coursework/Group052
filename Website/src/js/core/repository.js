@@ -1,5 +1,3 @@
-// core/repository.js — Database communication layer. All SQL goes through here.
-
 const DB_URL = "https://rkriuchkov01.webhosting1.eeecs.qub.ac.uk/CSC1034 - Data Driven Systems/coursework/dbConnector.php";
 
 /**
