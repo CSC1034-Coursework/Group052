@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header class="site-header"> <!-- sticky top bar, dark background -->
+    <nav class="nav container"> <!-- flex row: logo | links | badge; container = shared max-width wrapper -->
+
+      <a href="index.html" class="nav__logo"> <!-- logo: icon + brand name side by side -->
+        <div class="nav__logo-mark"> <!-- small circle SVG icon -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+            <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </div>
+        <span class="nav__logo-name">EmpowerTrack</span> <!-- brand name text -->
+      </a>
+
+      <!-- hamburger button, visible on mobile only; JS toggles nav__links--open -->
+      <button class="nav__burger" id="navBurger" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- nav links: horizontal on desktop, dropdown on mobile -->
+      <div class="nav__links" id="navLinks">
+        <a href="staff.html" class="nav__link nav__link--active">Staff</a> <!-- nav__link--active = current page -->
+        <a href="beneficiaries.html" class="nav__link">Beneficiaries</a>
+        <a href="programmes.html" class="nav__link">Programmes</a>
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="enrolments.html" class="nav__link">Enrolments</a>
+      </div>
+
+      <div class="nav__actions">
+        <span class="badge badge--sdg">SDG 5</span> <!-- green pill badge, same on all pages -->
+      </div>
+
+    </nav>
+  </header>
+
+  <!--START-->
+  <main>
+    <script src="js/runQuery.js"></script>
+
+    <h1><b>Staff</b></h1>
+    <button id="runAllStaffButton" type="button">RUN QUERY</button>
+    <div id="tableStaffOutput"></div>
+    <script src="js/ShowStaffTable.js"></script>
+
+    <h1><b>Teams</b></h1>
+    <button id="runAllTeamButton" type="button">RUN QUERY</button>
+    <div id="tableTeamOutput"></div>
+    <script src="js/ShowTeamTable.js"></script>
+
+    <hr>
+    </hr>
+
+    <h3>Staff per region</h3>
+    <button id="runStaffButton" type="button">RUN QUERY</button>
+    <div id="outputStaff"></div>
+    <script src="js/StaffQuery.js"></script>
+
+    <h3>Trainer Session Workload</h3>
+    <button id="runTrainerButton" type="button">RUN QUERY</button>
+    <div id="outputTrainer"></div>
+    <script src="js/StaffQuery2.js"></script>
+
+    <h3>Uncertified Staff lessions</h3>
+    <button id="runUncertifiedStaffButton" type="button">RUN QUERY</button>
+    <div id="outputUncertifiedStaff"></div>
+    <script src="js/StaffQuery3.js"></script>
+
+    <hr>
+    </hr>
+
+    <div id="tableOptions">
+      <div id="add">
+        <form id="formAdd">
+          <h2>Add</h2>
+          <div class="form-row">
+            <label for="staffID">Staff ID</label>
+            <input type="number" id="staffID">
+          </div>
+
+          <div class="form-row">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName">
+          </div>
+
+          <div class="form-row">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName">
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email">
+          </div>
+
+          <div class="form-row">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone">
+          </div>
+
+          <div class="form-row">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+              <option value="Non-binary">Non-binary</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="role">Role</label>
+            <select id="role" name="role">
+              <option value="">Select</option>
+              <option value="Trainer">Trainer</option>
+              <option value="Volunteer">Volunteer</option>
+              <option value="Coordinator">Coordinator</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="certifiedDate">Date Certified</label>
+            <input type="date" id="certifiedDate" required>
+          </div>
+
+          <div class="form-row">
+            <label for="isActive">Active</label>
+            <select id="isActive" name="isActive">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="teamID">Team ID</label>
+            <input type="number" id="teamID">
+          </div>
+
+          <div class="form-row">
+            <label for="regionID">Region ID</label>
+            <input type="number" id="regionID">
+          </div>
+
+          <div class="form-row">
+            <label for="createdAt">Created</label>
+            <input type="datetime-local" id="createdAt">
+          </div>
+
+          <div class="form-row">
+            <label for="updatedAt">Updated</label>
+            <input type="datetime-local" id="updatedAt">
+          </div>
+
+          <button type="submit">Add Record</button>
+        </form>
+
+        <div id="outputAdd" class="messageAdd"></div>
+
+      </div>
+
+      <script src="js/formJS.js"></script>
+      <script>
+        // Show feedback to the user after validation or a database action.
+        const showAddMessage = (text, type) => {
+          const output = document.querySelector("#outputAdd");
+          output.textContent = text;
+          output.className = `messageAdd ${type}`;
+        };
+
+        // Listen for the form being submitted instead of letting the browser reload the page.
+        document.querySelector("#formAdd").addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          // Read the values from the form and build a JavaScript object to work with.
+          const staff = {
+            staffID: Number(document.querySelector("#staffID").value),
+            firstName: document.querySelector("#firstName").value.trim(),
+            lastName: document.querySelector("#lastName").value.trim(),
+            email: document.querySelector("#email").value.trim(),
+            phone: document.querySelector("#phone").value.trim(),
+            gender: document.querySelector("#gender").value.trim(),
+            role: document.querySelector("#role").value.trim(),
+            certifiedDate: document.querySelector("#certifiedDate").value.trim(),
+            isActive: Number(document.querySelector("#isActive").value),
+            teamID: Number(document.querySelector("#teamID").value),
+            regionID: Number(document.querySelector("#regionID").value),
+            createdAt: document.querySelector("#createdAt").value.trim(),
+            updatedAt: document.querySelector("#updatedAt").value.trim(),
+          };
+
+          // Stop here if any of the values break our validation rules.
+          const validationMessage = validateStaff(staff);
+          if (validationMessage) {
+            showAddMessage(validationMessage, "error");
+            return;
+          }
+
+          // Build the SQL INSERT statement using the form values.
+          const sql = `
+          INSERT INTO tblStaff (staffID, firstName, lastName, email, phone, gender, role, certifiedDate, isActive, teamID, regionID, createdAt, updatedAt)
+          VALUES (
+            ${staff.staffID},
+            '${escapeSql(staff.firstName)}',
+            '${escapeSql(staff.lastName)}',
+            '${escapeSql(staff.email)}',
+            '${escapeSql(staff.phone)}',
+            '${escapeSql(staff.gender)}',
+            '${escapeSql(staff.role)}',
+            '${escapeSql(staff.certifiedDate)}',
+            ${staff.isActive},
+            ${staff.teamID},
+            ${staff.regionID},
+            '${escapeSql(staff.createdAt)}',
+            '${escapeSql(staff.updatedAt)}'
+          )
+        `;
+
+          // Send the SQL statement to dbConnector.php and wait for the reply.
+          const result = await runFormQuery(sql);
+          const form = document.querySelector("#formAdd");
+
+          // Show the outcome of the database request to the user.
+          if (result && result.success) {
+            showAddMessage("Staff record added successfully.", "success");
+            form.reset();
+            return;
+          }
+
+          if (result && result.error) {
+            showAddMessage(result.error, "error");
+          } else {
+            showAddMessage("Unable to add the record.", "error");
+          }
+        });
+      </script>
+
+      <div id="edit">
+        <form id="formEdit">
+          <h2>Edit</h2>
+          <div class="form-row">
+            <label for="staffID">Staff ID</label>
+            <input type="number" id="staffIDEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstNameEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastNameEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="emailEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phoneEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="gender">Gender</label>
+            <select id="genderEdit" name="gender">
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+              <option value="Non-binary">Non-binary</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="role">Role</label>
+            <select id="roleEdit" name="role">
+              <option value="">Select</option>
+              <option value="Trainer">Trainer</option>
+              <option value="Volunteer">Volunteer</option>
+              <option value="Coordinator">Coordinator</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="certifiedDate">Date Certified</label>
+            <input type="date" id="certifiedDateEdit" required>
+          </div>
+
+          <div class="form-row">
+            <label for="isActive">Active</label>
+            <select id="isActiveEdit" name="isActive">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="teamID">Team ID</label>
+            <input type="number" id="teamIDEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="regionID">Region ID</label>
+            <input type="number" id="regionIDEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="createdAt">Created</label>
+            <input type="datetime-local" id="createdAtEdit">
+          </div>
+
+          <div class="form-row">
+            <label for="updatedAt">Updated</label>
+            <input type="datetime-local" id="updatedAtEdit">
+          </div>
+
+          <button type="submit">Edit Record</button>
+        </form>
+
+        <button onclick="toggleEditButton()">Toggle Table Visability</button>
+        <script>
+          function toggleEditButton() {
+            const outputTable = document.getElementById("tableOutput");
+            if (outputTable.style.display === "none") {
+              outputTable.style.display = "block";
+            } else {
+              outputTable.style.display = "none";
+            }
+          }
+        </script>
+
+        <div id="message"></div>
+        <div id="selectedStaffText"></div>
+        <div id="tableOutput"></div>
+      </div>
+
+      <script>
+        let selectedStaffID = null;
+
+        // Show a message to explain what happened after an action.
+        const showEditDeleteMessage = (text, type) => {
+          const output = document.querySelector("#message");
+          output.textContent = text;
+          output.className = `message ${type}`;
+        };
+
+        // Remove any old message before the next action starts.
+        const clearMessage = () => {
+          const output = document.querySelector("#message");
+          output.textContent = "";
+          output.className = "message";
+        };
+
+        // Return the form to its default state with no student selected.
+        const resetForm = () => {
+          const form = document.querySelector("#formEdit");
+          const selectedStaffText = document.querySelector("#selectedStaffText");
+
+          form.reset();
+          selectedStaffID = null;
+          selectedStaffText.textContent = "Choose a staff from the table first.";
+        };
+
+        // Copy the chosen row's values into the form so they can be edited.
+        const selectStaff = (staff) => {
+          const selectedStaffText = document.querySelector("#selectedStaffText");
+
+          selectedStaffID = Number(staff.staffID);
+          document.querySelector("#staffIDEdit").value = staff.staffID;
+          document.querySelector("#firstNameEdit").value = staff.firstName;
+          document.querySelector("#lastNameEdit").value = staff.lastName;
+          document.querySelector("#emailEdit").value = staff.email;
+          document.querySelector("#phoneEdit").value = staff.phone;
+          document.querySelector("#genderEdit").value = staff.gender;
+          document.querySelector("#roleEdit").value = staff.role;
+          document.querySelector("#certifiedDateEdit").value = staff.certifiedDate;
+          document.querySelector("#isActiveEdit").value = staff.isActive;
+          document.querySelector("#teamIDEdit").value = staff.teamID;
+          document.querySelector("#regionIDEdit").value = staff.regionID;
+          document.querySelector("#createdAtEdit").value = staff.createdAt;
+          document.querySelector("#updatedAtEdit").value = staff.updatedAt;
+          selectedStaffText.textContent = `Editing staff ${staff.staffID}: ${staff.firstName} ${staff.lastName}`;
+          clearMessage();
+        };
+
+        // Build the table of students and add Edit/Delete buttons to each row.
+        const printTable = async () => {
+          const output = document.querySelector("#tableOutput");
+          output.textContent = "";
+
+          // Read the whole students table from the database.
+          const sql = "SELECT * FROM tblStaff ORDER BY staffID;";
+          const result = await runQuery(sql);
+
+          if (!result || !result.data || result.data.length === 0) {
+            output.textContent = "No Rows Returned";
+            return;
+          }
+
+          const rows = result.data;
+          const table = document.createElement("table");
+          const headerRow = document.createElement("tr");
+          table.appendChild(headerRow);
+
+          // These headings label each column in the table.
+          const headings = ["Staff ID", "First Name", "Last Name", "Email", "Phone", "Gender", "Role", "Certified Date", "Active", "Team ID", "Region ID", "Created At", "Updated At", "Action"];
+
+          for (let heading of headings) {
+            const th = document.createElement("th");
+            th.textContent = heading;
+            headerRow.appendChild(th);
+          }
+
+          for (let row of rows) {
+            const tr = document.createElement("tr");
+
+            const tdStaffId = document.createElement("td");
+            tdStaffId.textContent = row.staffID;
+            tr.appendChild(tdStaffId);
+
+            const tdFirstName = document.createElement("td");
+            tdFirstName.textContent = row.firstName;
+            tr.appendChild(tdFirstName);
+
+            const tdLastName = document.createElement("td");
+            tdLastName.textContent = row.lastName;
+            tr.appendChild(tdLastName);
+
+            const tdEmail = document.createElement("td");
+            tdEmail.textContent = row.email;
+            tr.appendChild(tdEmail);
+
+            const tdPhone = document.createElement("td");
+            tdPhone.textContent = row.phone;
+            tr.appendChild(tdPhone);
+
+            const tdGender = document.createElement("td");
+            tdGender.textContent = row.gender;
+            tr.appendChild(tdGender);
+
+            const tdRole = document.createElement("td");
+            tdRole.textContent = row.role;
+            tr.appendChild(tdRole);
+
+            const tdCertifiedDate = document.createElement("td");
+            tdCertifiedDate.textContent = row.certifiedDate;
+            tr.appendChild(tdCertifiedDate);
+
+            const tdActive = document.createElement("td");
+            tdActive.textContent = row.isActive;
+            tr.appendChild(tdActive);
+
+            const tdTeam = document.createElement("td");
+            tdTeam.textContent = row.teamID;
+            tr.appendChild(tdTeam);
+
+            const tdRegion = document.createElement("td");
+            tdRegion.textContent = row.regionID;
+            tr.appendChild(tdRegion);
+
+            const tdCreated = document.createElement("td");
+            tdCreated.textContent = row.createdAt;
+            tr.appendChild(tdCreated);
+
+            const tdUpdated = document.createElement("td");
+            tdUpdated.textContent = row.updatedAt;
+            tr.appendChild(tdUpdated);
+
+            const tdAction = document.createElement("td");
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", () => {
+              // Load this student's details into the form.
+              selectStaff(row);
+            });
+            tdAction.appendChild(editButton);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.tyle = "button";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", async () => {
+              // Ask for confirmation before permanently deleting a row.
+              const shouldDelete = confirm(`Delete staff ${row.staffID}?`);
+              if (!shouldDelete) {
+                return;
+              }
+
+              // Remove the chosen student from the database table.
+              const deleteSql = `DELETE FROM tblStaff WHERE staffID = ${row.staffID}`;
+              const deleteResult = await runQuery(deleteSql);
+
+              if (deleteResult && deleteResult.success) {
+                showEditDeleteMessage("Staff record deleted successfully.", "success");
+
+                if (selectedStaffID === Number(row.staffID)) {
+                  resetForm();
+                }
+
+                printTable();
+                return;
+              }
+
+              if (deleteResult && deleteResult.error) {
+                showEditDeleteMessage(deleteResult.error, "error");
+              } else {
+                showEditDeleteMessage("Unable to delete the record.", "error");
+              }
+            });
+            tdAction.appendChild(deleteButton);
+            tr.appendChild(tdAction);
+
+            table.appendChild(tr);
+          }
+
+          output.appendChild(table);
+        };
+
+        // Wait for the page to load before attaching event listeners and drawing the table.
+        document.addEventListener("DOMContentLoaded", () => {
+          const form = document.querySelector("#formEdit");
+
+          resetForm();
+          printTable();
+
+          form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (selectedStaffID === null) {
+              showEditDeleteMessage("Choose a staff from the table before updating.", "error");
+              return;
+            }
+
+            const staff = {
+              staffID: Number(document.querySelector("#staffIDEdit").value),
+              firstName: document.querySelector("#firstNameEdit").value.trim(),
+              lastName: document.querySelector("#lastNameEdit").value.trim(),
+              email: document.querySelector("#emailEdit").value.trim(),
+              phone: document.querySelector("#phoneEdit").value.trim(),
+              gender: document.querySelector("#genderEdit").value.trim(),
+              role: document.querySelector("#roleEdit").value.trim(),
+              certifiedDate: document.querySelector("#certifiedDateEdit").value.trim(),
+              isActive: Number(document.querySelector("#isActiveEdit").value),
+              teamID: Number(document.querySelector("#teamIDEdit").value),
+              regionID: Number(document.querySelector("#regionIDEdit").value),
+              createdAt: document.querySelector("#createdAtEdit").value.trim(),
+              updatedAt: document.querySelector("#updatedAtEdit").value.trim(),
+            };
+
+            // Check the edited values before sending them to the database.
+            const validationMessage = validateStaff(staff);
+            if (validationMessage) {
+              showEditDeleteMessage(validationMessage, "error");
+              return;
+            }
+
+            // Update the row that was originally selected, even if the ID itself was changed in the form.
+            const sql = `
+          UPDATE tblStaff
+          SET
+            staffID = ${staff.staffID},
+            firstName = '${escapeSql(staff.firstName)}',
+            lastName = '${escapeSql(staff.lastName)}',
+            email = '${escapeSql(staff.email)}',
+            phone = '${escapeSql(staff.phone)}',
+            gender = '${escapeSql(staff.gender)}',
+            role = '${escapeSql(staff.role)}',
+            certifiedDate = '${escapeSql(staff.certifiedDate)}',
+            isActive = ${staff.isActive},
+            teamID = ${staff.teamID},
+            regionID = ${staff.regionID},
+            createdAt = '${escapeSql(staff.createdAt)}',
+            updatedAt = '${escapeSql(staff.updatedAt)}'
+          WHERE staffID = ${selectedStaffID}
+        `;
+
+            // Send the SQL UPDATE statement and wait for the result.
+            const result = await runQuery(sql);
+
+            if (result && result.success) {
+              showEditDeleteMessage("Staff record updated successfully.", "success");
+              resetForm();
+              printTable();
+              return;
+            }
+
+            if (result && result.error) {
+              showEditDeleteMessage(result.error, "error");
+            } else {
+              showEditDeleteMessage("Unable to update the record.", "error");
+            }
+          });
+        });
+      </script>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+      <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/pieChart.js"></script>
+  </main>
+  <!-- FOOTER — same markup on all 5 pages -->
+  <footer class="site-footer">
+    <div class="container footer__inner"> <!-- flex row: brand col + 3 link cols -->
+
+      <div class="footer__brand"> <!-- wider left column with logo + tagline -->
+        <a href="index.html" class="nav__logo"> <!-- reuses nav logo styles -->
+          <div class="nav__logo-mark">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.5" stroke="#9FE1CB" stroke-width="1.5" />
+              <path d="M6.5 10.5L8.5 12.5L13.5 7.5" stroke="#9FE1CB" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="nav__logo-name">EmpowerTrack</span>
+        </a>
+        <p class="footer__brand-desc">A gender equality programme monitoring platform aligned to UN SDG 5. Built for
+          NGOs, coordinators, and funding bodies.</p>
+      </div>
+
+      <!-- footer__col: one link column; footer__col-title = small uppercase heading -->
+      <div class="footer__col">
+        <p class="footer__col-title">Manage</p>
+        <ul class="footer__links"> <!-- plain list, no bullets -->
+          <li><a href="beneficiaries.html">Beneficiaries</a></li>
+          <li><a href="programmes.html">Programmes</a></li>
+          <li><a href="programmes.html">Courses</a></li>
+          <li><a href="staff.html">Staff &amp; teams</a></li>
+          <li><a href="enrolments.html">Enrolments</a></li>
+          <li><a href="enrolments.html">Funding sources</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Reports</p>
+        <ul class="footer__links">
+          <li><a href="beneficiaries.html">Regional coverage</a></li>
+          <li><a href="beneficiaries.html">Dropout analysis</a></li>
+          <li><a href="programmes.html">Completion rates</a></li>
+          <li><a href="staff.html">Trainer workload</a></li>
+          <li><a href="enrolments.html">Funding risk</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Project</p>
+        <ul class="footer__links">
+          <li><a href="index.html">About EmpowerTrack</a></li>
+          <li><a href="index.html">SDG 5 alignment</a></li>
+          <li><a href="index.html">CSC1034 Coursework</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- footer__bottom: thin copyright strip; footer__bottom-inner = space-between row -->
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <span class="footer__copy">CSC1034 Group Coursework &middot; Group 52 &middot; Queen's University Belfast
+          &middot; 2025&ndash;26</span>
+        <span class="footer__sdg">UN SDG 5 &mdash; Gender Equality</span>
+      </div>
+    </div>
+
+  </footer>
+</body>
+
+</html>
