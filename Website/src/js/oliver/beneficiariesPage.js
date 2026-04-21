@@ -1,4 +1,4 @@
-// beneficiaries.page.js
+
 
 document.addEventListener("DOMContentLoaded", () => {
   function setMessage(id, text) {
