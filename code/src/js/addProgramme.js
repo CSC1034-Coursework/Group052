@@ -65,3 +65,84 @@ const validateProgramme = (programme) => {
 const escapeSql = (value) => {
     return value.replace(/'/g, "''");
 }
+
+
+
+            //displays a message to the user in output div
+            const showMessage = (text, type) => {
+                const output = document.querySelector("#output");
+    output.textContent = text;
+    output.className = `message ${type}`;
+            };
+            // Clear any old message so the page does not show stale feedback.
+            const clearMessage = () => {
+                const output = document.querySelector("#output");
+    output.textContent = "";
+    output.className = "message";
+            };
+
+            //event listener listens for submit event and prevents a refresh
+            document.querySelector("#programmeForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+    //built object with info from form
+    const programme = {
+        programmeName: document.querySelector("#pName").value.trim(),
+    regionID: Number(document.querySelector("#rID").value),
+    teamID: Number(document.querySelector("#tID").value),
+    startDate: document.querySelector("#startDate").value,
+    endDate: document.querySelector("#endDate").value,
+    budget: Number(document.querySelector("#budget").value) || 0,
+    objectives: document.querySelector("#objectives").value.trim(),
+    statusID: Number(document.querySelector("#sID").value),
+    focusArea: document.querySelector("#focusArea").value.trim()
+                };
+
+    //console.log(programme);
+
+    //validation check for data from form
+    const validationMessage = validateProgramme(programme);
+    //console.log(validationMessage);
+    if (validationMessage) {
+        showMessage(validationMessage, "error")
+                    return;
+                }
+
+    //builds sql string
+    const sql = `
+    INSERT INTO tblProgramme(programmeName, regionID, teamID, startDate, endDate, budget, objectives, statusID, focusArea)
+    VALUES(
+    '${escapeSql(programme.programmeName)}',
+    ${programme.regionID},
+    ${programme.teamID},
+    '${programme.startDate}',
+    ${programme.endDate ? `'${programme.endDate}'` : 'NULL'},
+    ${programme.budget},
+    '${escapeSql(programme.objectives)}',
+    ${programme.statusID},
+    '${escapeSql(programme.focusArea)}'
+    );
+    `;
+
+    //console.log(sql);
+
+    //executes query
+    const result = await runQuery(sql);
+
+    //acknowledgements for success and errors
+    if (result && result.success) {
+        showMessage("Programme record added succesfully!", "success");
+        document.querySelector("#programmeForm").reset();
+
+        printTable();
+
+    return;
+                }
+
+    if (result && result.error) {
+        showMessage(result.error, "error");
+                } else {
+        showMessage("Unable to add the record.", "error");
+                }
+
+            });
