@@ -3,7 +3,7 @@
 const runQuery = async (sql) => {
     try {
         // This is the PHP endpoint that talks to the database for us.
-        const url = "https://pbeattie10.webhosting1.eecs.qub.ac.uk/dbConnector.php";
+        const url = "dbConnector.php";
 
         // Send the SQL statement in the body of a POST request.
         const response = await fetch(url, {
