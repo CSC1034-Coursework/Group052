@@ -124,6 +124,7 @@ const printTable = async () => {
         const tdDelete = document.createElement("td");
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete No. " + row.programmeID;
+        deleteButton.className = "btn btn--action--danger";
 
         //confirms action with user
         deleteButton.addEventListener("click", async () => {
@@ -161,6 +162,7 @@ const printTable = async () => {
         const tdEdit = document.createElement("td");
         const editButton = document.createElement("button");
         editButton.textContent = "Edit";
+        editButton.className = "btn btn--action";
 
 
         editButton.addEventListener("click", () => {
