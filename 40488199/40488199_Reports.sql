@@ -12,7 +12,7 @@
 --   courses drive real skill development. Breaking results down by gender
 --   surfaces hidden inequality a course may show strong average gains
 --   overall while one gender group is consistently left behind. it
---   directly supports SDG 5 by making gender-disaggregated outcome data
+--   directly supports SDG 5 by making gender disaggregated outcome data
 --   visible and actionable for programme managers.
 
 -- Tables used: tblEnrolment, tblProgrammeCourse, tblProgramme,
