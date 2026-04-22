@@ -2,17 +2,19 @@ console.log("StaffQuery loaded");
 
 const runTrainerQuery = async () => {
 
-    const sql = `SELECT tblSessionStaff.staffID, SUM(tblSession.durationMinutes) AS TotalMinutes
-    FROM tblSessionStaff
-    LEFT JOIN tblSession ON tblSessionStaff.sessionID = tblSession.sessionID
-    GROUP BY tblSessionStaff.staffID
-    ORDER BY tblSessionStaff.staffID;`;
+    const sql = `SELECT CONCAT(st.firstName, ' ', st.lastName) AS FullName, ss.staffId, COUNT(s.sessionID) AS NumberOfSessions, SUM(s.durationMinutes) AS TotalMinutes, AVG(s.durationMinutes) AS AverageSessionLength
+    FROM tblSessionStaff ss
+    LEFT JOIN tblSession s ON ss.sessionID = s.sessionID
+    INNER JOIN tblStaff st ON ss.staffID = st.StaffID
+    GROUP BY ss.staffID, st.firstName, st.lastName
+    HAVING SUM(s.durationMinutes) IS NOT NULL
+    ORDER BY TotalMinutes DESC`;
     const output = document.getElementById("outputTrainer");
     const url = "https://sbrown635.webhosting1.eeecs.qub.ac.uk/dbConnector.php";
 
     if (output.innerHTML !== "") {
         /*If something loaded, clear, makes Toggle*/
-        output.innerHTML = ""; 
+        output.innerHTML = "";
         return;
     }
 
@@ -42,7 +44,7 @@ const runTrainerQuery = async () => {
         const headerRow = document.createElement("tr");
         table.appendChild(headerRow);
 
-        const headings = ["Staff ID", "TotalMinutes"];
+        const headings = ["Staff Name", "NumberOfSessions", "TotalMinutes", "AverageSessionLength"];
 
         for (let heading of headings) {
             const th = document.createElement("th");
@@ -53,13 +55,21 @@ const runTrainerQuery = async () => {
         for (let row of rows) {
             const tr = document.createElement("tr");
 
-            const tdstaffID = document.createElement("td");
-            tdstaffID.textContent = row.staffID;
-            tr.appendChild(tdstaffID);
+            const tdFullName = document.createElement("td");
+            tdFullName.textContent = row.FullName;
+            tr.appendChild(tdFullName);
+
+            const tdNumberOfSessions = document.createElement("td");
+            tdNumberOfSessions.textContent = row.NumberOfSessions;
+            tr.appendChild(tdNumberOfSessions);
 
             const tdTotalMinutes = document.createElement("td");
             tdTotalMinutes.textContent = row.TotalMinutes;
             tr.appendChild(tdTotalMinutes);
+
+            const tdAverageSessionLength = document.createElement("td");
+            tdAverageSessionLength.textContent = row.AverageSessionLength;
+            tr.appendChild(tdAverageSessionLength);
 
             table.appendChild(tr);
         }
