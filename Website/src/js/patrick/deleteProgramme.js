@@ -87,17 +87,23 @@ const printTable = async () => {
     // These headings become the top row of the table.
     const headings = ["Programme Name", "Start Date", "End Date", "Budget", "Objectives", "Focus Areas","Delete","Edit"];
 
+    //creates heading cells
     for (let heading of headings) {
         const th = document.createElement("th");
         th.textContent = heading;
         headerRow.appendChild(th);
     }
 
+    //loops through programme records creating table rows and adds table cells, populating them as well
     for (let row of rows) {
+        //creates table row for programme record
         const tr = document.createElement("tr");
 
+        //creates a cell
         const tdProgrammeName = document.createElement("td");
+        //inserts data
         tdProgrammeName.textContent = row.programmeName;
+        //adds cell to current table row
         tr.appendChild(tdProgrammeName);
 
         const tdStartDate = document.createElement("td");
@@ -138,6 +144,7 @@ const printTable = async () => {
 
             const deleteResult = await runQuery(deleteSQL);
 
+            //acknowledgements for success and errors
             if (deleteResult && deleteResult.success) {
                 showMessageEdit("Programme record deleted successfully.", "success");
                 printTable();
@@ -192,6 +199,7 @@ const printTable = async () => {
 
 };
 
+//when the page loads resets form and table
 document.addEventListener("DOMContentLoaded", () => {
     resetForm();
     printTable();
@@ -202,12 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
 document.querySelector("#editForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    //checks that a programme was actually selected
     if (selectedProgrammeID == null) {
         showMessageEdit("Please select a programme to edit first.", "error");
         return;
     }
 
-    //built object with info from form
+    //buils objects with info from form
     const programme = {
         programmeName: document.querySelector("#editPName").value.trim(),
         regionID: Number(document.querySelector("#editRID").value),
@@ -230,7 +239,7 @@ document.querySelector("#editForm").addEventListener("submit", async (event) => 
         return;
     }
 
-    //builds sql string
+    //builds sql string from user inputs
     const sql = `
     UPDATE tblProgramme
     SET
