@@ -26,20 +26,21 @@ const printReport3 = async () => {
     HAVING COUNT(DISTINCT p.programmeID) > 0
     ORDER BY total_funding DESC;`;
 
-
-
-
+    //executes query
     const result = await runQuery(sql);
 
-
+    //if no data found returns 'no rows returned' to user
     if (!result || !result.data || result.data.length === 0) {
         outputReport3.textContent = "No Rows Returned";
         return;
     }
 
+    //extracts rows returned from database
     const rows = result.data;
+    //creates table element
     const table = document.createElement("table");
     const thead = document.createElement("thead");
+    //table heading row
     const headerRow = document.createElement("tr");
     thead.appendChild(headerRow); //puts row inside thead
     table.appendChild(thead); //attaches thead to the table
@@ -53,6 +54,7 @@ const printReport3 = async () => {
         headerRow.appendChild(th);
     }
 
+    //loops through rows of data from database creating cells and filling them with data
     for (let row of rows) {
         const tr = document.createElement("tr");
 
@@ -72,6 +74,7 @@ const printReport3 = async () => {
         tdAvgFunding.textContent = row.avg_funding_per_programme;
         tr.appendChild(tdAvgFunding);
 
+        //adds the finished row to table
         table.appendChild(tr);
     }
 
@@ -92,17 +95,18 @@ const printReport3 = async () => {
     outputReport3.appendChild(wrapper);
 };
 document.addEventListener("DOMContentLoaded", () => {
+    //adds click event to "run report"" button
     document.querySelector("#runReport3").addEventListener("click", async (event) => {
         event.preventDefault();
 
         const outputReport3 = document.querySelector("#outputReport3");
 
         if (reportVisible3) {
-            //hidden
+            //hides report if it was visible
             outputReport3.innerHTML = "";
             reportVisible3 = false;
         } else {
-            //visible
+            //generates report if was hidden
             await printReport3();
             reportVisible3 = true;
         }
