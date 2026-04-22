@@ -1,3 +1,4 @@
+--search for beneficiary/ies
 SELECT 
         b.beneficiaryID,
         b.firstName,
@@ -24,6 +25,7 @@ SELECT
       JOIN tblEducationLevel el ON b.educationLevelID = el.levelID
       JOIN tblMaritalStatus ms ON b.maritalStatusID = ms.statusID
 
+        --add a Beneficiary to db
       INSERT INTO tblBeneficiary
       (
         firstName,
@@ -49,6 +51,7 @@ SELECT
         '${escapeSql(data.registrationDate)}'
       )
 
+        --delete beneficiary record
       DELETE a
       FROM tblAttendance a
       JOIN tblEnrolment e ON a.enrolmentID = e.enrolmentID
@@ -58,6 +61,10 @@ SELECT
       DELETE FROM tblEnrolment WHERE beneficiaryID = ${Number(beneficiaryID)}
       DELETE FROM tblBeneficiary WHERE beneficiaryID = ${Number(beneficiaryID)}
 
+        --regional coverage report
+        --"Where are our beneficiaries located?"
+        --useful for seeing what countries have the most enrolments in our programmes
+        --uses beneficiary, region and country tables
       SELECT 
         r.regionName,
         c.countryName,
@@ -68,6 +75,10 @@ SELECT
       GROUP BY r.regionID, r.regionName, c.countryName
       ORDER BY totalBeneficiaries DESC, r.regionName ASC
 
+        --demographic breakdown report
+        --"Who are our beneficiaries?"
+        --helps identify trends and norms of our beneficiaries
+        --uses gender, age group, employment status, education level, marital status tables (formerly enums), and the beneficiary table
       SELECT
         g.genderName AS gender,
         ag.label AS ageGroup,
@@ -84,6 +95,10 @@ SELECT
       GROUP BY g.genderName, ag.label, es.label, el.label, ms.label
       ORDER BY totalBeneficiaries DESC
 
+        --dropout analysis report
+        --"Where and why are people struggling to finish courses?"
+        --where people to struggle with courses, or if there is a common reason, we can provide extra support
+        --uses enrolment, beneficiary, region and country tables
        SELECT
         r.regionName,
         c.countryName,
