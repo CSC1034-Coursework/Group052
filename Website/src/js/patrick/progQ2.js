@@ -24,17 +24,20 @@ const printReport2 = async () => {
 
 
 
-
+    //executes query
     const result = await runQuery(sql);
     
-
+    //if no data found returns 'no rows returned' to user
     if (!result || !result.data || result.data.length === 0) {
         outputReport2.textContent = "No Rows Returned";
         return;
     }
 
+    //extracts rows returned from database
     const rows = result.data;
+    //creates table element
     const table = document.createElement("table");
+    //table heading row
     const headerRow = document.createElement("tr");
     table.appendChild(headerRow);
 
@@ -62,20 +65,22 @@ const printReport2 = async () => {
         tdAvg.textContent = row.avgCourseDuration;
         tr.appendChild(tdAvg);
 
+        //adds the finished row to table
         table.appendChild(tr);
     }
 
-    //generates table
+    //generates table on the page
     outputReport2.appendChild(table);
 };
 document.addEventListener("DOMContentLoaded", () => {
+    //adds click event to "run report"" button
     document.querySelector("#runReport2").addEventListener("click", async (event) => {
         event.preventDefault();
 
         const outputReport2 = document.querySelector("#outputReport2");
 
         if (reportVisible2) {
-            //hidden
+            //hides report if it was visible
             outputReport2.innerHTML = "";
 
             if (window.reportChartInstance) {
@@ -85,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             reportVisible2 = false;
         } else {
-            //visible
+            //generates report if was hidden
             await printReport2();
             await printChartReport2();
             reportVisible2 = true;
