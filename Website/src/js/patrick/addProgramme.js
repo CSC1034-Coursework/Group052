@@ -18,7 +18,8 @@ const validateProgramme = (programme) => {
     const startDate = programme.startDate?.trim();
     const endDate = programme.endDate?.trim();
 
-    // Check each field one at a time and return the first message that applies.
+    //VALIDATION FOR FORM
+    // Check each field one at a time and return the first validation message that applies.
     if (!name) {
         return "You must enter a programme name.";
     }
@@ -63,31 +64,31 @@ const validateProgramme = (programme) => {
 // Replace single quotes with two single quotes so they are safer inside SQL strings.
 // /'/g means "find every single quote in the text" (g = global, so not just the first one).
 const escapeSql = (value) => {
-    return value.replace(/'/g, "''");
+return value.replace(/'/g, "''");
 }
 
 
 
-            //displays a message to the user in output div
-            const showMessage = (text, type) => {
-                const output = document.querySelector("#output");
+    //displays a message to the user in output div
+    const showMessage = (text, type) => {
+    const output = document.querySelector("#output");
     output.textContent = text;
     output.className = `message ${type}`;
-            };
-            // Clear any old message so the page does not show stale feedback.
-            const clearMessage = () => {
-                const output = document.querySelector("#output");
+    };
+    // Clear any old message so the page does not show stale feedback.
+    const clearMessage = () => {
+    const output = document.querySelector("#output");
     output.textContent = "";
     output.className = "message";
-            };
+    };
 
-            //event listener listens for submit event and prevents a refresh
-            document.querySelector("#programmeForm").addEventListener("submit", async (event) => {
-        event.preventDefault();
+    //event listener listens for submit event and prevents a refresh
+    document.querySelector("#programmeForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
     //built object with info from form
     const programme = {
-        programmeName: document.querySelector("#pName").value.trim(),
+    programmeName: document.querySelector("#pName").value.trim(),
     regionID: Number(document.querySelector("#rID").value),
     teamID: Number(document.querySelector("#tID").value),
     startDate: document.querySelector("#startDate").value,
@@ -108,7 +109,7 @@ const escapeSql = (value) => {
                     return;
                 }
 
-    //builds sql string
+    //builds sql string from user input
     const sql = `
     INSERT INTO tblProgramme(programmeName, regionID, teamID, startDate, endDate, budget, objectives, statusID, focusArea)
     VALUES(
@@ -126,7 +127,7 @@ const escapeSql = (value) => {
 
     //console.log(sql);
 
-    //executes query
+    //executes query with sql string
     const result = await runQuery(sql);
 
     //acknowledgements for success and errors
