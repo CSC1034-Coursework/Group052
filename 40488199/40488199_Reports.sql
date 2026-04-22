@@ -1,6 +1,23 @@
--- BUSINESS QUESTION: Identifies which programme-course combinations deliver
--- the greatest measurable learning improvement (post minus pre assessment score),
--- broken down by gender. 
+-- =============================================================
+-- Report Title: Learning Improvement by Focus Area, Course, Gender
+
+-- Business Question: Which programme focus areas and courses produce the
+-- greatest measurable learning gains, are certain  gender groups consistently falling behind?
+
+-- Why this report is useful:
+--   NGOs and programme coordinators invest significant resources into
+--   training delivery but often lack evidence of whether participants
+--   are actually learning. report quantifies the gap between
+--   pre and post-assessment scores to identify which focus areas and
+--   courses drive real skill development. Breaking results down by gender
+--   surfaces hidden inequality a course may show strong average gains
+--   overall while one gender group is consistently left behind. it
+--   directly supports SDG 5 by making gender-disaggregated outcome data
+--   visible and actionable for programme managers.
+
+-- Tables used: tblEnrolment, tblProgrammeCourse, tblProgramme,
+-- tblCourse, tblBeneficiary, tblGender
+-- =============================================================
 CREATE OR REPLACE VIEW vw_score_improvement AS
 SELECT
     p.focusArea,
@@ -20,8 +37,29 @@ WHERE e.preAssessmentScore  IS NOT NULL
   AND e.postAssessmentScore IS NOT NULL
 GROUP BY p.focusArea, c.courseID, g.genderID;
 
--- BUSINESS QUESTION: Flags active programmes where funding has expired or is absent,
--- and calculates cost-per-enrolment to assess financial efficiency.
+
+
+-- =============================================================
+-- Report Title: Funding Risk and Cost-Efficiency for Active Programmes
+
+-- Business Question: Which active programmes face a funding shortfall or
+-- have expired funding commitments, and how efficiently  is each programme converting budget?
+
+-- Why this report is useful:
+--   Programmes that run out of funding  risk abrupt cancellation(harms enrolled beneficiaries)
+--   particularly in underserved regions where no alternative provision
+--   exists. This report gives funding officers a risk
+--   assessment by flagging programmes where the total committed funding
+--   falls short of the approved budget, or where all funding agreements
+--   have already expired. The cost per enrolment metric allows
+--   decision makers to compare financial efficiency across programmes
+--   and prioritise renewal for those delivering the most impact per
+--   pound spent. This is critical for organisations accountable to
+--   donors and grant bodies.
+
+-- Tables used: tblProgramme, tblProgrammeStatus, tblRegion,
+-- tblProgrammeFunding, tblProgrammeCourse, tblEnrolment
+-- =============================================================
 CREATE OR REPLACE VIEW vw_funding_risk AS
 SELECT
     p.programmeID,
@@ -52,8 +90,31 @@ LEFT JOIN  tblEnrolment e         ON pc.pcID       = e.pcID
 WHERE ps.statusName = 'Active'
 GROUP BY p.programmeID, r.regionID;
 
--- BUSINESS QUESTION: Measures attendance rate and completion status per programme
--- and region to identify where participants are disengaging.
+
+
+-- =============================================================
+-- Report Title: Completion and Attendance Rates by Programme and Region
+
+-- Business Question: Where are participants dropping out or disengaging,
+-- and which regions and programmes need urgent operational intervention?
+
+-- Why this report is useful:
+--   Enrolment numbers alone do not reflect programme success a
+--   programme may recruit large numbers but lose most participants
+--   before completion. This report combines two distinct engagement
+--   signals: attendance rate (are participants showing up to sessions?)
+--   and completion rate (are they finishing the programme?). Separating
+--   these two metrics reveals different problems low attendance may
+--   indicate scheduling or access barriers, while high attendance but
+--   low completion may point to assessment difficulty or support gaps.
+--   Filtering by focus area allows coordinators to compare dropout
+--   patterns across thematic areas such as Economic Empowerment vs
+--   Anti-Violence, enabling targeted and evidence-based interventions
+--   rather than blanket responses.
+
+-- Tables used: tblProgramme, tblProgrammeCourse, tblEnrolment,
+-- tblRegion, tblSession, tblAttendance
+-- =============================================================
 CREATE OR REPLACE VIEW vw_completion_attendance AS
 SELECT
     p.programmeID,
