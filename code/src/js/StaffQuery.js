@@ -1,12 +1,37 @@
 console.log("StaffQuery loaded");
 
+const loadRegions = async () => {
+        const sql = `SELECT regionID, regionName 
+        FROM tblRegion 
+        ORDER BY regionName;`;
+        const select = document.getElementById("regionFilter");
+
+        try {
+          const result = await runQuery(sql);
+
+          if (!result || !result.data) return;
+
+          result.data.forEach(region => {
+            const option = document.createElement("option");
+            option.value = region.regionID; 
+            option.textContent = region.regionName;
+            select.appendChild(option);
+          });
+
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
 const runStaffRegionQuery = async () => {
     const region = document.getElementById("regionFilter").value;
-    const sql = `SELECT r.regionName, COUNT(s.staffID) AS NumberOfStaff
-    FROM tblStaff s
-    JOIN tblRegion r ON s.regionID = r.regionID
-    ${region ? `WHERE r.regionName = '${region}'` : ""}
-    GROUP BY r.regionName;`;
+    const sql = `SELECT r.regionName,COUNT(s.staffID) AS NumberOfStaff
+    FROM tblRegion r
+    LEFT JOIN tblStaff s ON s.regionID = r.regionID
+    WHERE 1=1 ${region ? `AND r.regionID = ${region}` : ""}
+    GROUP BY r.regionName
+    HAVING COUNT(s.staffID) >= 0
+    ORDER BY r.regionName ASC;`;
     // If region is there, display that region row, else display nothing
     const output = document.getElementById("outputStaff");
     const url = "https://sbrown635.webhosting1.eeecs.qub.ac.uk/dbConnector.php";
@@ -67,6 +92,7 @@ const runStaffRegionQuery = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+    await loadRegions();
     document.getElementById("regionFilter").addEventListener("change", runStaffRegionQuery);
-    await runStaffRegionQuery();
+    runStaffRegionQuery();
 });
