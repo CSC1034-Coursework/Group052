@@ -570,8 +570,7 @@ CREATE INDEX idx_pf_dates     ON tblProgrammeFunding (startDate, endDate);
 
 -- BUSINESS QUESTION: Identifies which programme-course combinations deliver
 -- the greatest measurable learning improvement (post minus pre assessment score),
--- broken down by gender. Helps programme managers prioritise high-impact delivery
--- and detect demographic gaps in learning outcomes.
+-- broken down by gender. 
 CREATE OR REPLACE VIEW vw_score_improvement AS
 SELECT
     p.focusArea,
@@ -593,8 +592,6 @@ GROUP BY p.focusArea, c.courseID, g.genderID;
 
 -- BUSINESS QUESTION: Flags active programmes where funding has expired or is absent,
 -- and calculates cost-per-enrolment to assess financial efficiency.
--- Enables funding officers to prioritise renewal and reallocate resources
--- before programme delivery is disrupted.
 CREATE OR REPLACE VIEW vw_funding_risk AS
 SELECT
     p.programmeID,
@@ -627,8 +624,6 @@ GROUP BY p.programmeID, r.regionID;
 
 -- BUSINESS QUESTION: Measures attendance rate and completion status per programme
 -- and region to identify where participants are disengaging.
--- Supports operational decisions about session scheduling, support interventions,
--- and regional resource allocation.
 CREATE OR REPLACE VIEW vw_completion_attendance AS
 SELECT
     p.programmeID,

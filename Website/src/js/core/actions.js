@@ -2,9 +2,9 @@
 
 window.uiActions = {
     /**
-     * Create an Edit action button descriptor.
-     * @example editButton((row) => form.openForm(row))
-     */
+    * Create an Edit action button descriptor.
+    * @example editButton((row) => form.openForm(row))
+    */
     editButton(onEdit) {
         return {
             label: 'Edit',
@@ -14,9 +14,9 @@ window.uiActions = {
     },
 
     /**
-     * Create a Delete action button descriptor with confirmation dialog.
-     * @example deleteButton((row) => runQuery('DELETE...'), 'Are you sure?')
-     */
+    * Create a Delete action button descriptor with confirmation dialog.
+    * @example deleteButton((row) => runQuery('DELETE...'), 'Are you sure?')
+    */
     deleteButton(onDelete, message = 'Are you sure? This action cannot be undone.') {
         return {
             label: 'Delete',
@@ -33,9 +33,9 @@ window.uiActions = {
     },
 
     /**
-     * Create both Edit and Delete action buttons as an array.
-     * @example standardActions((row) => form.open(row), (row) => runQuery('DELETE...'), 'Confirm delete?')
-     */
+    * Create both Edit and Delete action buttons as an array.
+    * @example standardActions((row) => form.open(row), (row) => runQuery('DELETE...'), 'Confirm delete?')
+    */
     standardActions(onEdit, onDelete, message) {
         return [
             this.editButton(onEdit),

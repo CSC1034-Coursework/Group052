@@ -3,33 +3,33 @@
 window.ui = {
     
     /**
-     * Show a confirmation dialog and return the user's choice as a boolean promise.
-     * @example if (await ui.confirm('Delete this item?')) { ... }
-     */
+    * Show a confirmation dialog and return the user's choice as a boolean promise.
+    * @example if (await ui.confirm('Delete this item?')) { ... }
+    */
     confirm(message) {
         return Promise.resolve(confirm(message));
     },
 
-        /**
-     * Show a success message alert and log it to the console.
-     * @example ui.success('Saved successfully!')
-     */    success(message) {
+    /**
+    * Show a success message alert and log it to the console.
+    * @example ui.success('Saved successfully!')
+    */    success(message) {
         alert(message);
         console.log('[Success]', message);
     },
 
-        /**
-     * Show an error message alert with 'Error:' prefix and log to console.
-     * @example ui.error('Failed to save')
-     */    error(message) {
+    /**
+    * Show an error message alert with 'Error:' prefix and log to console.
+    * @example ui.error('Failed to save')
+    */    error(message) {
         alert(`Error: ${message}`);
         console.error('[Error]', message);
     },
     
     /**
-     * Populate a select element with options from a data array.
-     * @example ui.populateSelect(selectEl, regions, 'regionID', 'regionName', true)
-     */
+    * Populate a select element with options from a data array.
+    * @example ui.populateSelect(selectEl, regions, 'regionID', 'regionName', true)
+    */
     populateSelect(selectElement, data, valueKey, labelKey, includeAll = false) {
         if (!selectElement) return;
 
@@ -56,9 +56,9 @@ window.ui = {
     },
 
     /**
-     * Execute an async operation while showing a loading state on a button.
-     * @example ui.withLoadingButton(button, async () => await saveData())
-     */
+    * Execute an async operation while showing a loading state on a button.
+    * @example ui.withLoadingButton(button, async () => await saveData())
+    */
     async withLoadingButton(button, asyncOperation) {
         if (!button) return asyncOperation();
 
@@ -76,9 +76,9 @@ window.ui = {
     },
 
     /**
-     * Toggle a button's loading state (disabled + text change).
-     * @example ui.setButtonLoading(button, true, 'Saving...')
-     */
+    * Toggle a button's loading state (disabled + text change).
+    * @example ui.setButtonLoading(button, true, 'Saving...')
+    */
     setButtonLoading(button, isLoading, text = 'Loading...') {
         if (!button) return;
         button.disabled = isLoading;

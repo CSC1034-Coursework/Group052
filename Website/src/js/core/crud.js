@@ -2,9 +2,9 @@
 
 (() => {
 	/**
-	 * Escape HTML entities to prevent XSS attacks.
-	 * @example escapeHtml('<script>alert("xss")</script>') // &lt;script&gt;...
-	 */
+    * Escape HTML entities to prevent XSS attacks.
+    * @example escapeHtml('<script>alert("xss")</script>') // &lt;script&gt;...
+    */
 	function escapeHtml(value) {
 		return String(value ?? '')
 			.replace(/&/g, '&amp;')
@@ -15,9 +15,9 @@
 	}
 
 	/**
-	 * Get DOM element by ID or return element as-is if already a DOM node.
-	 * @example resolveContainer('my-table') || resolveContainer(document.getElementById('table'))
-	 */
+    * Get DOM element by ID or return element as-is if already a DOM node.
+    * @example resolveContainer('my-table') || resolveContainer(document.getElementById('table'))
+    */
 	function resolveContainer(containerId) {
 		if (!containerId) return null;
 		return typeof containerId === 'string'
@@ -26,17 +26,17 @@
 	}
 
 	/**
-	 * Ensure options is always an array; return empty array if not array-like.
-	 * @example normalizeOptions(fieldDef.options)
-	 */
+    * Ensure options is always an array; return empty array if not array-like.
+    * @example normalizeOptions(fieldDef.options)
+    */
 	function normalizeOptions(options = []) {
 		return Array.isArray(options) ? options : [];
 	}
 
 	/**
-	 * Build HTML for a single form field (text, select, textarea, checkbox, date, etc.).
-	 * @example buildField({name: 'email', label: 'Email', type: 'email', required: true}, 'user@example.com')
-	 */
+    * Build HTML for a single form field (text, select, textarea, checkbox, date, etc.).
+    * @example buildField({name: 'email', label: 'Email', type: 'email', required: true}, 'user@example.com')
+    */
 	function buildField(field, value) {
 		const label = escapeHtml(field.label || field.name);
 		const required = field.required ? 'required' : '';
@@ -121,9 +121,9 @@
 	}
 
 	/**
-	 * Render a data table with columns, rows, and action buttons (Edit/Delete).
-	 * @example renderTable('table-id', [{key: 'name', label: 'Name'}], rows, actions)
-	 */
+    * Render a data table with columns, rows, and action buttons (Edit/Delete).
+    * @example renderTable('table-id', [{key: 'name', label: 'Name'}], rows, actions)
+    */
 	function renderTable(containerId, columns, rows, actions = []) {
 		const container = resolveContainer(containerId);
 		if (!container) return;
@@ -176,9 +176,9 @@
 	}
 
 	/**
-	 * Render a form dialog with fields and submit handler; display in a panel.
-	 * @example openForm('Edit User', fields, {name: 'John'}, (data) => runQuery(...), 'form-panel')
-	 */
+    * Render a form dialog with fields and submit handler; display in a panel.
+    * @example openForm('Edit User', fields, {name: 'John'}, (data) => runQuery(...), 'form-panel')
+    */
 	function openForm(title, fields, data = {}, onSubmit, panelId = 'form-panel') {
 		const panel = document.getElementById(panelId);
 		if (!panel) return null;
@@ -238,9 +238,9 @@
 	}
 
 	/**
-	 * Hide and clear a form panel by ID.
-	 * @example closeForm('form-panel')
-	 */
+    * Hide and clear a form panel by ID.
+    * @example closeForm('form-panel')
+    */
 	function closeForm(panelId = 'form-panel') {
 		const panel = document.getElementById(panelId);
 		if (!panel) return;

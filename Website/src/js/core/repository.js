@@ -1,9 +1,9 @@
 const DB_URL = "https://rkriuchkov01.webhosting1.eeecs.qub.ac.uk/CSC1034 - Data Driven Systems/coursework/dbConnector.php";
 
 /**
- * Send parameterized SQL to the database backend and return results.
- * @example postSql('INSERT INTO tblStaff (name) VALUES (?)', ['John'])
- */
+* Send parameterized SQL to the database backend and return results.
+* @example postSql('INSERT INTO tblStaff (name) VALUES (?)', ['John'])
+*/
 async function postSql(sql, params = []) {
 	const query = params.length > 0
 		? sql.replace(/\?/g, () => {
@@ -35,17 +35,17 @@ async function postSql(sql, params = []) {
 }
 
 /**
- * Execute any SQL query (INSERT, UPDATE, DELETE, SELECT) with automatic parameter substitution.
- * @example runQuery('DELETE FROM tblStaff WHERE staffID = ?', [3])
- */
+* Execute any SQL query (INSERT, UPDATE, DELETE, SELECT) with automatic parameter substitution.
+* @example runQuery('DELETE FROM tblStaff WHERE staffID = ?', [3])
+*/
 async function runQuery(sql, params = []) {
 	return postSql(sql, params);
 }
 
 /**
- * Execute a SELECT query and return rows as an array.
- * @example selectRows('SELECT staffID, name FROM tblStaff WHERE active = ?', [1])
- */
+* Execute a SELECT query and return rows as an array.
+* @example selectRows('SELECT staffID, name FROM tblStaff WHERE active = ?', [1])
+*/
 async function selectRows(sql, params = []) {
 	const result = await postSql(sql, params);
 
@@ -56,9 +56,9 @@ async function selectRows(sql, params = []) {
 }
 
 /**
- * Alias for selectRows; executes SELECT query and returns array of rows.
- * @example query('SELECT * FROM tblRegion')
- */
+* Alias for selectRows; executes SELECT query and returns array of rows.
+* @example query('SELECT* FROM tblRegion')
+*/
 async function query(sql, params = []) {
 	return selectRows(sql, params);
 }
