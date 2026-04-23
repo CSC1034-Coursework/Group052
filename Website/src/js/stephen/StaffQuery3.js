@@ -2,9 +2,10 @@ console.log("StaffQuery loaded");
 
 const runUncertifiedStaffQuery = async () => {
 
-    const sql = `SELECT staffID, certifiedDate 
+    const sql = `SELECT CONCAT(firstName, ' ', lastName) AS FullName, certifiedDate 
     FROM tblStaff
-    WHERE certifiedDate IS NULL;`;
+    WHERE certifiedDate IS NULL OR certifiedDate = '0000-00-00'
+    ORDER BY staffID;`;
     const output = document.getElementById("outputUncertifiedStaff");
     const url = "https://sbrown635.webhosting1.eeecs.qub.ac.uk/dbConnector.php";
 
@@ -39,7 +40,7 @@ const runUncertifiedStaffQuery = async () => {
         const headerRow = document.createElement("tr");
         table.appendChild(headerRow);
 
-        const headings = ["Staff ID", "Certified Date"];
+        const headings = ["Staff Name", "Certified Date"];
 
         for (let heading of headings) {
             const th = document.createElement("th");
@@ -50,12 +51,17 @@ const runUncertifiedStaffQuery = async () => {
         for (let row of rows) {
             const tr = document.createElement("tr");
 
-            const tdStaffId = document.createElement("td");
-            tdStaffId.textContent = row.staffID;
-            tr.appendChild(tdStaffId);
+            const tdFullName = document.createElement("td");
+            tdFullName.textContent = row.FullName;
+            tr.appendChild(tdFullName);
 
             const tdcertifiedDate = document.createElement("td");
-            tdcertifiedDate.textContent = row.certifiedDate;
+            
+            if (row.tdcertifiedDate === "0000-00-00" || !row.tdcertifiedDate) {
+                tdcertifiedDate.textContent = "NULL";
+            } else {
+                tdcertifiedDate.textContent = row.certifiedDate;
+            }
             tr.appendChild(tdcertifiedDate);
 
             table.appendChild(tr);
